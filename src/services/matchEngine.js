@@ -24,7 +24,8 @@ function calcScore(prop, req) {
   max.op = w.op;
 
   const pw = req.solo_por_valor ? 35 : w.precio;
-  const pct = req.presupuesto_max > 0 ? prop.precio / req.presupuesto_max : null;
+  const mismaMoneda = !prop.moneda || !req.moneda || prop.moneda === req.moneda;
+  const pct = (mismaMoneda && req.presupuesto_max > 0) ? prop.precio / req.presupuesto_max : null;
   if (pct != null) {
     c.precio = pct >= 0.7 && pct <= 1 ? pw
       : pct > 1 && pct <= 1.10 ? Math.round(pw * 0.7)
