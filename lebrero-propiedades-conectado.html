@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lebrero Propiedades — Donde comienzan tus mejores historias</title>
+<meta name="description" content="Venta y alquiler de propiedades en Olavarría. Casas, departamentos, locales y terrenos. Atención personalizada y tasaciones.">
+<link rel="canonical" href="index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lebrero Propiedades — Donde comienzan tus mejores historias">
+<meta property="og:description" content="Venta y alquiler de propiedades en Olavarría. Atención personalizada y tasaciones.">
+<!-- TODO: agregar og:image cuando haya fotografía real de propiedades -->
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23151A1E'/><path d='M8 44 L8 32 L18 32 L18 20 L30 20 L30 38 L40 38 L40 14 L52 14 L52 44' fill='none' stroke='%23B8946A' stroke-width='2'/></svg>" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   LEBRERO PROPIEDADES — Sistema de diseño
+   ============================================================ */
+:root{
+  --navy:        #31455C;
+  --navy-dark:   #263B50;
+  --navy-light:  #3D5470;
+  --teal:        #4E807D;
+  --sage:        #6D8A85;
+  --sand:        #E7D7B8;
+  --magenta:     #D40A8C;
+  --white:       #FFFFFF;
+  --graphite:    #151A1E;
+  --bronze:      #B8946A;
+
+  --font-display: "Fraunces", "Cormorant Garamond", serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --sidebar-w: 168px;
+  --topbar-h: 72px;
+
+  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem;
+  --sp-5: 1.5rem; --sp-6: 2.5rem; --sp-7: 4rem; --sp-8: 6rem; --sp-9: 9rem;
+
+  --max-content: 1360px;
+  --ease: cubic-bezier(.4,0,.2,1);
+  --dur: 300ms;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0; font-family:var(--font-body); color:var(--navy-dark); background:var(--white);
+  -webkit-font-smoothing:antialiased; overflow-x:clip;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; cursor:pointer; }
+ul{ margin:0; padding:0; list-style:none; }
+h1,h2,h3,p,figure{ margin:0; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+.skip-link{
+  position:absolute; left:var(--sp-4); top:-60px; background:var(--graphite); color:var(--white);
+  padding:var(--sp-3) var(--sp-5); z-index:300; transition:top var(--dur) var(--ease);
+}
+.skip-link:focus{ top:var(--sp-4); }
+:focus-visible{ outline:2px solid var(--magenta); outline-offset:2px; }
+
+.content{ max-width:var(--max-content); margin-inline:auto; padding-inline:clamp(1.5rem,5vw,5rem); }
+
+/* ---------- Tipografía ---------- */
+.eyebrow{
+  font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--bronze); display:inline-flex; align-items:center; gap:var(--sp-2);
+}
+h1,.h1{ font-family:var(--font-display); font-weight:500; letter-spacing:-0.01em; }
+h2,.h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(2rem,1.5rem+2vw,3.25rem); line-height:1.1; }
+h3,.h3{ font-family:var(--font-display); font-weight:500; font-size:clamp(1.2rem,1rem+0.6vw,1.5rem); }
+.mono{ font-family:var(--font-mono); }
+.lead{ font-size:clamp(1rem,0.95rem+0.2vw,1.15rem); line-height:1.6; color:#4a5a6b; }
+
+section{ padding-block:var(--sp-8); }
+
+/* ---------- Botones ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--sp-2);
+  padding:1rem 1.8rem; font-family:var(--font-body); font-size:0.85rem; font-weight:600;
+  letter-spacing:0.04em; text-transform:uppercase; border-radius:3px; border:1px solid transparent;
+  cursor:pointer; transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  min-height:50px;
+}
+.btn-magenta{ background:var(--magenta); color:var(--white); }
+.btn-magenta:hover{ background:#b5087a; }
+.btn-outline-light{ background:transparent; color:var(--white); border-color:rgba(255,255,255,0.5); }
+.btn-outline-light:hover{ border-color:var(--white); }
+.btn-outline-dark{ background:transparent; color:var(--graphite); border-color:var(--graphite); }
+.btn-outline-dark:hover{ background:var(--graphite); color:var(--white); }
+
+/* ---------- Línea de horizonte (signature) ---------- */
+.skyline{ width:100%; height:auto; display:block; }
+.skyline path{ fill:none; stroke:var(--bronze); stroke-width:1; opacity:0.7; vector-effect:non-scaling-stroke; }
+.skyline.animated path{
+  stroke-dasharray:3400; stroke-dashoffset:3400;
+  transition: stroke-dashoffset 1.8s var(--ease) 0.2s;
+}
+.skyline.animated.drawn path{ stroke-dashoffset:0; }
+
+/* ---------- Sidebar / navegación ---------- */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w); z-index:200;
+  background:linear-gradient(180deg, var(--navy-light), var(--navy), var(--navy-dark));
+  display:flex; flex-direction:column; align-items:center;
+  padding-block:var(--sp-6) var(--sp-5);
+}
+.sidebar-logo{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.sidebar-logo .mark{ width:30px; height:30px; }
+.sidebar-logo .mark path{ fill:none; stroke:var(--bronze); stroke-width:1.6; }
+.sidebar-logo .wordmark{
+  font-family:var(--font-display); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--sand); text-align:center; line-height:1.4; margin-top:4px;
+}
+.sidebar-nav{ margin-top:var(--sp-8); display:flex; flex-direction:column; gap:var(--sp-1); width:100%; }
+.sidebar-nav a{
+  display:block; padding:0.7rem var(--sp-4); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:rgba(231,215,184,0.6); border-left:3px solid transparent; text-align:center;
+  transition:color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.sidebar-nav a:hover{ color:var(--sand); }
+.sidebar-nav a[aria-current="true"]{ color:var(--magenta); border-left-color:var(--magenta); }
+.sidebar-cta{
+  margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:var(--sp-3);
+  padding-top:var(--sp-6); text-align:center;
+}
+.sidebar-cta a{
+  font-family:var(--font-body); font-size:0.65rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--sand); display:flex; flex-direction:column; align-items:center; gap:var(--sp-2);
+}
+.sidebar-cta svg{ width:20px; height:20px; }
+.sidebar-cta a:hover{ color:var(--white); }
+
+.topbar{ display:none; }
+
+/* ---------- Layout general ---------- */
+.main{ margin-left:var(--sidebar-w); }
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative; min-height:100vh; display:flex; align-items:flex-end; overflow:hidden;
+  padding-block:var(--sp-8) var(--sp-7);
+}
+.hero-bg{ position:absolute; inset:0; z-index:0; }
+.hero-bg img{ width:100%; height:100%; object-fit:cover; }
+.hero-bg .ph{
+  width:100%; height:100%;
+  background:
+    linear-gradient(180deg, rgba(21,26,30,0.15) 0%, rgba(21,26,30,0.55) 100%),
+    linear-gradient(120deg, var(--navy-dark), var(--navy) 45%, var(--bronze) 130%);
+}
+.hero-overlay{ position:absolute; inset:0; z-index:1; background:linear-gradient(0deg, rgba(21,26,30,0.55) 0%, rgba(21,26,30,0.1) 55%, rgba(21,26,30,0.25) 100%); }
+.hero .content{ position:relative; z-index:2; width:100%; }
+.hero-skyline{ position:absolute; left:0; right:0; bottom:0; z-index:1; opacity:0.9; }
+.hero h1{
+  font-size:clamp(2.75rem,2rem+4vw,5.5rem); line-height:1.02; letter-spacing:0.01em;
+  text-transform:uppercase; color:var(--sand);
+}
+.hero-ctas{ margin-top:var(--sp-6); display:flex; flex-direction:column; align-items:flex-start; gap:var(--sp-4); }
+.hero-meta{ font-size:0.72rem; letter-spacing:0.12em; color:rgba(231,215,184,0.85); }
+
+/* ---------- Barra de confianza ---------- */
+.trust{ background:var(--sand); padding-block:var(--sp-4); }
+.trust .content{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:var(--sp-6); }
+.trust span{ font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em; color:var(--navy-dark); }
+.trust .sep{ color:var(--bronze); }
+
+/* ---------- Sección genérica con línea ---------- */
+.line-divider{ display:block; margin-block:var(--sp-7); opacity:0.5; }
+
+/* ---------- El proyecto ---------- */
+.intro{ padding-block:var(--sp-9); }
+.intro .content{ max-width:820px; }
+.intro h2{ margin-top:var(--sp-4); }
+.intro p{ margin-top:var(--sp-5); }
+
+/* ---------- Amenities ---------- */
+.amenities{ background:var(--sand); }
+.amenities-head{ max-width:640px; margin-bottom:var(--sp-7); }
+.amenities-head h2{ margin-top:var(--sp-3); }
+.amenities-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+.amenity-photo{ position:relative; overflow:hidden; border-radius:2px; background:linear-gradient(150deg, var(--teal), var(--sage)); }
+.amenity-photo.main{ aspect-ratio:4/3; }
+.amenity-photo.sub{ aspect-ratio:16/9; }
+.amenity-sub-stack{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+.amenity-labels{ margin-top:var(--sp-6); display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-5); }
+.amenity-label{ display:flex; align-items:flex-start; gap:var(--sp-3); }
+.amenity-label svg{ width:26px; height:26px; flex-shrink:0; color:var(--bronze); }
+.amenity-label .txt{ font-family:var(--font-body); font-size:0.85rem; font-weight:600; letter-spacing:0.02em; color:var(--navy-dark); text-transform:uppercase; line-height:1.4; }
+.amenity-label .txt span{ display:block; font-weight:400; text-transform:none; color:var(--sage); font-size:0.8rem; }
+
+.featured-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-5); }
+.property-card{ display:flex; flex-direction:column; gap:var(--sp-4); }
+.property-caption{ display:flex; align-items:flex-start; gap:var(--sp-3); }
+.property-caption svg{ width:24px; height:24px; flex-shrink:0; color:var(--bronze); }
+.property-caption .txt{ font-family:var(--font-body); font-size:0.95rem; font-weight:600; color:var(--navy-dark); }
+.property-caption .txt span{ display:block; font-weight:400; color:var(--sage); font-size:0.82rem; margin-top:2px; }
+.btn-ghost-mono{ font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.06em; color:var(--navy); text-transform:uppercase; }
+.btn-ghost-mono:hover{ color:var(--magenta); }
+@media (min-width:768px){ .featured-grid{ grid-template-columns:repeat(3,1fr); } }
+
+/* ---------- Tipologías ---------- */
+.typologies{ background:var(--graphite); color:var(--sand); }
+.typologies-head{ margin-bottom:var(--sp-7); }
+.typologies-head .eyebrow{ color:var(--bronze); }
+.typologies-head h2{ color:var(--white); margin-top:var(--sp-3); }
+.typologies-head p{ color:rgba(231,215,184,0.7); margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; }
+.typ-grid{ display:grid; gap:var(--sp-7); align-items:center; }
+
+.filter-type-group{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-3); margin-bottom:var(--sp-5); }
+.filter-type-btn{
+  display:flex; flex-direction:column; align-items:center; gap:var(--sp-2);
+  padding:var(--sp-4); background:transparent; border:1px solid var(--bronze); border-radius:2px;
+  color:rgba(231,215,184,0.8); font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase;
+  transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.filter-type-btn svg{ width:26px; height:26px; }
+.filter-type-btn:hover{ border-color:var(--sand); color:var(--sand); }
+.filter-type-btn[aria-pressed="true"]{ border-color:var(--sand); color:var(--sand); background:rgba(231,215,184,0.06); }
+.filter-op-group{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); max-width:420px; }
+.filter-op-btn{
+  padding:0.9rem 1.4rem; border:1px solid var(--bronze); border-radius:2px; background:transparent;
+  color:rgba(231,215,184,0.8); font-family:var(--font-body); font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
+  transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.filter-op-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
+@media (min-width:640px){ .filter-type-group{ grid-template-columns:repeat(4,1fr); } }
+
+/* ---------- Ubicación ---------- */
+.location{ background:var(--sand); }
+.location-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-7); align-items:center; }
+.location-map{ position:relative; aspect-ratio:5/4; background:#f1e8d4; border:1px solid rgba(49,69,92,0.15); border-radius:2px; overflow:hidden; }
+.location-copy h2{ margin-top:var(--sp-3); text-transform:uppercase; }
+.location-copy p{ margin-top:var(--sp-4); max-width:42ch; }
+.location-list{ margin-top:var(--sp-6); display:grid; gap:var(--sp-3); }
+.location-list li{ display:flex; justify-content:space-between; max-width:360px; padding-block:var(--sp-2); border-bottom:1px solid rgba(49,69,92,0.15); font-size:0.9rem; }
+.location-list .time{ font-family:var(--font-mono); color:var(--navy); }
+
+/* ---------- Testimonio ---------- */
+.testimonial{ background:var(--sand); }
+.testimonial-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); align-items:center; max-width:900px; margin-inline:auto; text-align:center; }
+.testimonial-photo{ width:104px; height:104px; border-radius:50%; margin-inline:auto; background:linear-gradient(150deg, var(--navy-light), var(--teal)); }
+.testimonial blockquote{ font-family:var(--font-display); font-size:clamp(1.4rem,1.1rem+1.2vw,2rem); line-height:1.4; color:var(--navy-dark); margin:0; }
+.testimonial cite{ display:block; margin-top:var(--sp-5); font-style:normal; font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--bronze); }
+
+/* ---------- CTA final ---------- */
+.cta-final{ background:var(--graphite); color:var(--sand); }
+.cta-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-8); }
+.cta-copy h2{ color:var(--white); text-transform:uppercase; margin-top:var(--sp-3); }
+.cta-form{ display:flex; flex-direction:column; gap:var(--sp-5); }
+.cta-form .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
+.cta-form label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
+.cta-form input, .cta-form select{
+  font:inherit; font-family:var(--font-body); padding:0.9rem 1rem; background:#1c2329; border:1px solid #333d45;
+  color:var(--white); border-radius:2px;
+}
+.cta-form input:focus, .cta-form select:focus{ outline:none; border-color:var(--magenta); }
+.cta-form select{ appearance:none; }
+.form-status{ font-family:var(--font-mono); font-size:0.8rem; color:var(--bronze); min-height:1.2em; }
+
+/* ---------- Footer ---------- */
+.site-footer{ background:var(--graphite); color:rgba(231,215,184,0.75); padding-block:var(--sp-8) var(--sp-6); }
+.footer-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); }
+.footer-col h3{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--bronze); }
+.footer-col p, .footer-col a{ margin-top:var(--sp-3); display:block; font-size:0.85rem; }
+.footer-col a:hover{ color:var(--sand); }
+.footer-brand{ font-family:var(--font-display); font-size:1.3rem; color:var(--white); text-transform:uppercase; letter-spacing:0.04em; }
+.footer-skyline{ margin-top:var(--sp-7); opacity:0.55; }
+.footer-bottom{ margin-top:var(--sp-6); padding-top:var(--sp-5); border-top:1px solid #2a323a; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--sp-3); font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.04em; color:rgba(231,215,184,0.5); }
+.footer-bottom a{ color:rgba(231,215,184,0.5); text-decoration:underline; text-underline-offset:2px; }
+.footer-bottom a:hover{ color:var(--sand); }
+
+/* ---------- Mobile nav overlay ---------- */
+.mobile-nav{
+  position:fixed; inset:var(--topbar-h) 0 0 0; background:var(--navy-dark); z-index:190;
+  transform:translateY(-8px); opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility var(--dur);
+  padding:var(--sp-6) var(--sp-5); overflow-y:auto;
+}
+.mobile-nav.is-open{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
+.mobile-nav ul{ display:flex; flex-direction:column; }
+.mobile-nav a{
+  display:block; padding:var(--sp-4) 0; font-family:var(--font-display); font-size:1.5rem; color:var(--sand);
+  border-bottom:1px solid rgba(231,215,184,0.15); text-transform:uppercase; letter-spacing:0.02em;
+}
+.mobile-nav .btn{ margin-top:var(--sp-6); width:100%; }
+
+/* ============================================================
+   TABLET / MOBILE — hasta 1023px
+   ============================================================ */
+@media (max-width:1023px){
+  .sidebar{ display:none; }
+  .main{ margin-left:0; }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:150;
+    height:var(--topbar-h); padding-inline:var(--sp-5);
+    background:linear-gradient(180deg, var(--navy-light), var(--navy));
+  }
+  .topbar .mark{ width:26px; height:26px; }
+  .topbar .mark path{ fill:none; stroke:var(--bronze); stroke-width:1.6; }
+  .topbar-wordmark{ font-family:var(--font-display); font-size:0.85rem; letter-spacing:0.1em; color:var(--sand); text-transform:uppercase; }
+  .topbar-right{ display:flex; align-items:center; gap:var(--sp-4); }
+  .menu-toggle{
+    width:40px; height:40px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    background:transparent; border:0;
+  }
+  .menu-toggle span{ width:20px; height:1.5px; background:var(--sand); transition:transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+
+  .hero{ min-height:92vh; }
+  .amenity-labels{ grid-template-columns:1fr; }
+  .typ-grid{ grid-template-columns:1fr; }
+  .typ-data{ grid-template-columns:1fr 1fr; }
+  .location-grid{ grid-template-columns:1fr; }
+  .cta-grid{ grid-template-columns:1fr; }
+}
+
+@media (min-width:768px) and (max-width:1023px){
+  .amenities-grid{ grid-template-columns:1.4fr 1fr; }
+  .footer-grid{ grid-template-columns:repeat(2,1fr); }
+}
+
+/* ============================================================
+   DESKTOP — 1024px+
+   ============================================================ */
+@media (min-width:1024px){
+  .amenities-grid{ grid-template-columns:1.5fr 1fr; }
+  .amenity-photo.main{ aspect-ratio:auto; height:100%; }
+  .typ-grid{ grid-template-columns:1.1fr 0.9fr; }
+  .location-grid{ grid-template-columns:1fr 1fr; }
+  .cta-grid{ grid-template-columns:1.1fr 0.9fr; }
+  .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1fr; }
+}
+
+/* ---------- Buscador: campos de match + resultados ---------- */
+.search-fields{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); max-width:640px; margin-top:var(--sp-5); }
+@media (min-width:640px){ .search-fields{ grid-template-columns:1fr 1fr; } }
+.search-fields .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
+.search-fields label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
+.search-fields input, .search-fields select{
+  font:inherit; font-family:var(--font-body); padding:0.8rem 1rem; background:#1c2329; border:1px solid #333d45;
+  color:var(--white); border-radius:2px;
+}
+.search-fields input:focus, .search-fields select:focus{ outline:none; border-color:var(--magenta); }
+.search-actions{ margin-top:var(--sp-5); display:flex; align-items:center; gap:var(--sp-4); flex-wrap:wrap; }
+.search-status{ font-family:var(--font-mono); font-size:0.8rem; color:var(--bronze); }
+.results-grid{ margin-top:var(--sp-6); display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+@media (min-width:640px){ .results-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1024px){ .results-grid{ grid-template-columns:repeat(3,1fr); } }
+.result-card{ background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:2px; padding:var(--sp-4); display:flex; flex-direction:column; gap:var(--sp-2); }
+.result-match{ display:inline-flex; align-self:flex-start; padding:0.2rem 0.6rem; border-radius:20px; background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.06em; }
+.result-title{ font-family:var(--font-display); font-size:1.1rem; color:var(--sand); margin-top:var(--sp-2); }
+.result-meta{ font-family:var(--font-mono); font-size:0.75rem; color:rgba(231,215,184,0.7); }
+.result-price{ font-family:var(--font-body); font-weight:700; color:var(--white); }
+
+/* ---------- Form propietarios (captación) ---------- */
+.owner-form{ margin-top:var(--sp-6); display:none; flex-direction:column; gap:var(--sp-4); max-width:520px; }
+.owner-form.is-open{ display:flex; }
+.owner-form .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
+.owner-form label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
+.owner-form input, .owner-form select, .owner-form textarea{
+  font:inherit; font-family:var(--font-body); padding:0.8rem 1rem; background:#1c2329; border:1px solid #333d45;
+  color:var(--white); border-radius:2px; width:100%;
+}
+.owner-form input:focus, .owner-form select:focus, .owner-form textarea:focus{ outline:none; border-color:var(--magenta); }
+.owner-form-row{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+@media (min-width:640px){ .owner-form-row{ grid-template-columns:1fr 1fr; } }
+
+/* ---------- Login (placeholder, sin funcionalidad) ---------- */
+.login-link{ margin-top:var(--sp-3); }
+.login-modal-overlay{ display:none; position:fixed; inset:0; background:rgba(21,26,30,0.7); z-index:400; align-items:center; justify-content:center; }
+.login-modal-overlay.is-open{ display:flex; }
+.login-modal{ background:var(--graphite); border:1px solid var(--bronze); border-radius:2px; padding:var(--sp-6); max-width:340px; text-align:center; }
+.login-modal p{ color:var(--sand); margin-top:var(--sp-3); font-size:0.9rem; }
+.login-modal button{ margin-top:var(--sp-5); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ================= SIDEBAR DESKTOP ================= -->
+<aside class="sidebar">
+  <a class="sidebar-logo" href="#inicio" aria-label="Lebrero Propiedades — inicio">
+    <svg class="mark" viewBox="0 0 32 32"><path d="M4 26 L4 18 L11 18 L11 10 L18 10 L18 22 L25 22 L25 6 L28 6 L28 26 Z"/></svg>
+    <span class="wordmark">Lebrero<br>Propiedades</span>
+  </a>
+  <nav class="sidebar-nav" aria-label="Navegación principal">
+    <a href="#inicio" aria-current="true">Inicio</a>
+    <a href="#propiedades">Propiedades</a>
+    <a href="#buscar">Venta</a>
+    <a href="#buscar">Alquiler</a>
+    <a href="#propietarios">Tasaciones</a>
+    <a href="#ubicacion">Sobre nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <div class="sidebar-cta">
+    <a href="#contacto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.9-.4-1.7-.9-2.5-1.7-.6-.7-1-1.3-1.2-1.5-.2-.3 0-.4.1-.5l.4-.5c.1-.1.1-.2.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.3 0 1.3 1 2.6 1.1 2.8.1.2 2 3 4.7 4.2.7.3 1.2.4 1.6.6.7.2 1.3.2 1.7.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.3Z"/><circle cx="12" cy="12" r="10"/></svg>
+      Quiero<br>asesoramiento
+    </a>
+  </div>
+  <div class="login-link">
+    <a href="#" id="open-login">Ingresar</a>
+  </div>
+</aside>
+
+<!-- ================= TOPBAR MOBILE/TABLET ================= -->
+<div class="topbar">
+  <a href="#inicio" style="display:flex;align-items:center;gap:10px;" aria-label="Lebrero Propiedades — inicio">
+    <svg class="mark" viewBox="0 0 32 32"><path d="M4 26 L4 18 L11 18 L11 10 L18 10 L18 22 L25 22 L25 6 L28 6 L28 26 Z"/></svg>
+    <span class="topbar-wordmark">Lebrero</span>
+  </a>
+  <div class="topbar-right">
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Navegación mobile">
+  <ul>
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#propiedades">Propiedades</a></li>
+    <li><a href="#buscar">Venta</a></li>
+    <li><a href="#buscar">Alquiler</a></li>
+    <li><a href="#propietarios">Tasaciones</a></li>
+    <li><a href="#ubicacion">Sobre nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a class="btn btn-magenta" href="#contacto">Quiero asesoramiento</a>
+  <div class="login-link">
+    <a href="#" id="open-login-mobile">Ingresar</a>
+  </div>
+</nav>
+
+<!-- ================= LOGIN (decorativo, sin backend) ================= -->
+<div class="login-modal-overlay" id="login-modal-overlay">
+  <div class="login-modal">
+    <strong>Ingresar</strong>
+    <p>Esta sección está en construcción. Muy pronto vas a poder acceder a tu cuenta desde acá.</p>
+    <button type="button" class="btn btn-magenta" id="close-login">Cerrar</button>
+  </div>
+</div>
+
+<div class="main">
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg">
+      <!-- TODO: reemplazar por fotografía real de una propiedad destacada (exterior, atardecer o luz cálida interior) -->
+      <div class="ph"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <svg class="skyline hero-skyline animated" id="hero-skyline" viewBox="0 0 1440 140" preserveAspectRatio="none">
+      <path d="M0,120 L0,80 L60,80 L60,40 L140,40 L140,90 L220,90 L220,20 L300,20 L300,70 L380,70 L380,110 L460,110 L460,50 L540,50 L540,95 L620,95 L620,30 L700,30 L700,75 L780,75 L780,15 L860,15 L860,60 L940,60 L940,100 L1020,100 L1020,45 L1100,45 L1100,85 L1180,85 L1180,25 L1260,25 L1260,65 L1340,65 L1340,105 L1440,105"/>
+    </svg>
+    <div class="content">
+      <h1>DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS</h1>
+      <div class="hero-ctas">
+        <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades para comprar o alquilar en Olavarría.</p>
+        <a class="btn btn-magenta" href="#buscar">Ver propiedades</a>
+        <span class="hero-meta mono">VENTA · ALQUILER · TASACIONES</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BARRA DE CONFIANZA ================= -->
+  <div class="trust">
+    <div class="content">
+      <span>VENTA Y ALQUILER</span>
+      <span class="sep">·</span>
+      <span>ATENCIÓN PERSONALIZADA</span>
+      <span class="sep">·</span>
+      <span>OLAVARRÍA Y ZONA</span>
+    </div>
+  </div>
+
+  <!-- ================= PROPIEDADES DESTACADAS ================= -->
+  <section class="amenities" id="propiedades">
+    <div class="content">
+      <div class="amenities-head">
+        <span class="eyebrow">— Propiedades destacadas</span>
+        <h2>Propiedades destacadas</h2>
+        <p class="lead" style="margin-top:var(--sp-4);">Una selección de propiedades para vivir, invertir o proyectar tu próximo paso.</p>
+      </div>
+
+      <div class="featured-grid">
+        <div class="property-card">
+          <figure class="amenity-photo sub" aria-hidden="true">
+            <!-- TODO: fotografía real — casas -->
+          </figure>
+          <div class="property-caption">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
+            <span class="txt">Casas<span>Espacios para vivir y disfrutar cada día.</span></span>
+          </div>
+        </div>
+        <div class="property-card">
+          <figure class="amenity-photo sub" aria-hidden="true">
+            <!-- TODO: fotografía real — departamentos -->
+          </figure>
+          <div class="property-caption">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg>
+            <span class="txt">Departamentos<span>Opciones para vivir o invertir en Olavarría.</span></span>
+          </div>
+        </div>
+        <div class="property-card">
+          <figure class="amenity-photo sub" aria-hidden="true">
+            <!-- TODO: fotografía real — locales -->
+          </figure>
+          <div class="property-caption">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10 5 4h14l1 6M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9M4 10h16"/></svg>
+            <span class="txt">Locales<span>Espacios comerciales para distintos proyectos.</span></span>
+          </div>
+        </div>
+      </div>
+
+      <a class="btn-ghost-mono" href="#buscar" style="display:inline-flex; align-items:center; gap:8px; margin-top:var(--sp-6);">Ver todas →</a>
+    </div>
+  </section>
+
+  <!-- ================= TIPOLOGÍAS ================= -->
+  <section class="typologies" id="buscar">
+    <div class="content">
+      <div class="typologies-head">
+        <span class="eyebrow">— Buscador</span>
+        <h2>Encontrá tu lugar</h2>
+        <p>Elegí qué estás buscando.</p>
+      </div>
+
+      <div class="filter-type-group" role="group" aria-label="Tipo de propiedad">
+        <button class="filter-type-btn" data-filter="casas" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
+          <span>Casas</span>
+        </button>
+        <button class="filter-type-btn" data-filter="departamentos" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg>
+          <span>Departamentos</span>
+        </button>
+        <button class="filter-type-btn" data-filter="locales" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10 5 4h14l1 6M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9M4 10h16"/></svg>
+          <span>Locales</span>
+        </button>
+        <button class="filter-type-btn" data-filter="terrenos" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 19h18M4 19l4-9 3 5 2-4 4 8"/></svg>
+          <span>Terrenos</span>
+        </button>
+      </div>
+
+      <div class="filter-op-group" role="group" aria-label="Tipo de operación">
+        <button class="filter-op-btn" data-op="venta" aria-pressed="true">Venta</button>
+        <button class="filter-op-btn" data-op="alquiler" aria-pressed="false">Alquiler</button>
+      </div>
+
+      <div class="search-fields">
+        <div class="field">
+          <label for="f-localidad">Localidad</label>
+          <input type="text" id="f-localidad" name="localidad" placeholder="Ej: Olavarría" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="f-zona">Barrio / zona</label>
+          <input type="text" id="f-zona" name="zona" placeholder="Ej: Centro, Plaza López" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="f-presupuesto">Presupuesto máximo</label>
+          <input type="number" id="f-presupuesto" name="presupuesto" min="0" placeholder="Ej: 50000">
+        </div>
+        <div class="field">
+          <label for="f-dormitorios">Dormitorios mínimos</label>
+          <input type="number" id="f-dormitorios" name="dormitorios" min="0" placeholder="Ej: 2">
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button type="button" class="btn btn-magenta" id="search-btn">Buscar propiedades</button>
+        <span class="search-status" id="search-status"></span>
+      </div>
+
+      <div class="results-grid" id="search-results"></div>
+    </div>
+  </section>
+
+  <!-- ================= UBICACIÓN ================= -->
+  <section class="location" id="ubicacion">
+    <div class="content">
+      <div class="location-grid">
+        <div class="location-map">
+          <!-- Mapa estilizado, no interactivo -->
+          <svg viewBox="0 0 400 320" width="100%" height="100%" role="img" aria-label="Mapa estilizado de la zona">
+            <rect x="0" y="0" width="400" height="320" fill="#f1e8d4"/>
+            <g stroke="#B8946A" stroke-width="1" opacity="0.7">
+              <line x1="60" y1="60" x2="150" y2="150"/>
+              <line x1="150" y1="150" x2="260" y2="120"/>
+              <line x1="150" y1="150" x2="180" y2="250"/>
+              <line x1="150" y1="150" x2="90" y2="240"/>
+            </g>
+            <g stroke="#6D8A85" stroke-width="1" opacity="0.4">
+              <rect x="30" y="30" width="50" height="40" fill="none"/>
+              <rect x="220" y="90" width="60" height="45" fill="none"/>
+              <rect x="60" y="200" width="55" height="45" fill="none"/>
+              <rect x="150" y="230" width="60" height="40" fill="none"/>
+            </g>
+            <circle cx="150" cy="150" r="7" fill="#31455C"/>
+            <text x="162" y="147" font-family="IBM Plex Mono, monospace" font-size="10" fill="#151A1E">LEBRERO</text>
+            <circle cx="60" cy="60" r="4" fill="#D40A8C"/>
+            <text x="70" y="58" font-family="IBM Plex Mono, monospace" font-size="9" fill="#151A1E">CENTRO</text>
+            <circle cx="260" cy="120" r="4" fill="#D40A8C"/>
+            <text x="270" y="118" font-family="IBM Plex Mono, monospace" font-size="9" fill="#151A1E">PLAZA LÓPEZ</text>
+            <circle cx="180" cy="250" r="4" fill="#D40A8C"/>
+            <text x="190" y="248" font-family="IBM Plex Mono, monospace" font-size="9" fill="#151A1E">B° SAN MARTÍN</text>
+            <circle cx="90" cy="240" r="4" fill="#D40A8C"/>
+            <text x="15" y="255" font-family="IBM Plex Mono, monospace" font-size="9" fill="#151A1E">B° CECO</text>
+          </svg>
+        </div>
+        <div class="location-copy">
+          <span class="eyebrow">— Ubicación</span>
+          <h2>PROPIEDADES EN<br>LUGARES QUE IMPORTAN.</h2>
+          <p class="lead">Conocemos Olavarría y sus barrios. Te ayudamos a encontrar una propiedad que tenga sentido para tu forma de vivir, invertir o proyectar.</p>
+          <ul class="location-list">
+            <li><span>Centro</span></li>
+            <li><span>Plaza López</span></li>
+            <li><span>Barrio San Martín</span></li>
+            <li><span>Barrio Ceco</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PARA PROPIETARIOS ================= -->
+  <section class="typologies" id="propietarios">
+    <div class="content">
+      <div class="typ-grid" style="align-items:center;">
+        <div>
+          <span class="eyebrow">— Propietarios</span>
+          <h2 style="color:var(--white); margin-top:var(--sp-3); text-transform:uppercase;">LA VENTA EMPIEZA<br>MUCHO ANTES<br>DE PUBLICAR.</h2>
+          <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:44ch;">Presentamos y comercializamos tu propiedad con una estrategia pensada para llegar a las personas indicadas: valoración, presentación, difusión, búsqueda de interesados y acompañamiento durante toda la operación.</p>
+          <button type="button" class="btn btn-magenta" style="margin-top:var(--sp-6);" id="open-owner-form">Quiero vender mi propiedad</button>
+        </div>
+        <div aria-hidden="true" style="display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 200 240" width="70%" style="max-width:280px;">
+            <rect x="30" y="20" width="140" height="200" fill="none" stroke="#B8946A" stroke-width="1"/>
+            <rect x="55" y="60" width="90" height="160" fill="none" stroke="#B8946A" stroke-width="1"/>
+            <circle cx="130" cy="140" r="3" fill="#B8946A"/>
+            <path d="M55 60 L100 30 L145 60" fill="none" stroke="#B8946A" stroke-width="1"/>
+            <line x1="40" y1="220" x2="160" y2="220" stroke="#B8946A" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <form class="owner-form" id="owner-form" novalidate>
+        <div class="owner-form-row">
+          <div class="field">
+            <label for="ow-nombre">Nombre</label>
+            <input type="text" id="ow-nombre" name="nombre" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="ow-whatsapp">WhatsApp</label>
+            <input type="tel" id="ow-whatsapp" name="whatsapp" required autocomplete="tel">
+          </div>
+        </div>
+        <div class="owner-form-row">
+          <div class="field">
+            <label for="ow-tipo">Tipo de propiedad</label>
+            <select id="ow-tipo" name="tipo_propiedad" required>
+              <option value="">Seleccioná una opción</option>
+              <option value="casa">Casa</option>
+              <option value="departamento">Departamento</option>
+              <option value="local">Local</option>
+              <option value="terreno">Terreno</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ow-operacion">Operación</label>
+            <select id="ow-operacion" name="operacion" required>
+              <option value="">Seleccioná una opción</option>
+              <option value="Venta">Venta</option>
+              <option value="Alquiler">Alquiler</option>
+            </select>
+          </div>
+        </div>
+        <div class="owner-form-row">
+          <div class="field">
+            <label for="ow-localidad">Localidad</label>
+            <input type="text" id="ow-localidad" name="localidad" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="ow-barrio">Barrio</label>
+            <input type="text" id="ow-barrio" name="barrio" autocomplete="off">
+          </div>
+        </div>
+        <div class="field">
+          <label for="ow-direccion">Dirección</label>
+          <input type="text" id="ow-direccion" name="direccion" autocomplete="off">
+        </div>
+        <div class="owner-form-row">
+          <div class="field">
+            <label for="ow-dormitorios">Dormitorios</label>
+            <input type="number" id="ow-dormitorios" name="dormitorios" min="0">
+          </div>
+          <div class="field">
+            <label for="ow-banos">Baños</label>
+            <input type="number" id="ow-banos" name="banos" min="0">
+          </div>
+        </div>
+        <div class="owner-form-row">
+          <div class="field">
+            <label for="ow-superficie">Superficie (m²)</label>
+            <input type="number" id="ow-superficie" name="superficie" min="0">
+          </div>
+          <div class="field">
+            <label for="ow-precio">Precio estimado</label>
+            <input type="number" id="ow-precio" name="precio_estimado" min="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="ow-observaciones">Observaciones</label>
+          <textarea id="ow-observaciones" name="observaciones" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-magenta">Enviar solicitud</button>
+        <p class="form-status" id="owner-form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIO ================= -->
+  <section class="testimonial" id="testimonios">
+    <div class="content">
+      <div class="testimonial-grid">
+        <figure class="testimonial-photo" aria-hidden="true">
+          <!-- TODO: fotografía real de la clienta (natural, no corporativa) -->
+        </figure>
+        <blockquote>&ldquo;Nos acompañaron en todo el proceso de venta de nuestra casa. La comunicación fue siempre clara y el trato excelente. Se nota que conocen el mercado y se involucran.&rdquo;</blockquote>
+        <cite>[Nombre del cliente] — [Vendedor/Comprador, barrio]</cite>
+      </div>
+    </div>
+    <svg class="skyline line-divider content" viewBox="0 0 1440 90" preserveAspectRatio="none" style="max-width:var(--max-content);margin-inline:auto;display:block;padding-inline:clamp(1.5rem,5vw,5rem);margin-top:var(--sp-7);">
+      <path d="M0,75 L0,50 L80,50 L80,25 L170,25 L170,65 L260,65 L260,15 L350,15 L350,55 L440,55 L440,80 L530,80 L530,35 L620,35 L620,70 L710,70 L710,20 L800,20 L800,60 L890,60 L890,90 L980,90 L980,45 L1070,45 L1070,75 L1160,75 L1160,30 L1250,30 L1250,65 L1340,65 L1340,85 L1440,85"/>
+    </svg>
+  </section>
+
+  <!-- ================= CTA FINAL ================= -->
+  <section class="cta-final" id="contacto">
+    <div class="content">
+      <div class="cta-grid">
+        <div class="cta-copy">
+          <span class="eyebrow">— Contacto</span>
+          <h2>DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS.</h2>
+          <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:40ch;">Contanos qué estás buscando y te ayudamos a encontrar una propiedad para tu próximo capítulo.</p>
+        </div>
+        <form class="cta-form" id="lead-form" novalidate>
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="intencion-form">¿Qué estás buscando?</label>
+            <select id="intencion-form" name="intencion" required>
+              <option value="">Seleccioná una opción</option>
+              <option value="comprar">Comprar</option>
+              <option value="alquilar">Alquilar</option>
+              <option value="vender">Vender mi propiedad</option>
+              <option value="alquilar-mi-propiedad">Alquilar mi propiedad</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-magenta">Quiero asesoramiento</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <!-- NOTA: formulario sin backend ni número de WhatsApp de destino conectado -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<footer class="site-footer">
+  <div class="content">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">Lebrero<br>Propiedades</div>
+        <p style="margin-top:var(--sp-4); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em;">VENTA · ALQUILER · TASACIONES</p>
+        <p style="margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em;">OLAVARRÍA</p>
+      </div>
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <a href="#">[WhatsApp pendiente]</a>
+        <a href="#">[Email pendiente]</a>
+      </div>
+      <div class="footer-col">
+        <h3>Oficina</h3>
+        <p>[Dirección pendiente]</p>
+        <p>Olavarría, Buenos Aires</p>
+      </div>
+      <div class="footer-col">
+        <h3>Seguinos</h3>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+
+    <svg class="skyline footer-skyline" viewBox="0 0 1440 70" preserveAspectRatio="none">
+      <path d="M0,60 L0,40 L100,40 L100,20 L200,20 L200,50 L300,50 L300,10 L400,10 L400,45 L500,45 L500,65 L600,65 L600,30 L700,30 L700,55 L800,55 L800,15 L900,15 L900,45 L1000,45 L1000,60 L1100,60 L1100,25 L1200,25 L1200,50 L1300,50 L1300,65 L1440,65"/>
+    </svg>
+
+    <div class="footer-bottom">
+      <span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span>
+      <span>Diseño &amp; creación web · <a href="#" target="_blank" rel="noopener">@Switchgestion</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var API_BASE = "https://lebrero-web-publica.onrender.com/api";
+
+  /* Menú mobile */
+  var toggle = document.getElementById("menu-toggle");
+  var nav = document.getElementById("mobile-nav");
+  if (toggle && nav) {
+    var close = function(){ toggle.setAttribute("aria-expanded","false"); nav.classList.remove("is-open"); document.body.style.overflow=""; };
+    var open = function(){ toggle.setAttribute("aria-expanded","true"); nav.classList.add("is-open"); document.body.style.overflow="hidden"; };
+    toggle.addEventListener("click", function(){
+      toggle.getAttribute("aria-expanded")==="true" ? close() : open();
+    });
+    nav.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", close); });
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
+  }
+
+  /* Línea de horizonte del hero: se dibuja una sola vez al cargar */
+  window.addEventListener("load", function(){
+    var sk = document.getElementById("hero-skyline");
+    if (sk) requestAnimationFrame(function(){ sk.classList.add("drawn"); });
+  });
+
+  /* Estado activo del sidebar según sección visible */
+  var navLinks = document.querySelectorAll(".sidebar-nav a");
+  var sections = Array.prototype.map.call(navLinks, function(a){ return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+  if ("IntersectionObserver" in window && sections.length) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = "#" + entry.target.id;
+          navLinks.forEach(function(a){ a.removeAttribute("aria-current"); });
+          var match = document.querySelector('.sidebar-nav a[href="' + id + '"]');
+          if (match) match.setAttribute("aria-current","true");
+        }
+      });
+    }, { rootMargin: "-40% 0px -50% 0px" });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+
+  /* Filtros de búsqueda (tipo de propiedad + operación) */
+  var typeButtons = document.querySelectorAll(".filter-type-btn");
+  typeButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      typeButtons.forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+    });
+  });
+  var opButtons = document.querySelectorAll(".filter-op-btn");
+  opButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      opButtons.forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+    });
+  });
+
+  /* ---------- Buscador: conecta con POST /api/public/search ---------- */
+  var searchBtn = document.getElementById("search-btn");
+  var searchStatus = document.getElementById("search-status");
+  var searchResults = document.getElementById("search-results");
+
+  function tipoSeleccionado(){
+    var pressed = document.querySelector(".filter-type-btn[aria-pressed='true']");
+    var map = { casas: "casa", departamentos: "departamento", locales: "local", terrenos: "terreno" };
+    var key = pressed ? pressed.getAttribute("data-filter") : "casas";
+    return map[key] || "casa";
+  }
+  function operacionSeleccionada(){
+    var pressed = document.querySelector(".filter-op-btn[aria-pressed='true']");
+    var op = pressed ? pressed.getAttribute("data-op") : "venta";
+    return op === "alquiler" ? "Alquiler" : "Venta";
+  }
+  function fmtPrecio(p, moneda){
+    if (p === null || p === undefined || p === "") return "Consultar precio";
+    var n = Number(p);
+    if (isNaN(n)) return "Consultar precio";
+    return (moneda || "") + " " + n.toLocaleString("es-AR");
+  }
+  function renderResultados(items){
+    searchResults.innerHTML = "";
+    if (!items.length) {
+      searchStatus.textContent = "No encontramos propiedades con esos filtros.";
+      return;
+    }
+    searchStatus.textContent = items.length + " propiedad(es) encontrada(s).";
+    items.forEach(function(item){
+      var p = item.property || {};
+      var score = Math.round(item.score || 0);
+      var card = document.createElement("div");
+      card.className = "result-card";
+      card.innerHTML =
+        '<span class="result-match">' + score + '% match</span>' +
+        '<div class="result-title">' + (p.tipo_propiedad || "Propiedad") + ' en ' + (p.barrio || p.localidad || "") + '</div>' +
+        '<div class="result-meta">' + (p.localidad || "") + (p.dormitorios ? " · " + p.dormitorios + " dorm." : "") + (p.banos ? " · " + p.banos + " baños" : "") + '</div>' +
+        '<div class="result-price">' + fmtPrecio(p.precio, p.moneda) + '</div>';
+      searchResults.appendChild(card);
+    });
+  }
+
+  if (searchBtn) {
+    searchBtn.addEventListener("click", function(){
+      var localidad = document.getElementById("f-localidad").value.trim();
+      var zona = document.getElementById("f-zona").value.trim();
+      var presupuesto = document.getElementById("f-presupuesto").value;
+      var dormitorios = document.getElementById("f-dormitorios").value;
+
+      var body = {
+        tipo_propiedad: [tipoSeleccionado()],
+        operacion: operacionSeleccionada()
+      };
+      if (localidad) { body.localidad = localidad; body.todas_localidades = false; } else { body.todas_localidades = true; }
+      if (zona) body.zonas = [zona];
+      if (presupuesto) { body.presupuesto_max = Number(presupuesto); body.solo_por_valor = true; }
+      if (dormitorios) body.dormitorios_min = Number(dormitorios);
+
+      searchStatus.textContent = "Buscando...";
+      searchResults.innerHTML = "";
+      searchBtn.disabled = true;
+
+      fetch(API_BASE + "/public/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
+        .then(function(data){ renderResultados(Array.isArray(data) ? data : []); })
+        .catch(function(){ searchStatus.textContent = "No pudimos completar la búsqueda. Probá de nuevo en un momento."; })
+        .finally(function(){ searchBtn.disabled = false; });
+    });
+  }
+
+  /* ---------- Form de propietarios: conecta con POST /api/public/property-request ---------- */
+  var openOwnerBtn = document.getElementById("open-owner-form");
+  var ownerForm = document.getElementById("owner-form");
+  if (openOwnerBtn && ownerForm) {
+    openOwnerBtn.addEventListener("click", function(){
+      ownerForm.classList.toggle("is-open");
+      if (ownerForm.classList.contains("is-open")) ownerForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+  if (ownerForm) {
+    var ownerStatus = document.getElementById("owner-form-status");
+    ownerForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      var nombre = document.getElementById("ow-nombre").value.trim();
+      var whatsapp = document.getElementById("ow-whatsapp").value.trim();
+      if (!nombre || !whatsapp) {
+        ownerStatus.textContent = "Completá nombre y WhatsApp para continuar.";
+        return;
+      }
+      var body = {
+        nombre: nombre,
+        whatsapp: whatsapp,
+        tipo_propiedad: document.getElementById("ow-tipo").value || undefined,
+        operacion: document.getElementById("ow-operacion").value || undefined,
+        localidad: document.getElementById("ow-localidad").value.trim() || undefined,
+        barrio: document.getElementById("ow-barrio").value.trim() || undefined,
+        direccion: document.getElementById("ow-direccion").value.trim() || undefined,
+        dormitorios: document.getElementById("ow-dormitorios").value ? Number(document.getElementById("ow-dormitorios").value) : undefined,
+        banos: document.getElementById("ow-banos").value ? Number(document.getElementById("ow-banos").value) : undefined,
+        superficie: document.getElementById("ow-superficie").value ? Number(document.getElementById("ow-superficie").value) : undefined,
+        precio_estimado: document.getElementById("ow-precio").value ? Number(document.getElementById("ow-precio").value) : undefined,
+        observaciones: document.getElementById("ow-observaciones").value.trim() || undefined
+      };
+
+      ownerStatus.textContent = "Enviando...";
+      fetch(API_BASE + "/public/property-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
+        .then(function(){
+          ownerStatus.textContent = "¡Gracias! Tu solicitud queda en revisión y te vamos a contactar a la brevedad.";
+          ownerForm.reset();
+        })
+        .catch(function(){ ownerStatus.textContent = "No pudimos enviar la solicitud. Probá de nuevo en un momento."; });
+    });
+  }
+
+  /* ---------- Login (decorativo, sin backend) ---------- */
+  var loginOverlay = document.getElementById("login-modal-overlay");
+  function openLogin(e){ if (e) e.preventDefault(); if (loginOverlay) loginOverlay.classList.add("is-open"); }
+  function closeLogin(){ if (loginOverlay) loginOverlay.classList.remove("is-open"); }
+  var openLoginBtn = document.getElementById("open-login");
+  var openLoginMobileBtn = document.getElementById("open-login-mobile");
+  var closeLoginBtn = document.getElementById("close-login");
+  if (openLoginBtn) openLoginBtn.addEventListener("click", openLogin);
+  if (openLoginMobileBtn) openLoginMobileBtn.addEventListener("click", openLogin);
+  if (closeLoginBtn) closeLoginBtn.addEventListener("click", closeLogin);
+  if (loginOverlay) loginOverlay.addEventListener("click", function(e){ if (e.target === loginOverlay) closeLogin(); });
+
+  /* Formulario de contacto: conecta con POST /api/public/leads */
+  var form = document.getElementById("lead-form");
+  if (form) {
+    var status = document.getElementById("form-status");
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var nombre = document.getElementById("nombre").value.trim();
+      var wa = document.getElementById("whatsapp").value.trim();
+      var intencion = document.getElementById("intencion-form").value;
+      if (!nombre || !wa) {
+        status.textContent = "Completá nombre y WhatsApp para continuar.";
+        return;
+      }
+      status.textContent = "Enviando...";
+      fetch(API_BASE + "/public/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: nombre, telefono: wa, tipo_buscado: intencion || undefined })
+      })
+        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
+        .then(function(){
+          status.textContent = "¡Gracias! Te vamos a contactar a la brevedad.";
+          form.reset();
+        })
+        .catch(function(){ status.textContent = "No pudimos enviar tu consulta. Probá de nuevo en un momento."; });
+    });
+  }
+})();
+</script>
+</body>
+</html>
