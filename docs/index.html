@@ -219,16 +219,16 @@ section{ padding-block:var(--sp-8); }
 .typologies-head p{ color:rgba(231,215,184,0.7); margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; }
 .typ-grid{ display:grid; gap:var(--sp-7); align-items:center; }
 
-.filter-type-group{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-3); margin-bottom:var(--sp-5); }
+.filter-type-group{ display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-5); }
 .filter-type-btn{
-  display:flex; flex-direction:column; align-items:center; gap:var(--sp-2);
-  padding:var(--sp-4); background:transparent; border:1px solid var(--bronze); border-radius:2px;
+  display:flex; flex-direction:row; align-items:center; gap:var(--sp-2);
+  padding:0.6rem 1.2rem; background:transparent; border:1px solid var(--bronze); border-radius:999px;
   color:rgba(231,215,184,0.8); font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase;
   transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.filter-type-btn svg{ width:26px; height:26px; }
+.filter-type-btn svg{ width:16px; height:16px; }
 .filter-type-btn:hover{ border-color:var(--sand); color:var(--sand); }
-.filter-type-btn[aria-pressed="true"]{ border-color:var(--sand); color:var(--sand); background:rgba(231,215,184,0.06); }
+.filter-type-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
 .filter-op-group{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); max-width:420px; }
 .filter-op-btn{
   padding:0.9rem 1.4rem; border:1px solid var(--bronze); border-radius:2px; background:transparent;
@@ -236,7 +236,7 @@ section{ padding-block:var(--sp-8); }
   transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 .filter-op-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
-@media (min-width:640px){ .filter-type-group{ grid-template-columns:repeat(4,1fr); } }
+
 
 /* ---------- Ubicación ---------- */
 .location{ background:var(--sand); }
@@ -366,7 +366,74 @@ section{ padding-block:var(--sp-8); }
 .result-title{ font-family:var(--font-display); font-size:1.1rem; color:var(--sand); margin-top:var(--sp-2); }
 .result-meta{ font-family:var(--font-mono); font-size:0.75rem; color:rgba(231,215,184,0.7); }
 .result-price{ font-family:var(--font-body); font-weight:700; color:var(--white); }
+/* ---------- Match: jerarquía visual de resultados ---------- */
+.match-results-head{ margin:var(--sp-7) 0 var(--sp-5); }
+.match-results-head h3{ font-family:var(--font-display); font-size:1.5rem; color:var(--white); }
+.match-results-head p{ font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase; color:rgba(231,215,184,0.6); margin-top:var(--sp-2); }
 
+.match-ring{ --pct:0; width:110px; height:110px; border-radius:50%; background:conic-gradient(var(--magenta) calc(var(--pct)*1%), rgba(231,215,184,0.15) 0); display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0; }
+.match-ring::before{ content:""; position:absolute; inset:8px; border-radius:50%; background:var(--navy-dark); }
+.match-ring-value{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; }
+.match-ring-value strong{ font-family:var(--font-display); font-size:1.6rem; line-height:1; color:var(--white); }
+.match-ring-value span{ font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-top:2px; }
+.match-ring--sm{ width:64px; height:64px; }
+.match-ring--sm::before{ inset:5px; }
+.match-ring--sm .match-ring-value strong{ font-size:0.95rem; }
+.match-ring--sm .match-ring-value span{ font-size:0.5rem; }
+
+.match-badge-best{ position:absolute; top:var(--sp-3); left:var(--sp-3); background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.3rem 0.7rem; border-radius:20px; z-index:2; }
+.match-badge-pct{ position:absolute; top:var(--sp-3); left:var(--sp-3); background:var(--magenta); color:var(--white); font-family:var(--font-display); font-size:0.8rem; font-weight:700; padding:0.3rem 0.6rem; border-radius:10px; text-align:center; line-height:1.1; z-index:2; }
+.match-badge-pct small{ display:block; font-family:var(--font-mono); font-size:0.5rem; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; }
+
+.match-row{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+@media (min-width:1024px){ .match-row{ grid-template-columns:1.3fr 1fr; } }
+
+.match-featured{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:grid; grid-template-columns:1fr; }
+@media (min-width:640px){ .match-featured{ grid-template-columns:1fr 1fr; } }
+.match-featured-img{ position:relative; aspect-ratio:4/3; }
+.match-featured-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+.match-featured-body{ padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3); }
+.match-featured-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-3); }
+.match-kicker{ font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--magenta); }
+.match-featured-body h4{ font-family:var(--font-display); font-size:1.3rem; color:var(--white); margin-top:var(--sp-1); }
+.match-loc{ font-family:var(--font-mono); font-size:0.75rem; color:rgba(231,215,184,0.7); }
+.match-specs{ display:flex; gap:var(--sp-5); font-family:var(--font-mono); font-size:0.75rem; color:var(--sand); border-top:1px solid rgba(231,215,184,0.15); border-bottom:1px solid rgba(231,215,184,0.15); padding:var(--sp-3) 0; }
+.match-specs strong{ display:block; font-family:var(--font-display); font-size:1rem; color:var(--white); }
+.match-price-row{ display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); margin-top:auto; }
+.match-price{ font-family:var(--font-body); font-weight:700; font-size:1.1rem; color:var(--white); }
+.match-actions{ display:flex; align-items:center; gap:var(--sp-2); }
+.match-fav-btn{ width:40px; height:40px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(231,215,184,0.3); border-radius:2px; background:transparent; color:var(--sand); }
+
+.match-secondary-col{ display:flex; flex-direction:column; gap:var(--sp-4); }
+.match-secondary{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:flex; gap:var(--sp-4); padding:var(--sp-3); }
+.match-secondary-img{ width:110px; flex-shrink:0; border-radius:2px; overflow:hidden; aspect-ratio:1/1; }
+.match-secondary-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+.match-secondary-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
+.match-secondary-body h5{ font-family:var(--font-display); font-size:1rem; color:var(--white); }
+.match-secondary-meta{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.7); display:flex; gap:var(--sp-3); flex-wrap:wrap; }
+.match-secondary-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
+.match-secondary-foot .match-price{ font-size:0.9rem; }
+
+.match-also-title{ font-family:var(--font-display); font-size:1.1rem; color:var(--white); margin:var(--sp-7) 0 var(--sp-4); display:flex; align-items:baseline; justify-content:space-between; }
+.match-also-title span{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.6); }
+
+.match-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
+@media (min-width:640px){ .match-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1024px){ .match-grid{ grid-template-columns:repeat(3,1fr); } }
+.match-card{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:flex; flex-direction:column; }
+.match-card-img{ position:relative; aspect-ratio:4/3; }
+.match-card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+.match-card-body{ padding:var(--sp-4); display:flex; flex-direction:column; gap:6px; flex:1; }
+.match-card-body h5{ font-family:var(--font-display); font-size:1rem; color:var(--white); }
+.match-card-meta{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.7); display:flex; gap:var(--sp-3); flex-wrap:wrap; }
+.match-card-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:var(--sp-2); }
+
+.match-cta-bar{ margin-top:var(--sp-7); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap; background:rgba(212,10,140,0.08); border:1px solid rgba(212,10,140,0.3); border-radius:4px; padding:var(--sp-4) var(--sp-5); }
+.match-cta-bar p{ font-family:var(--font-body); font-size:0.9rem; color:var(--sand); margin:0; }
+.match-cta-bar strong{ display:block; color:var(--white); font-size:0.95rem; }
+
+.match-empty{ font-family:var(--font-mono); font-size:0.85rem; color:rgba(231,215,184,0.6); padding:var(--sp-5) 0; }
+   
 /* ---------- Form propietarios (captación) ---------- */
 .owner-form{ margin-top:var(--sp-6); display:none; flex-direction:column; gap:var(--sp-4); max-width:520px; }
 .owner-form.is-open{ display:flex; }
@@ -550,7 +617,7 @@ section{ padding-block:var(--sp-8); }
       </div>
 
       <div class="filter-type-group" role="group" aria-label="Tipo de propiedad" data-reveal="up">
-        <button class="filter-type-btn" data-filter="casas" aria-pressed="true">
+        <button class="filter-type-btn" data-filter="todas" aria-pressed="true">   <span>Todas</span> </button> <button class="filter-type-btn" data-filter="casas" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
           <span>Casas</span>
         </button>
@@ -587,6 +654,13 @@ section{ padding-block:var(--sp-8); }
           <input type="number" id="f-presupuesto" name="presupuesto" min="0" placeholder="Ej: 50000">
         </div>
         <div class="field">
+          <label for="f-moneda">Moneda</label>
+          <select id="f-moneda" name="moneda">
+            <option value="USD">USD</option>
+            <option value="ARS">ARS</option>
+          </select>
+        </div>
+        <div class="field">
           <label for="f-dormitorios">Dormitorios mínimos</label>
           <input type="number" id="f-dormitorios" name="dormitorios" min="0" placeholder="Ej: 2">
         </div>
@@ -597,7 +671,7 @@ section{ padding-block:var(--sp-8); }
         <span class="search-status" id="search-status"></span>
       </div>
 
-      <div class="results-grid" id="search-results"></div>
+      <div id="search-results"></div>
     </div>
   </section>
   <!-- ================= SOBRE MÍ ================= -->
@@ -938,8 +1012,8 @@ section{ padding-block:var(--sp-8); }
   function tipoSeleccionado(){
     var pressed = document.querySelector(".filter-type-btn[aria-pressed='true']");
     var map = { casas: "Casa", departamentos: "Departamento", locales: "Local", terrenos: "Lote" };
-    var key = pressed ? pressed.getAttribute("data-filter") : "casas";
-    return map[key] || "Casa";
+    var key = pressed ? pressed.getAttribute("data-filter") : "todas";
+    return map[key] || null;
   }
   function operacionSeleccionada(){
     var pressed = document.querySelector(".filter-op-btn[aria-pressed='true']");
@@ -952,25 +1026,112 @@ section{ padding-block:var(--sp-8); }
     if (isNaN(n)) return "Consultar precio";
     return (moneda || "") + " " + n.toLocaleString("es-AR");
   }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+  function fotoPrincipal(fotos){
+    if (!Array.isArray(fotos)) return "";
+    for (var i = 0; i < fotos.length; i++){
+      if (typeof fotos[i] === "string" && fotos[i].indexOf("http") === 0) return fotos[i];
+    }
+    return "";
+  }
+  function superficieM2(p){
+    var m = Number(p.sup_cubierta_m2) || Number(p.sup_terreno_m2) || 0;
+    return m > 0 ? m : null;
+  }
+  function imgTag(url, alt){
+    return url
+      ? '<img src="' + esc(url) + '" alt="' + esc(alt) + '" loading="lazy">'
+      : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#1c2329,#263B50);"></div>';
+  }
+  function specsRow(p){
+    var m2 = superficieM2(p);
+    var out = "";
+    if (p.dormitorios) out += '<div><strong>' + p.dormitorios + '</strong>Dorm.</div>';
+    if (p.banos) out += '<div><strong>' + p.banos + '</strong>Baños</div>';
+    if (m2) out += '<div><strong>' + m2 + ' m²</strong>Superficie</div>';
+    return out;
+  }
+  function ringHTML(score, sm){
+    return '<div class="match-ring' + (sm ? ' match-ring--sm' : '') + '" style="--pct:' + score + '">' +
+      '<div class="match-ring-value"><strong>' + score + '%</strong><span>Match</span></div></div>';
+  }
+  function ubicacion(p){
+    return p.barrio && p.localidad ? esc(p.barrio) + ', ' + esc(p.localidad) : esc(p.barrio || p.localidad || "");
+  }
+
+  function cardFeatured(item){
+    var p = item.property || {}, score = Math.round(item.score || 0);
+    return '<div class="match-featured">' +
+      '<div class="match-featured-img"><span class="match-badge-best">Mejor match</span>' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
+      '<div class="match-featured-body">' +
+        '<div class="match-featured-top"><div>' +
+          '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
+          '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
+          '<div class="match-loc">' + ubicacion(p) + '</div>' +
+        '</div>' + ringHTML(score, false) + '</div>' +
+        '<div class="match-specs">' + specsRow(p) + '</div>' +
+        '<div class="match-price-row"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
+          '<div class="match-actions"><button type="button" class="match-fav-btn" aria-label="Favorito">♥</button>' +
+          '<a class="btn btn-magenta" href="#contacto">Ver propiedad</a></div></div>' +
+      '</div></div>';
+  }
+  function cardSecondary(item){
+    var p = item.property || {}, score = Math.round(item.score || 0);
+    return '<div class="match-secondary">' +
+      '<div class="match-secondary-img">' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
+      '<div class="match-secondary-body">' +
+        '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
+        '<h5>' + esc(p.titulo || p.tipo || "Propiedad") + '</h5>' +
+        '<div class="match-loc">' + ubicacion(p) + '</div>' +
+        '<div class="match-secondary-meta">' + specsRow(p) + '</div>' +
+        '<div class="match-secondary-foot"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
+          '<a class="btn-ghost-mono" href="#contacto">Ver detalles →</a></div>' +
+      '</div>' + ringHTML(score, true) + '</div>';
+  }
+  function cardGrid(item){
+    var p = item.property || {}, score = Math.round(item.score || 0);
+    return '<div class="match-card">' +
+      '<div class="match-card-img"><span class="match-badge-pct">' + score + '%<small>Match</small></span>' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
+      '<div class="match-card-body">' +
+        '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
+        '<h5>' + esc(p.titulo || p.tipo || "Propiedad") + '</h5>' +
+        '<div class="match-loc">' + ubicacion(p) + '</div>' +
+        '<div class="match-card-meta">' + specsRow(p) + '</div>' +
+        '<div class="match-card-foot"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
+          '<a class="btn-ghost-mono" href="#contacto">Ver propiedad →</a></div>' +
+      '</div></div>';
+  }
   function renderResultados(items){
-    searchResults.innerHTML = "";
     if (!items.length) {
       searchStatus.textContent = "No encontramos propiedades con esos filtros.";
+      searchResults.innerHTML = "";
       return;
     }
     searchStatus.textContent = items.length + " propiedad(es) encontrada(s).";
-    items.forEach(function(item){
-      var p = item.property || {};
-      var score = Math.round(item.score || 0);
-      var card = document.createElement("div");
-      card.className = "result-card";
-      card.innerHTML =
-        '<span class="result-match">' + score + '% match</span>' +
-        '<div class="result-title">' + (p.tipo || "Propiedad") + ' en ' + (p.barrio || p.localidad || "") + '</div>' +
-        '<div class="result-meta">' + (p.localidad || "") + (p.dormitorios ? " · " + p.dormitorios + " dorm." : "") + (p.banos ? " · " + p.banos + " baños" : "") + '</div>' +
-        '<div class="result-price">' + fmtPrecio(p.precio, p.moneda) + '</div>';
-      searchResults.appendChild(card);
-    });
+    var destacada = items[0];
+    var secundarias = items.slice(1, 3);
+    var resto = items.slice(3);
+
+    var html = '<div class="match-results-head">' +
+      '<h3>Encontramos propiedades que hacen match con vos</h3>' +
+      '<p>Ordenadas por compatibilidad según tus preferencias.</p></div>';
+
+    html += '<div class="match-row"><div>' + cardFeatured(destacada) + '</div>' +
+      '<div class="match-secondary-col">' + secundarias.map(cardSecondary).join('') + '</div></div>';
+
+    if (resto.length) {
+      html += '<div class="match-also-title">También pueden interesarte <span>' + resto.length + ' propiedad(es)</span></div>' +
+        '<div class="match-grid">' + resto.map(cardGrid).join('') + '</div>';
+    }
+
+    html += '<div class="match-cta-bar"><p><strong>¿Querés recibir mejores matches?</strong>Completá tus preferencias y ajustamos los resultados.</p>' +
+      '<a class="btn-ghost-mono" href="#contacto">Actualizar mis preferencias</a></div>';
+
+    searchResults.innerHTML = html;
   }
 
   if (searchBtn) {
@@ -980,13 +1141,14 @@ section{ padding-block:var(--sp-8); }
       var presupuesto = document.getElementById("f-presupuesto").value;
       var dormitorios = document.getElementById("f-dormitorios").value;
 
+      var tipo = tipoSeleccionado();
       var body = {
-        tipo_propiedad: [tipoSeleccionado()],
+        tipo_propiedad: tipo ? [tipo] : [],
         operacion: operacionSeleccionada()
       };
       if (localidad) { body.localidad = localidad; body.todas_localidades = false; } else { body.todas_localidades = true; }
       if (zona) body.zonas = [zona];
-      if (presupuesto) { body.presupuesto_max = Number(presupuesto); body.solo_por_valor = true; }
+      if (presupuesto) {         body.presupuesto_max = Number(presupuesto);         body.solo_por_valor = true;         body.moneda = document.getElementById("f-moneda").value;       }
       if (dormitorios) body.dormitorios_min = Number(dormitorios);
 
       searchStatus.textContent = "Buscando...";
