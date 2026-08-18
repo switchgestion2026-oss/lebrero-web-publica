@@ -649,9 +649,10 @@ section{ padding-block:var(--sp-8); }
         </div>
         <div class="field">
           <label for="f-zona">Barrio / zona</label>
-          <select id="f-zona" name="zona">
-            <option value="">Todos</option>
+          <select id="f-zona" name="zona" multiple size="6">
+            <option value="" selected>Todos</option>
           </select>
+          <span style="font-family:var(--font-mono); font-size:0.65rem; color:rgba(231,215,184,0.5);">Mantené Ctrl (Cmd en Mac) para elegir varios</span>
         </div>
         <div class="field">
           <label for="f-presupuesto">Presupuesto máximo</label>
@@ -1141,7 +1142,7 @@ section{ padding-block:var(--sp-8); }
   if (searchBtn) {
     searchBtn.addEventListener("click", function(){
       var localidad = document.getElementById("f-localidad").value.trim();
-      var zona = document.getElementById("f-zona").value.trim();
+      var zonasSeleccionadas = Array.from(document.getElementById("f-zona").selectedOptions).map(function(o){ return o.value; }).filter(Boolean);
       var presupuesto = document.getElementById("f-presupuesto").value;
       var dormitorios = document.getElementById("f-dormitorios").value;
 
@@ -1151,7 +1152,7 @@ section{ padding-block:var(--sp-8); }
         operacion: operacionSeleccionada()
       };
       if (localidad) { body.localidad = localidad; body.todas_localidades = false; } else { body.todas_localidades = true; }
-      if (zona) body.zonas = [zona];
+      if (zonasSeleccionadas.length) body.zonas = zonasSeleccionadas;
       if (presupuesto) {         body.presupuesto_max = Number(presupuesto);         body.solo_por_valor = true;         body.moneda = document.getElementById("f-moneda").value;       }
       if (dormitorios) body.dormitorios_min = Number(dormitorios);
 
