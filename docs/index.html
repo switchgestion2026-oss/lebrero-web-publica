@@ -643,11 +643,15 @@ section{ padding-block:var(--sp-8); }
       <div class="search-fields" data-reveal="up">
         <div class="field">
           <label for="f-localidad">Localidad</label>
-          <input type="text" id="f-localidad" name="localidad" placeholder="Ej: Olavarría" autocomplete="off">
+          <select id="f-localidad" name="localidad">
+            <option value="">Todas</option>
+          </select>
         </div>
         <div class="field">
           <label for="f-zona">Barrio / zona</label>
-          <input type="text" id="f-zona" name="zona" placeholder="Ej: Centro, Plaza López" autocomplete="off">
+          <select id="f-zona" name="zona">
+            <option value="">Todos</option>
+          </select>
         </div>
         <div class="field">
           <label for="f-presupuesto">Presupuesto máximo</label>
@@ -1255,6 +1259,28 @@ section{ padding-block:var(--sp-8); }
         .catch(function(){ status.textContent = "No pudimos enviar tu consulta. Probá de nuevo en un momento."; });
     });
   }
+  /* ---------- Localidad/zona: se completan solas desde la API ---------- */
+  function cargarFiltrosGeograficos(){
+    var selLocalidad = document.getElementById("f-localidad");
+    var selZona = document.getElementById("f-zona");
+    if (!selLocalidad || !selZona) return;
+    fetch(API_BASE + "/public/propiedades")
+      .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
+      .then(function(data){
+        if (!Array.isArray(data)) return;
+        var localidades = [], zonas = [];
+        data.forEach(function(p){
+          if (p.localidad && localidades.indexOf(p.localidad) === -1) localidades.push(p.localidad);
+          if (p.zona && zonas.indexOf(p.zona) === -1) zonas.push(p.zona);
+        });
+        localidades.sort();
+        zonas.sort();
+        localidades.forEach(function(v){ var o = document.createElement("option"); o.value = v; o.textContent = v; selLocalidad.appendChild(o); });
+        zonas.forEach(function(v){ var o = document.createElement("option"); o.value = v; o.textContent = v; selZona.appendChild(o); });
+      })
+      .catch(function(){ /* si falla, quedan "Todas/Todos" nomás */ });
+  }
+  cargarFiltrosGeograficos();
 })();
 </script>
 </body>
