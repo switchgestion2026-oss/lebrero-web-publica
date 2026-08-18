@@ -387,6 +387,17 @@ section{ padding-block:var(--sp-8); }
 .login-modal{ background:var(--graphite); border:1px solid var(--bronze); border-radius:2px; padding:var(--sp-6); max-width:340px; text-align:center; }
 .login-modal p{ color:var(--sand); margin-top:var(--sp-3); font-size:0.9rem; }
 .login-modal button{ margin-top:var(--sp-5); }
+
+/* ---------- Scroll-driven reveal engine ---------- */
+[data-reveal]{ opacity:calc(var(--p, 0)); will-change:transform, opacity; }
+[data-reveal="up"]{ transform:translateY(calc((1 - var(--p, 0)) * 60px)); }
+[data-reveal="scale"]{ transform:scale(calc(0.92 + var(--p, 0) * 0.08)); }
+[data-reveal="clip"]{ clip-path:inset(calc((1 - var(--p, 0)) * 100%) 0 0 0); transform:none; }
+[data-reveal="left"]{ transform:translateX(calc((1 - var(--p, 0)) * -50px)); }
+[data-reveal="right"]{ transform:translateX(calc((1 - var(--p, 0)) * 50px)); }
+@media (prefers-reduced-motion: reduce){
+  [data-reveal]{ opacity:1 !important; transform:none !important; clip-path:none !important; }
+}
 </style>
 </head>
 <body>
@@ -395,7 +406,7 @@ section{ padding-block:var(--sp-8); }
 <!-- ================= SIDEBAR DESKTOP ================= -->
 <aside class="sidebar">
   <a class="sidebar-logo" href="#inicio" aria-label="Lebrero Propiedades — inicio">
-    <svg class="mark" viewBox="0 0 32 32"><path d="M4 26 L4 18 L11 18 L11 10 L18 10 L18 22 L25 22 L25 6 L28 6 L28 26 Z"/></svg>
+    <img class="mark" src="https://i.ibb.co/7dZB4BFx/Chat-GPT-Image-17-ago-2026-09-56-43-p-m.png" alt="" style="border-radius:4px;object-fit:cover;">
     <span class="wordmark">Lebrero<br>Propiedades</span>
   </a>
   <nav class="sidebar-nav" aria-label="Navegación principal">
@@ -421,7 +432,7 @@ section{ padding-block:var(--sp-8); }
 <!-- ================= TOPBAR MOBILE/TABLET ================= -->
 <div class="topbar">
   <a href="#inicio" style="display:flex;align-items:center;gap:10px;" aria-label="Lebrero Propiedades — inicio">
-    <svg class="mark" viewBox="0 0 32 32"><path d="M4 26 L4 18 L11 18 L11 10 L18 10 L18 22 L25 22 L25 6 L28 6 L28 26 Z"/></svg>
+    <img class="mark" src="https://i.ibb.co/7dZB4BFx/Chat-GPT-Image-17-ago-2026-09-56-43-p-m.png" alt="" style="border-radius:4px;object-fit:cover;">
     <span class="topbar-wordmark">Lebrero</span>
   </a>
   <div class="topbar-right">
@@ -460,17 +471,16 @@ section{ padding-block:var(--sp-8); }
 
   <!-- ================= HERO ================= -->
   <section class="hero" id="inicio">
-    <div class="hero-bg">
-      <!-- TODO: reemplazar por fotografía real de una propiedad destacada (exterior, atardecer o luz cálida interior) -->
-      <div class="ph"></div>
+      <div class="hero-bg">
+      <img src="Hero.png" alt="" role="presentation">
     </div>
     <div class="hero-overlay"></div>
     <svg class="skyline hero-skyline animated" id="hero-skyline" viewBox="0 0 1440 140" preserveAspectRatio="none">
       <path d="M0,120 L0,80 L60,80 L60,40 L140,40 L140,90 L220,90 L220,20 L300,20 L300,70 L380,70 L380,110 L460,110 L460,50 L540,50 L540,95 L620,95 L620,30 L700,30 L700,75 L780,75 L780,15 L860,15 L860,60 L940,60 L940,100 L1020,100 L1020,45 L1100,45 L1100,85 L1180,85 L1180,25 L1260,25 L1260,65 L1340,65 L1340,105 L1440,105"/>
     </svg>
-    <div class="content">
-      <h1>DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS</h1>
-      <div class="hero-ctas">
+        <div class="content">
+      <h1 data-reveal="up">DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS</h1>
+      <div class="hero-ctas" data-reveal="up">
         <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades para comprar o alquilar en Olavarría.</p>
         <a class="btn btn-magenta" href="#buscar">Ver propiedades</a>
         <span class="hero-meta mono">VENTA · ALQUILER · TASACIONES</span>
@@ -499,27 +509,27 @@ section{ padding-block:var(--sp-8); }
       </div>
 
       <div class="featured-grid">
-        <div class="property-card">
+        <div class="property-card" data-reveal="up">
           <figure class="amenity-photo sub" aria-hidden="true">
-            <!-- TODO: fotografía real — casas -->
+            <img src="https://i.ibb.co/35JhbTNL/2.png" alt="" style="width:100%;height:100%;object-fit:cover;">
           </figure>
           <div class="property-caption">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
             <span class="txt">Casas<span>Espacios para vivir y disfrutar cada día.</span></span>
           </div>
         </div>
-        <div class="property-card">
+        <div class="property-card" data-reveal="up">
           <figure class="amenity-photo sub" aria-hidden="true">
-            <!-- TODO: fotografía real — departamentos -->
+            <img src="https://i.ibb.co/mC4Zjms3/3.png" alt="" style="width:100%;height:100%;object-fit:cover;">
           </figure>
           <div class="property-caption">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg>
             <span class="txt">Departamentos<span>Opciones para vivir o invertir en Olavarría.</span></span>
           </div>
         </div>
-        <div class="property-card">
+        <div class="property-card" data-reveal="up">
           <figure class="amenity-photo sub" aria-hidden="true">
-            <!-- TODO: fotografía real — locales -->
+            <img src="https://i.ibb.co/bgjrDBXS/LP-014-Chalet-1.png" alt="" style="width:100%;height:100%;object-fit:cover;">
           </figure>
           <div class="property-caption">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10 5 4h14l1 6M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9M4 10h16"/></svg>
@@ -535,13 +545,13 @@ section{ padding-block:var(--sp-8); }
   <!-- ================= TIPOLOGÍAS ================= -->
   <section class="typologies" id="buscar">
     <div class="content">
-      <div class="typologies-head">
+      <div class="typologies-head" data-reveal="up">
         <span class="eyebrow">— Buscador</span>
         <h2>Encontrá tu lugar</h2>
         <p>Elegí qué estás buscando.</p>
       </div>
 
-      <div class="filter-type-group" role="group" aria-label="Tipo de propiedad">
+      <div class="filter-type-group" role="group" aria-label="Tipo de propiedad" data-reveal="up">
         <button class="filter-type-btn" data-filter="casas" aria-pressed="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
           <span>Casas</span>
@@ -560,12 +570,12 @@ section{ padding-block:var(--sp-8); }
         </button>
       </div>
 
-      <div class="filter-op-group" role="group" aria-label="Tipo de operación">
+      <div class="filter-op-group" role="group" aria-label="Tipo de operación" data-reveal="up">
         <button class="filter-op-btn" data-op="venta" aria-pressed="true">Venta</button>
         <button class="filter-op-btn" data-op="alquiler" aria-pressed="false">Alquiler</button>
       </div>
 
-      <div class="search-fields">
+      <div class="search-fields" data-reveal="up">
         <div class="field">
           <label for="f-localidad">Localidad</label>
           <input type="text" id="f-localidad" name="localidad" placeholder="Ej: Olavarría" autocomplete="off">
@@ -597,7 +607,7 @@ section{ padding-block:var(--sp-8); }
   <section class="location" id="ubicacion">
     <div class="content">
       <div class="location-grid">
-        <div class="location-map">
+        <div class="location-map" data-reveal="left">>
           <!-- Mapa estilizado, no interactivo -->
           <svg viewBox="0 0 400 320" width="100%" height="100%" role="img" aria-label="Mapa estilizado de la zona">
             <rect x="0" y="0" width="400" height="320" fill="#f1e8d4"/>
@@ -625,7 +635,7 @@ section{ padding-block:var(--sp-8); }
             <text x="15" y="255" font-family="IBM Plex Mono, monospace" font-size="9" fill="#151A1E">B° CECO</text>
           </svg>
         </div>
-        <div class="location-copy">
+        <div class="location-copy" data-reveal="right">
           <span class="eyebrow">— Ubicación</span>
           <h2>PROPIEDADES EN<br>LUGARES QUE IMPORTAN.</h2>
           <p class="lead">Conocemos Olavarría y sus barrios. Te ayudamos a encontrar una propiedad que tenga sentido para tu forma de vivir, invertir o proyectar.</p>
@@ -644,13 +654,13 @@ section{ padding-block:var(--sp-8); }
   <section class="typologies" id="propietarios">
     <div class="content">
       <div class="typ-grid" style="align-items:center;">
-        <div>
+        <div data-reveal="left">
           <span class="eyebrow">— Propietarios</span>
           <h2 style="color:var(--white); margin-top:var(--sp-3); text-transform:uppercase;">LA VENTA EMPIEZA<br>MUCHO ANTES<br>DE PUBLICAR.</h2>
           <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:44ch;">Presentamos y comercializamos tu propiedad con una estrategia pensada para llegar a las personas indicadas: valoración, presentación, difusión, búsqueda de interesados y acompañamiento durante toda la operación.</p>
           <button type="button" class="btn btn-magenta" style="margin-top:var(--sp-6);" id="open-owner-form">Quiero vender mi propiedad</button>
         </div>
-        <div aria-hidden="true" style="display:flex; align-items:center; justify-content:center;">
+        <div aria-hidden="true" style="display:flex; align-items:center; justify-content:center;" data-reveal="scale">
           <svg viewBox="0 0 200 240" width="70%" style="max-width:280px;">
             <rect x="30" y="20" width="140" height="200" fill="none" stroke="#B8946A" stroke-width="1"/>
             <rect x="55" y="60" width="90" height="160" fill="none" stroke="#B8946A" stroke-width="1"/>
@@ -739,7 +749,7 @@ section{ padding-block:var(--sp-8); }
   <!-- ================= TESTIMONIO ================= -->
   <section class="testimonial" id="testimonios">
     <div class="content">
-      <div class="testimonial-grid">
+      <div class="testimonial-grid" data-reveal="scale">
         <figure class="testimonial-photo" aria-hidden="true">
           <!-- TODO: fotografía real de la clienta (natural, no corporativa) -->
         </figure>
@@ -756,12 +766,12 @@ section{ padding-block:var(--sp-8); }
   <section class="cta-final" id="contacto">
     <div class="content">
       <div class="cta-grid">
-        <div class="cta-copy">
+        <div class="cta-copy" data-reveal="left">
           <span class="eyebrow">— Contacto</span>
           <h2>DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS.</h2>
           <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:40ch;">Contanos qué estás buscando y te ayudamos a encontrar una propiedad para tu próximo capítulo.</p>
         </div>
-        <form class="cta-form" id="lead-form" novalidate>
+        <form class="cta-form" id="lead-form" novalidate data-reveal="right">
           <div class="field">
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required autocomplete="name">
@@ -832,6 +842,26 @@ section{ padding-block:var(--sp-8); }
   "use strict";
 
   var API_BASE = "https://lebrero-web-publica.onrender.com/api";
+
+  /* ---------- Scroll-driven reveal engine ---------- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+  var ticking = false;
+  function computeProgress(el){
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var start = vh * 0.85, end = vh * 0.35;
+    return Math.max(0, Math.min(1, (start - r.top) / (start - end)));
+  }
+  function updateReveals(){
+    revealEls.forEach(function(el){ el.style.setProperty("--p", computeProgress(el)); });
+    ticking = false;
+  }
+  function onScroll(){ if (!ticking) { requestAnimationFrame(updateReveals); ticking = true; } }
+  if (revealEls.length) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    updateReveals();
+  }
 
   /* Menú mobile */
   var toggle = document.getElementById("menu-toggle");
