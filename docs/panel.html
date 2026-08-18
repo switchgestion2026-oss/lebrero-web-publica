@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Lebrero Propiedades</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23151A1E'/><path d='M8 44 L8 32 L18 32 L18 20 L30 20 L30 38 L40 38 L40 14 L52 14 L52 44' fill='none' stroke='%23B8946A' stroke-width='2'/></svg>" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:        #31455C;
+  --navy-dark:   #263B50;
+  --navy-light:  #3D5470;
+  --teal:        #4E807D;
+  --sage:        #6D8A85;
+  --sand:        #E7D7B8;
+  --magenta:     #D40A8C;
+  --white:       #FFFFFF;
+  --graphite:    #151A1E;
+  --bronze:      #B8946A;
+  --green:       #4E807D;
+  --red:         #B8455A;
+
+  --font-display: "Fraunces", "Cormorant Garamond", serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --sidebar-w: 220px;
+  --sp-1:.25rem; --sp-2:.5rem; --sp-3:.75rem; --sp-4:1rem; --sp-5:1.5rem; --sp-6:2.5rem;
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; font-family:var(--font-body); color:var(--graphite); background:#F4F1EA; -webkit-font-smoothing:antialiased; }
+a{ color:inherit; }
+button{ font:inherit; cursor:pointer; }
+h1,h2,h3,p{ margin:0; }
+table{ border-collapse:collapse; width:100%; }
+input,select,textarea{ font:inherit; }
+
+.eyebrow{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--bronze); }
+h2{ font-family:var(--font-display); font-weight:500; font-size:1.6rem; color:var(--navy-dark); margin-top:var(--sp-2); }
+
+/* ---------- Login gate ---------- */
+#login-gate{
+  position:fixed; inset:0; z-index:999; background:var(--navy-dark);
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:var(--sp-4);
+}
+#login-gate.is-hidden{ display:none; }
+#login-gate .box{ background:var(--white); padding:var(--sp-6); border-radius:4px; max-width:340px; width:90%; text-align:center; }
+#login-gate input{ width:100%; padding:.8rem 1rem; border:1px solid #ccc; border-radius:3px; margin-top:var(--sp-4); }
+#login-gate p.err{ color:var(--red); font-size:.85rem; margin-top:var(--sp-3); font-family:var(--font-mono); min-height:1.2em; }
+
+/* ---------- Layout ---------- */
+.app{ display:flex; min-height:100vh; }
+.sidebar{
+  width:var(--sidebar-w); flex-shrink:0; position:fixed; top:0; left:0; bottom:0; z-index:100;
+  background:linear-gradient(180deg, var(--navy-light), var(--navy), var(--navy-dark));
+  color:var(--sand); display:flex; flex-direction:column; padding:var(--sp-5) var(--sp-4);
+}
+.sidebar-logo{ font-family:var(--font-display); font-size:1.15rem; color:var(--white); line-height:1.2; padding-bottom:var(--sp-5); border-bottom:1px solid rgba(231,215,184,0.15); margin-bottom:var(--sp-5); }
+.sidebar-nav{ display:flex; flex-direction:column; gap:2px; flex:1; }
+.sidebar-nav button{
+  text-align:left; background:none; border:none; color:rgba(231,215,184,0.75); padding:.7rem .8rem; border-radius:3px;
+  font-family:var(--font-mono); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase;
+}
+.sidebar-nav button:hover{ background:rgba(255,255,255,0.06); color:var(--sand); }
+.sidebar-nav button.is-active{ background:var(--magenta); color:var(--white); }
+.sidebar-foot{ font-family:var(--font-mono); font-size:.7rem; color:rgba(231,215,184,0.5); padding-top:var(--sp-4); border-top:1px solid rgba(231,215,184,0.15); }
+.sidebar-foot button{ background:none; border:none; color:var(--bronze); font-family:var(--font-mono); font-size:.7rem; padding:0; margin-top:var(--sp-2); text-decoration:underline; cursor:pointer; }
+
+.main{ margin-left:var(--sidebar-w); flex:1; padding:var(--sp-6); max-width:1200px; }
+.view{ display:none; }
+.view.is-active{ display:block; }
+
+/* ---------- Componentes ---------- */
+.toolbar{ display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap; margin-top:var(--sp-5); margin-bottom:var(--sp-4); }
+.btn{
+  display:inline-flex; align-items:center; gap:var(--sp-2); padding:.65rem 1.2rem; font-size:.8rem; font-weight:600;
+  letter-spacing:.03em; text-transform:uppercase; border-radius:3px; border:1px solid transparent; cursor:pointer;
+}
+.btn-magenta{ background:var(--magenta); color:var(--white); }
+.btn-magenta:hover{ background:#b5087a; }
+.btn-outline{ background:transparent; color:var(--navy); border-color:var(--navy); }
+.btn-outline:hover{ background:var(--navy); color:var(--white); }
+.btn-sm{ padding:.4rem .8rem; font-size:.7rem; }
+.btn-green{ background:var(--teal); color:var(--white); }
+.btn-red{ background:var(--red); color:var(--white); }
+
+.card{ background:var(--white); border-radius:4px; padding:var(--sp-5); box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.cards-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:var(--sp-4); margin-top:var(--sp-5); }
+.kpi{ background:var(--white); border-radius:4px; padding:var(--sp-4) var(--sp-5); box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.kpi .num{ font-family:var(--font-display); font-size:2rem; color:var(--navy-dark); }
+.kpi .lbl{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--bronze); margin-top:var(--sp-1); }
+
+table.data{ background:var(--white); border-radius:4px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+table.data th{ background:var(--navy-dark); color:var(--sand); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; text-align:left; padding:.7rem .9rem; }
+table.data td{ padding:.7rem .9rem; border-top:1px solid #eee; font-size:.85rem; }
+table.data tr:hover td{ background:#faf8f3; }
+.badge{ display:inline-flex; padding:.2rem .6rem; border-radius:20px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.04em; }
+.badge-ok{ background:#e3efe0; color:#2f6b2a; }
+.badge-warn{ background:#fbeecb; color:#8a6100; }
+.badge-off{ background:#eee; color:#777; }
+.status-msg{ font-family:var(--font-mono); font-size:.78rem; color:var(--bronze); margin-top:var(--sp-3); }
+
+/* ---------- Modal ---------- */
+.modal-overlay{ position:fixed; inset:0; background:rgba(21,26,30,0.6); z-index:500; display:none; align-items:flex-start; justify-content:center; overflow-y:auto; padding:var(--sp-6) var(--sp-4); }
+.modal-overlay.is-open{ display:flex; }
+.modal{ background:var(--white); border-radius:4px; padding:var(--sp-6); max-width:640px; width:100%; }
+.modal h3{ font-family:var(--font-display); font-size:1.25rem; color:var(--navy-dark); }
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4); margin-top:var(--sp-5); }
+.form-grid .full{ grid-column:1 / -1; }
+.form-grid label{ display:flex; flex-direction:column; gap:var(--sp-2); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:#666; }
+.form-grid input, .form-grid select, .form-grid textarea{ font-family:var(--font-body); padding:.6rem .8rem; border:1px solid #ccc; border-radius:3px; }
+.modal-actions{ margin-top:var(--sp-5); display:flex; gap:var(--sp-3); justify-content:flex-end; }
+
+.inline-form{ display:flex; gap:var(--sp-3); flex-wrap:wrap; align-items:flex-end; margin-top:var(--sp-4); }
+.inline-form label{ display:flex; flex-direction:column; gap:var(--sp-2); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:#666; }
+.inline-form input, .inline-form select{ padding:.6rem .8rem; border:1px solid #ccc; border-radius:3px; }
+
+@media (max-width:900px){
+  .sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
+  .sidebar-nav{ flex-direction:row; }
+  .main{ margin-left:0; padding:var(--sp-4); }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN GATE (token admin) ================= -->
+<div id="login-gate">
+  <div class="box">
+    <h2 style="color:var(--navy-dark);">Panel Lebrero</h2>
+    <p style="margin-top:var(--sp-3); font-size:.9rem; color:#555;">Ingresá el token de administrador para continuar.</p>
+    <input type="password" id="token-input" placeholder="Token de acceso" autocomplete="off">
+    <p class="err" id="token-err"></p>
+    <button class="btn btn-magenta" style="margin-top:var(--sp-4); width:100%; justify-content:center;" id="token-submit">Entrar</button>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo">Lebrero<br>Propiedades</div>
+    <nav class="sidebar-nav" id="nav">
+      <button data-view="dashboard" class="is-active">Dashboard</button>
+      <button data-view="propiedades">Propiedades</button>
+      <button data-view="solicitudes">Solicitudes</button>
+      <button data-view="requerimientos">Requerimientos</button>
+      <button data-view="matches">Matches</button>
+      <button data-view="clientes">Clientes</button>
+      <button data-view="seguimientos">Seguimientos</button>
+    </nav>
+    <div class="sidebar-foot">
+      Token activo
+      <button id="logout-btn">Cambiar token</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="view is-active" id="view-dashboard">
+      <span class="eyebrow">— Panel</span>
+      <h2>Dashboard</h2>
+      <div class="cards-grid" id="dashboard-cards"></div>
+      <p class="status-msg" id="dashboard-status"></p>
+    </section>
+
+    <!-- ============ PROPIEDADES ============ -->
+    <section class="view" id="view-propiedades">
+      <span class="eyebrow">— Inventario</span>
+      <h2>Propiedades</h2>
+      <div class="toolbar">
+        <span class="status-msg" id="propiedades-status"></span>
+        <button class="btn btn-magenta" id="prop-new-btn">+ Nueva propiedad</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data" id="propiedades-table">
+          <thead><tr><th>ID</th><th>Tipo</th><th>Operación</th><th>Localidad / Barrio</th><th>Precio</th><th>Estado</th><th>Match / Publicada</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ SOLICITUDES ============ -->
+    <section class="view" id="view-solicitudes">
+      <span class="eyebrow">— Propietarios</span>
+      <h2>Solicitudes de propietarios</h2>
+      <p class="status-msg" id="solicitudes-status"></p>
+      <div style="overflow-x:auto;">
+        <table class="data" id="solicitudes-table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>WhatsApp</th><th>Propiedad</th><th>Localidad/Barrio</th><th>Estado</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ REQUERIMIENTOS ============ -->
+    <section class="view" id="view-requerimientos">
+      <span class="eyebrow">— Búsquedas de clientes</span>
+      <h2>Requerimientos</h2>
+      <div class="toolbar">
+        <span class="status-msg" id="requerimientos-status"></span>
+        <button class="btn btn-magenta" id="req-new-btn">+ Nuevo requerimiento</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data" id="requerimientos-table">
+          <thead><tr><th>ID</th><th>Cliente</th><th>Tipo</th><th>Operación</th><th>Presupuesto</th><th>Localidad</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ MATCHES ============ -->
+    <section class="view" id="view-matches">
+      <span class="eyebrow">— Motor de match</span>
+      <h2>Matches</h2>
+
+      <div class="card" style="margin-top:var(--sp-5);">
+        <h3>Ver matches de un requerimiento</h3>
+        <div class="inline-form">
+          <label>ID de requerimiento<input type="number" id="match-req-id" min="1"></label>
+          <button class="btn btn-outline btn-sm" id="match-req-btn">Ver matches</button>
+          <button class="btn btn-magenta btn-sm" id="match-recalc-btn">Recalcular</button>
+        </div>
+        <p class="status-msg" id="match-req-status"></p>
+        <div style="overflow-x:auto; margin-top:var(--sp-3);">
+          <table class="data" id="match-req-table"><thead><tr><th>Score</th><th>Propiedad</th><th>Localidad</th><th>Precio</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--sp-5);">
+        <h3>Ver matches de una propiedad</h3>
+        <div class="inline-form">
+          <label>ID de propiedad<input type="number" id="match-prop-id" min="1"></label>
+          <button class="btn btn-outline btn-sm" id="match-prop-btn">Ver matches</button>
+        </div>
+        <p class="status-msg" id="match-prop-status"></p>
+        <div style="overflow-x:auto; margin-top:var(--sp-3);">
+          <table class="data" id="match-prop-table"><thead><tr><th>Score</th><th>Requerimiento</th><th>Cliente</th><th>Presupuesto</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CLIENTES ============ -->
+    <section class="view" id="view-clientes">
+      <span class="eyebrow">— Base de contactos</span>
+      <h2>Clientes</h2>
+      <p class="status-msg">Solo lectura por ahora — falta el endpoint para crear/editar clientes desde el panel.</p>
+      <p class="status-msg" id="clientes-status"></p>
+      <div style="overflow-x:auto;">
+        <table class="data" id="clientes-table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>WhatsApp</th><th>Email</th><th>Tipo</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ SEGUIMIENTOS ============ -->
+    <section class="view" id="view-seguimientos">
+      <span class="eyebrow">— Contactos con matches</span>
+      <h2>Seguimientos</h2>
+      <p class="status-msg">Todavía no hay un endpoint para listar el historial completo — esto solo permite registrar un contacto nuevo sobre un match.</p>
+      <div class="card" style="margin-top:var(--sp-4); max-width:480px;">
+        <div class="form-grid">
+          <label class="full">ID de match<input type="number" id="seg-match-id" min="1"></label>
+          <label class="full">Comentario<textarea id="seg-comentario" rows="3"></textarea></label>
+        </div>
+        <div class="modal-actions" style="justify-content:flex-start; margin-top:var(--sp-4);">
+          <button class="btn btn-magenta btn-sm" id="seg-submit-btn">Registrar contacto</button>
+        </div>
+        <p class="status-msg" id="seg-status"></p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= MODAL: Propiedad (alta/edición) ================= -->
+<div class="modal-overlay" id="prop-modal-overlay">
+  <div class="modal">
+    <h3 id="prop-modal-title">Nueva propiedad</h3>
+    <form id="prop-form">
+      <input type="hidden" id="p-id">
+      <div class="form-grid">
+        <label>Tipo<select id="p-tipo"><option value="casa">Casa</option><option value="departamento">Departamento</option><option value="local">Local</option><option value="terreno">Terreno</option></select></label>
+        <label>Operación<select id="p-operacion"><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option></select></label>
+        <label>Localidad<input type="text" id="p-localidad"></label>
+        <label>Barrio<input type="text" id="p-barrio"></label>
+        <label class="full">Dirección<input type="text" id="p-direccion"></label>
+        <label>Precio<input type="number" id="p-precio" min="0"></label>
+        <label>Moneda<select id="p-moneda"><option value="USD">USD</option><option value="ARS">ARS</option></select></label>
+        <label>Dormitorios<input type="number" id="p-dormitorios" min="0"></label>
+        <label>Baños<input type="number" id="p-banos" min="0"></label>
+        <label>Garage<input type="number" id="p-garage" min="0"></label>
+        <label>Superficie (m²)<input type="number" id="p-superficie" min="0"></label>
+        <label>Estado comercial<select id="p-estado"><option value="Disponible">Disponible</option><option value="Reservado">Reservado</option><option value="Vendido">Vendido</option><option value="Alquilado">Alquilado</option></select></label>
+        <label>¿Publicada en la web?<select id="p-publicada"><option value="true">Sí</option><option value="false">No</option></select></label>
+        <label class="full">Observaciones<textarea id="p-observaciones" rows="3"></textarea></label>
+      </div>
+      <p class="status-msg" id="prop-modal-status"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="prop-modal-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-magenta btn-sm">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= MODAL: Requerimiento (alta) ================= -->
+<div class="modal-overlay" id="req-modal-overlay">
+  <div class="modal">
+    <h3>Nuevo requerimiento</h3>
+    <form id="req-form">
+      <div class="form-grid">
+        <label>ID de cliente existente<input type="number" id="r-cliente-id" min="1" required></label>
+        <label>Operación<select id="r-operacion"><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option></select></label>
+        <label class="full">Tipo de propiedad (separado por coma)<input type="text" id="r-tipo" placeholder="casa, departamento"></label>
+        <label>Presupuesto mín.<input type="number" id="r-presupuesto-min" min="0"></label>
+        <label>Presupuesto máx.<input type="number" id="r-presupuesto-max" min="0"></label>
+        <label>Moneda<select id="r-moneda"><option value="USD">USD</option><option value="ARS">ARS</option></select></label>
+        <label>Localidad<input type="text" id="r-localidad"></label>
+        <label class="full">Zonas/barrios (separado por coma)<input type="text" id="r-zonas"></label>
+        <label>Dormitorios mín.<input type="number" id="r-dormitorios-min" min="0"></label>
+        <label>Baños mín.<input type="number" id="r-banos-min" min="0"></label>
+      </div>
+      <p class="status-msg" id="req-modal-status"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="req-modal-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-magenta btn-sm">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var API = "https://lebrero-web-publica.onrender.com/api";
+  var TOKEN = null;
+
+  /* ---------- Login gate ---------- */
+  var gate = document.getElementById("login-gate");
+  var tokenInput = document.getElementById("token-input");
+  var tokenErr = document.getElementById("token-err");
+
+  function boot(){
+    gate.classList.add("is-hidden");
+    loadView("dashboard");
+  }
+
+  var saved = localStorage.getItem("lebrero_admin_token");
+  if (saved) {
+    TOKEN = saved;
+    // valida el token con un pedido liviano antes de dar acceso
+    fetch(API + "/dashboard", { headers:{ "x-admin-token": TOKEN } })
+      .then(function(res){ if(res.ok) boot(); else { localStorage.removeItem("lebrero_admin_token"); TOKEN=null; } })
+      .catch(function(){ boot(); }); // si falla por red, igual entra; los pedidos de cada vista van a mostrar el error puntual
+  }
+
+  document.getElementById("token-submit").addEventListener("click", function(){
+    var val = tokenInput.value.trim();
+    if (!val) { tokenErr.textContent = "Ingresá un token."; return; }
+    TOKEN = val;
+    tokenErr.textContent = "Verificando...";
+    fetch(API + "/dashboard", { headers:{ "x-admin-token": TOKEN } })
+      .then(function(res){
+        if (res.status === 401 || res.status === 403) { tokenErr.textContent = "Token incorrecto."; TOKEN = null; return; }
+        localStorage.setItem("lebrero_admin_token", val);
+        boot();
+      })
+      .catch(function(){ tokenErr.textContent = "No se pudo conectar con el servidor."; });
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", function(){
+    localStorage.removeItem("lebrero_admin_token");
+    location.reload();
+  });
+
+  /* ---------- Fetch helper ---------- */
+  function apiFetch(path, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({ "x-admin-token": TOKEN, "Content-Type": "application/json" }, opts.headers || {});
+    return fetch(API + path, opts).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        if (!res.ok) throw new Error(data.error || "Error de servidor (" + res.status + ")");
+        return data;
+      });
+    });
+  }
+
+  /* ---------- Navegación entre vistas ---------- */
+  var navButtons = document.querySelectorAll(".sidebar-nav button");
+  var views = document.querySelectorAll(".view");
+  var loaders = {
+    dashboard: loadDashboard,
+    propiedades: loadPropiedades,
+    solicitudes: loadSolicitudes,
+    requerimientos: loadRequerimientos,
+    clientes: loadClientes
+  };
+  function loadView(name){
+    navButtons.forEach(function(b){ b.classList.toggle("is-active", b.getAttribute("data-view") === name); });
+    views.forEach(function(v){ v.classList.toggle("is-active", v.id === "view-" + name); });
+    if (loaders[name]) loaders[name]();
+  }
+  navButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){ loadView(btn.getAttribute("data-view")); });
+  });
+
+  /* ---------- Dashboard ---------- */
+  function loadDashboard(){
+    var wrap = document.getElementById("dashboard-cards");
+    var status = document.getElementById("dashboard-status");
+    status.textContent = "Cargando...";
+    apiFetch("/dashboard").then(function(data){
+      status.textContent = "";
+      wrap.innerHTML = "";
+      Object.keys(data).forEach(function(key){
+        var val = data[key];
+        var display = (typeof val === "number") ? val : (Array.isArray(val) ? val.length : JSON.stringify(val));
+        var div = document.createElement("div");
+        div.className = "kpi";
+        div.innerHTML = '<div class="num">' + display + '</div><div class="lbl">' + key.replace(/_/g," ") + '</div>';
+        wrap.appendChild(div);
+      });
+      if (!Object.keys(data).length) status.textContent = "Sin datos.";
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+
+  /* ---------- Propiedades ---------- */
+  function badgeEstado(v){
+    if (!v) return "";
+    var cls = (v === "Disponible") ? "badge-ok" : (v === "Reservado" ? "badge-warn" : "badge-off");
+    return '<span class="badge ' + cls + '">' + v + '</span>';
+  }
+  function loadPropiedades(){
+    var tbody = document.querySelector("#propiedades-table tbody");
+    var status = document.getElementById("propiedades-status");
+    status.textContent = "Cargando...";
+    apiFetch("/properties").then(function(data){
+      status.textContent = data.length + " propiedades.";
+      tbody.innerHTML = "";
+      data.forEach(function(p){
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + p.id + "</td>" +
+          "<td>" + (p.tipo_propiedad||"") + "</td>" +
+          "<td>" + (p.operacion||"") + "</td>" +
+          "<td>" + (p.localidad||"") + (p.barrio ? " / " + p.barrio : "") + "</td>" +
+          "<td>" + (p.moneda||"") + " " + (p.precio!=null ? Number(p.precio).toLocaleString("es-AR") : "-") + "</td>" +
+          "<td>" + badgeEstado(p.estado_comercial) + "</td>" +
+          "<td>" + (p.activo_match ? "Match ON" : "Match OFF") + " / " + (p.publicada ? "Publicada" : "Oculta") + "</td>" +
+          '<td><button class="btn btn-outline btn-sm" data-edit="' + p.id + '">Editar</button></td>';
+        tbody.appendChild(tr);
+      });
+      tbody.querySelectorAll("[data-edit]").forEach(function(btn){
+        btn.addEventListener("click", function(){ openPropModal(data.find(function(p){ return String(p.id) === btn.getAttribute("data-edit"); })); });
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+
+  var propModal = document.getElementById("prop-modal-overlay");
+  function openPropModal(p){
+    p = p || {};
+    document.getElementById("prop-modal-title").textContent = p.id ? ("Editar propiedad #" + p.id) : "Nueva propiedad";
+    document.getElementById("p-id").value = p.id || "";
+    document.getElementById("p-tipo").value = p.tipo_propiedad || "casa";
+    document.getElementById("p-operacion").value = p.operacion || "Venta";
+    document.getElementById("p-localidad").value = p.localidad || "";
+    document.getElementById("p-barrio").value = p.barrio || "";
+    document.getElementById("p-direccion").value = p.direccion || "";
+    document.getElementById("p-precio").value = p.precio != null ? p.precio : "";
+    document.getElementById("p-moneda").value = p.moneda || "USD";
+    document.getElementById("p-dormitorios").value = p.dormitorios != null ? p.dormitorios : "";
+    document.getElementById("p-banos").value = p.banos != null ? p.banos : "";
+    document.getElementById("p-garage").value = p.garage != null ? p.garage : "";
+    document.getElementById("p-superficie").value = p.superficie != null ? p.superficie : "";
+    document.getElementById("p-estado").value = p.estado_comercial || "Disponible";
+    document.getElementById("p-publicada").value = String(p.publicada !== false);
+    document.getElementById("p-observaciones").value = p.observaciones || "";
+    document.getElementById("prop-modal-status").textContent = "";
+    propModal.classList.add("is-open");
+  }
+  document.getElementById("prop-new-btn").addEventListener("click", function(){ openPropModal(); });
+  document.getElementById("prop-modal-cancel").addEventListener("click", function(){ propModal.classList.remove("is-open"); });
+  document.getElementById("prop-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var id = document.getElementById("p-id").value;
+    var body = {
+      tipo_propiedad: document.getElementById("p-tipo").value,
+      operacion: document.getElementById("p-operacion").value,
+      localidad: document.getElementById("p-localidad").value.trim() || undefined,
+      barrio: document.getElementById("p-barrio").value.trim() || undefined,
+      direccion: document.getElementById("p-direccion").value.trim() || undefined,
+      precio: document.getElementById("p-precio").value ? Number(document.getElementById("p-precio").value) : undefined,
+      moneda: document.getElementById("p-moneda").value,
+      dormitorios: document.getElementById("p-dormitorios").value ? Number(document.getElementById("p-dormitorios").value) : undefined,
+      banos: document.getElementById("p-banos").value ? Number(document.getElementById("p-banos").value) : undefined,
+      garage: document.getElementById("p-garage").value ? Number(document.getElementById("p-garage").value) : undefined,
+      superficie: document.getElementById("p-superficie").value ? Number(document.getElementById("p-superficie").value) : undefined,
+      estado_comercial: document.getElementById("p-estado").value,
+      publicada: document.getElementById("p-publicada").value === "true",
+      observaciones: document.getElementById("p-observaciones").value.trim() || undefined
+    };
+    var statusEl = document.getElementById("prop-modal-status");
+    statusEl.textContent = "Guardando...";
+    var req = id ? apiFetch("/properties/" + id, { method:"PUT", body:JSON.stringify(body) })
+                 : apiFetch("/properties", { method:"POST", body:JSON.stringify(body) });
+    req.then(function(){
+      propModal.classList.remove("is-open");
+      loadPropiedades();
+    }).catch(function(e){ statusEl.textContent = "Error: " + e.message; });
+  });
+
+  /* ---------- Solicitudes ---------- */
+  function loadSolicitudes(){
+    var tbody = document.querySelector("#solicitudes-table tbody");
+    var status = document.getElementById("solicitudes-status");
+    status.textContent = "Cargando...";
+    apiFetch("/property-requests").then(function(data){
+      status.textContent = data.length + " solicitudes.";
+      tbody.innerHTML = "";
+      data.forEach(function(s){
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + s.id + "</td>" +
+          "<td>" + (s.nombre||"") + "</td>" +
+          "<td>" + (s.whatsapp||"") + "</td>" +
+          "<td>" + (s.tipo_propiedad||"") + " · " + (s.operacion||"") + "</td>" +
+          "<td>" + (s.localidad||"") + (s.barrio ? " / "+s.barrio : "") + "</td>" +
+          "<td>" + (s.estado||"") + "</td>" +
+          '<td>' + (s.estado === "PENDIENTE_REVISION" ?
+            '<button class="btn btn-green btn-sm" data-ok="'+s.id+'">Aprobar</button> <button class="btn btn-red btn-sm" data-no="'+s.id+'">Rechazar</button>' : '') +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+      tbody.querySelectorAll("[data-ok]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          apiFetch("/property-requests/" + btn.getAttribute("data-ok") + "/approve", { method:"POST" })
+            .then(loadSolicitudes).catch(function(e){ alert("Error: " + e.message); });
+        });
+      });
+      tbody.querySelectorAll("[data-no]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          apiFetch("/property-requests/" + btn.getAttribute("data-no") + "/reject", { method:"POST" })
+            .then(loadSolicitudes).catch(function(e){ alert("Error: " + e.message); });
+        });
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+
+  /* ---------- Requerimientos ---------- */
+  function loadRequerimientos(){
+    var tbody = document.querySelector("#requerimientos-table tbody");
+    var status = document.getElementById("requerimientos-status");
+    status.textContent = "Cargando...";
+    apiFetch("/requirements").then(function(data){
+      status.textContent = data.length + " requerimientos.";
+      tbody.innerHTML = "";
+      data.forEach(function(r){
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + r.id + "</td>" +
+          "<td>" + (r.cliente_id!=null ? r.cliente_id : "") + "</td>" +
+          "<td>" + (Array.isArray(r.tipo_propiedad) ? r.tipo_propiedad.join(", ") : (r.tipo_propiedad||"")) + "</td>" +
+          "<td>" + (r.operacion||"") + "</td>" +
+          "<td>" + (r.moneda||"") + " " + (r.presupuesto_min||0) + " - " + (r.presupuesto_max||"") + "</td>" +
+          "<td>" + (r.localidad||"") + "</td>" +
+          '<td><button class="btn btn-outline btn-sm" data-match="'+r.id+'">Ver matches</button></td>';
+        tbody.appendChild(tr);
+      });
+      tbody.querySelectorAll("[data-match]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          document.getElementById("match-req-id").value = btn.getAttribute("data-match");
+          loadView("matches");
+          buscarMatchesRequerimiento();
+        });
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+
+  var reqModal = document.getElementById("req-modal-overlay");
+  document.getElementById("req-new-btn").addEventListener("click", function(){
+    document.getElementById("req-form").reset();
+    document.getElementById("req-modal-status").textContent = "";
+    reqModal.classList.add("is-open");
+  });
+  document.getElementById("req-modal-cancel").addEventListener("click", function(){ reqModal.classList.remove("is-open"); });
+  document.getElementById("req-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var tipos = document.getElementById("r-tipo").value.split(",").map(function(s){ return s.trim(); }).filter(Boolean);
+    var zonas = document.getElementById("r-zonas").value.split(",").map(function(s){ return s.trim(); }).filter(Boolean);
+    var body = {
+      cliente_id: Number(document.getElementById("r-cliente-id").value),
+      operacion: document.getElementById("r-operacion").value,
+      tipo_propiedad: tipos.length ? tipos : undefined,
+      presupuesto_min: document.getElementById("r-presupuesto-min").value ? Number(document.getElementById("r-presupuesto-min").value) : undefined,
+      presupuesto_max: document.getElementById("r-presupuesto-max").value ? Number(document.getElementById("r-presupuesto-max").value) : undefined,
+      moneda: document.getElementById("r-moneda").value,
+      localidad: document.getElementById("r-localidad").value.trim() || undefined,
+      zonas: zonas.length ? zonas : undefined,
+      dormitorios_min: document.getElementById("r-dormitorios-min").value ? Number(document.getElementById("r-dormitorios-min").value) : undefined,
+      banos_min: document.getElementById("r-banos-min").value ? Number(document.getElementById("r-banos-min").value) : undefined
+    };
+    var statusEl = document.getElementById("req-modal-status");
+    statusEl.textContent = "Guardando...";
+    apiFetch("/requirements", { method:"POST", body:JSON.stringify(body) })
+      .then(function(){ reqModal.classList.remove("is-open"); loadRequerimientos(); })
+      .catch(function(e){ statusEl.textContent = "Error: " + e.message; });
+  });
+
+  /* ---------- Matches ---------- */
+  function buscarMatchesRequerimiento(){
+    var id = document.getElementById("match-req-id").value;
+    var status = document.getElementById("match-req-status");
+    var tbody = document.querySelector("#match-req-table tbody");
+    if (!id) { status.textContent = "Ingresá un ID de requerimiento."; return; }
+    status.textContent = "Buscando...";
+    apiFetch("/matches/requirement/" + id).then(function(data){
+      status.textContent = data.length + " match(es).";
+      tbody.innerHTML = "";
+      data.forEach(function(m){
+        var p = m.property || m;
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + Math.round(m.score||0) + "%</td><td>" + (p.tipo_propiedad||"") + " #" + (p.id||"") + "</td><td>" + (p.localidad||"") + "</td><td>" + (p.moneda||"") + " " + (p.precio||"") + "</td>";
+        tbody.appendChild(tr);
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+  document.getElementById("match-req-btn").addEventListener("click", buscarMatchesRequerimiento);
+  document.getElementById("match-recalc-btn").addEventListener("click", function(){
+    var id = document.getElementById("match-req-id").value;
+    var status = document.getElementById("match-req-status");
+    if (!id) { status.textContent = "Ingresá un ID de requerimiento."; return; }
+    status.textContent = "Recalculando...";
+    apiFetch("/matches/recalculate", { method:"POST", body:JSON.stringify({ requirement_id:Number(id) }) })
+      .then(function(){ status.textContent = "Recalculado."; buscarMatchesRequerimiento(); })
+      .catch(function(e){ status.textContent = "Error: " + e.message; });
+  });
+
+  document.getElementById("match-prop-btn").addEventListener("click", function(){
+    var id = document.getElementById("match-prop-id").value;
+    var status = document.getElementById("match-prop-status");
+    var tbody = document.querySelector("#match-prop-table tbody");
+    if (!id) { status.textContent = "Ingresá un ID de propiedad."; return; }
+    status.textContent = "Buscando...";
+    apiFetch("/matches/property/" + id).then(function(data){
+      status.textContent = data.length + " match(es).";
+      tbody.innerHTML = "";
+      data.forEach(function(m){
+        var r = m.requirement || m;
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + Math.round(m.score||0) + "%</td><td>#" + (r.id||"") + "</td><td>" + (r.cliente_id!=null ? r.cliente_id : "") + "</td><td>" + (r.moneda||"") + " " + (r.presupuesto_max||"") + "</td>";
+        tbody.appendChild(tr);
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  });
+
+  /* ---------- Clientes (solo lectura) ---------- */
+  function loadClientes(){
+    var tbody = document.querySelector("#clientes-table tbody");
+    var status = document.getElementById("clientes-status");
+    status.textContent = "Cargando...";
+    apiFetch("/clients").then(function(data){
+      status.textContent = data.length + " clientes.";
+      tbody.innerHTML = "";
+      data.forEach(function(c){
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + c.id + "</td><td>" + (c.nombre||"") + "</td><td>" + (c.whatsapp||"") + "</td><td>" + (c.email||"") + "</td><td>" + (c.tipo||"") + "</td>";
+        tbody.appendChild(tr);
+      });
+    }).catch(function(e){ status.textContent = "Error: " + e.message; });
+  }
+
+  /* ---------- Seguimientos (registrar contacto) ---------- */
+  document.getElementById("seg-submit-btn").addEventListener("click", function(){
+    var id = document.getElementById("seg-match-id").value;
+    var comentario = document.getElementById("seg-comentario").value.trim();
+    var status = document.getElementById("seg-status");
+    if (!id) { status.textContent = "Ingresá un ID de match."; return; }
+    status.textContent = "Registrando...";
+    apiFetch("/matches/" + id + "/contact", { method:"POST", body:JSON.stringify({ comentario: comentario || undefined }) })
+      .then(function(){
+        status.textContent = "Contacto registrado.";
+        document.getElementById("seg-comentario").value = "";
+      })
+      .catch(function(e){ status.textContent = "Error: " + e.message; });
+  });
+
+})();
+</script>
+</body>
+</html>
