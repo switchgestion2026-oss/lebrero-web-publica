@@ -219,7 +219,7 @@ section{ padding-block:var(--sp-8); }
 .typologies-head p{ color:rgba(231,215,184,0.7); margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; }
 .typ-grid{ display:grid; gap:var(--sp-7); align-items:center; }
 
-.filter-type-group{ display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-5); }
+.filter-type-group{ display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-4); max-width:640px; }
 .filter-type-btn{
   display:flex; flex-direction:row; align-items:center; gap:var(--sp-2);
   padding:0.6rem 1.2rem; background:transparent; border:1px solid var(--bronze); border-radius:999px;
@@ -229,7 +229,19 @@ section{ padding-block:var(--sp-8); }
 .filter-type-btn svg{ width:16px; height:16px; }
 .filter-type-btn:hover{ border-color:var(--sand); color:var(--sand); }
 .filter-type-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
-.filter-op-group{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); max-width:420px; }
+.filter-op-group{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); max-width:640px; }
+.search-group-label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--bronze); display:block; margin-bottom:var(--sp-3); }
+.search-panel{
+  margin-top:var(--sp-6); max-width:640px; padding:var(--sp-6);
+  border:1px solid rgba(231,215,184,0.15); border-radius:4px; background:rgba(231,215,184,0.03);
+  display:flex; flex-direction:column; gap:var(--sp-5);
+}
+.search-panel .search-fields{ margin-top:0; }
+.search-panel .filter-dorm-group{ margin-top:0; max-width:none; }
+.search-panel .more-filters{ margin-top:0; }
+.search-panel .search-actions{ margin-top:0; flex-direction:column; align-items:stretch; gap:var(--sp-3); }
+.search-panel .search-actions #search-btn{ width:100%; justify-content:center; }
+.search-panel .search-actions .search-status{ text-align:center; }
 .filter-op-btn, .filter-dorm-btn{
   padding:0.9rem 1.4rem; border:1px solid var(--bronze); border-radius:2px; background:transparent;
   color:rgba(231,215,184,0.8); font-family:var(--font-body); font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
@@ -629,6 +641,7 @@ section{ padding-block:var(--sp-8); }
         <button class="filter-op-btn" data-op="alquiler" aria-pressed="false">Alquiler</button>
       </div>
 
+      <span class="search-group-label">Tipo de propiedad</span>
       <div class="filter-type-group" role="group" aria-label="Tipo de propiedad" data-reveal="up">
         <button class="filter-type-btn" data-filter="todas" aria-pressed="true">
           <span>Todas</span>
@@ -651,53 +664,67 @@ section{ padding-block:var(--sp-8); }
         </button>
       </div>
 
-      <div class="search-fields" data-reveal="up">
-        <div class="field">
-          <label for="f-localidad">Localidad</label>
-          <select id="f-localidad" name="localidad">
-            <option value="">Todas</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-moneda">Moneda</label>
-          <select id="f-moneda" name="moneda">
-            <option value="USD">USD</option>
-            <option value="ARS">ARS</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="f-presupuesto-min">Desde</label>
-          <input type="number" id="f-presupuesto-min" name="presupuesto_min" min="0" placeholder="Ej: 20000">
-        </div>
-        <div class="field">
-          <label for="f-presupuesto">Hasta</label>
-          <input type="number" id="f-presupuesto" name="presupuesto" min="0" placeholder="Ej: 80000">
-        </div>
-      </div>
-
-      <div class="filter-dorm-group" role="group" aria-label="Dormitorios mínimos" data-reveal="up">
-        <button class="filter-dorm-btn" data-dorm="1" aria-pressed="false">1</button>
-        <button class="filter-dorm-btn" data-dorm="2" aria-pressed="false">2</button>
-        <button class="filter-dorm-btn" data-dorm="3" aria-pressed="false">3</button>
-        <button class="filter-dorm-btn" data-dorm="4" aria-pressed="false">4+</button>
-      </div>
-
-      <details class="more-filters" data-reveal="up">
-        <summary>+ Más filtros</summary>
-        <div class="search-fields" style="margin-top:var(--sp-4);">
+      <div class="search-panel" data-reveal="up">
+        <div class="search-fields">
           <div class="field">
-            <label for="f-zona">Barrio / zona</label>
-            <select id="f-zona" name="zona" multiple size="6">
-              <option value="" selected>Todos</option>
+            <label for="f-localidad">Localidad</label>
+            <select id="f-localidad" name="localidad">
+              <option value="">Todas</option>
             </select>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; color:rgba(231,215,184,0.5);">Mantené Ctrl (Cmd en Mac) para elegir varios</span>
+          </div>
+          <div class="field">
+            <label for="f-moneda">Moneda</label>
+            <select id="f-moneda" name="moneda">
+              <option value="USD">USD</option>
+              <option value="ARS">ARS</option>
+            </select>
           </div>
         </div>
-      </details>
 
-      <div class="search-actions">
-        <button type="button" class="btn btn-magenta" id="search-btn">Buscar propiedades</button>
-        <span class="search-status" id="search-status"></span>
+        <div>
+          <span class="search-group-label">Precio</span>
+          <div class="search-fields">
+            <div class="field">
+              <label for="f-presupuesto-min">Desde</label>
+              <input type="number" id="f-presupuesto-min" name="presupuesto_min" min="0" placeholder="Ej: 20000">
+            </div>
+            <div class="field">
+              <label for="f-presupuesto">Hasta</label>
+              <input type="number" id="f-presupuesto" name="presupuesto" min="0" placeholder="Ej: 80000">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="search-group-label">Dormitorios</span>
+          <div class="filter-dorm-group" role="group" aria-label="Dormitorios mínimos">
+            <button class="filter-dorm-btn" data-dorm="1" aria-pressed="false">1</button>
+            <button class="filter-dorm-btn" data-dorm="2" aria-pressed="false">2</button>
+            <button class="filter-dorm-btn" data-dorm="3" aria-pressed="false">3</button>
+            <button class="filter-dorm-btn" data-dorm="4" aria-pressed="false">4+</button>
+          </div>
+        </div>
+
+        <details class="more-filters">
+          <summary>+ Más filtros</summary>
+          <div class="search-fields" style="margin-top:var(--sp-4);">
+            <div class="field">
+              <label for="f-zona">Barrio / zona</label>
+              <select id="f-zona" name="zona" multiple size="6">
+                <option value="" selected>Todos</option>
+              </select>
+              <span style="font-family:var(--font-mono); font-size:0.65rem; color:rgba(231,215,184,0.5);">Mantené Ctrl (Cmd en Mac) para elegir varios</span>
+            </div>
+          </div>
+        </details>
+
+        <div class="search-actions">
+          <button type="button" class="btn btn-magenta" id="search-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Buscar propiedades
+          </button>
+          <span class="search-status" id="search-status"></span>
+        </div>
       </div>
 
       <div id="search-results"></div>
