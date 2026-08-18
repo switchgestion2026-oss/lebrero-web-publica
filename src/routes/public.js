@@ -54,7 +54,17 @@ router.post('/search', async (req, res) => {
     const propsPorZona = zonasFiltro.length
       ? propsPorLocalidad.filter((prop) => zonasFiltro.includes(prop.barrio))
       : propsPorLocalidad;
-    const results = propsPorZona
+    const propsPorPrecio = (filtroReq.presupuesto_min > 0 || filtroReq.presupuesto_max > 0)
+      ? propsPorZona.filter((prop) => {
+          const mismaMoneda = !prop.moneda || !filtroReq.moneda || prop.moneda === filtroReq.moneda;
+          if (!mismaMoneda) return true;
+          const precio = Number(prop.precio);
+          if (filtroReq.presupuesto_min > 0 && precio < filtroReq.presupuesto_min) return false;
+          if (filtroReq.presupuesto_max > 0 && precio > filtroReq.presupuesto_max) return false;
+          return true;
+        })
+      : propsPorZona;
+    const results = propsPorPrecio
       .map((prop) => {
         const s = matchEngine.calcScore(prop, filtroReq);
         return { property: prop, score: s.total };
