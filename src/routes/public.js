@@ -47,7 +47,14 @@ router.post('/search', async (req, res) => {
     const propsFiltradas = tipoFiltro.length
       ? propsRes.rows.filter((prop) => tipoFiltro.includes(prop.tipo))
       : propsRes.rows;
-    const results = propsFiltradas
+    const propsPorLocalidad = (!filtroReq.todas_localidades && filtroReq.localidad)
+      ? propsFiltradas.filter((prop) => (prop.localidad || '').trim().toLowerCase() === filtroReq.localidad.trim().toLowerCase())
+      : propsFiltradas;
+    const zonasFiltro = filtroReq.zonas || [];
+    const propsPorZona = zonasFiltro.length
+      ? propsPorLocalidad.filter((prop) => zonasFiltro.includes(prop.barrio))
+      : propsPorLocalidad;
+    const results = propsPorZona
       .map((prop) => {
         const s = matchEngine.calcScore(prop, filtroReq);
         return { property: prop, score: s.total };
