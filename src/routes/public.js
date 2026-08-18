@@ -43,7 +43,11 @@ router.post('/search', async (req, res) => {
   const filtroReq = { ...req.body, estado: 'ACTIVO' };
   try {
     const propsRes = await pool.query('SELECT * FROM properties WHERE activo_match = true AND publicada = true');
-    const results = propsRes.rows
+    const tipoFiltro = (filtroReq.tipo_propiedad || []).filter((t) => t && t !== 'Cualquiera');
+    const propsFiltradas = tipoFiltro.length
+      ? propsRes.rows.filter((prop) => tipoFiltro.includes(prop.tipo))
+      : propsRes.rows;
+    const results = propsFiltradas
       .map((prop) => {
         const s = matchEngine.calcScore(prop, filtroReq);
         return { property: prop, score: s.total };
