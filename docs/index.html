@@ -937,9 +937,9 @@ section{ padding-block:var(--sp-8); }
 
   function tipoSeleccionado(){
     var pressed = document.querySelector(".filter-type-btn[aria-pressed='true']");
-    var map = { casas: "casa", departamentos: "departamento", locales: "local", terrenos: "terreno" };
+    var map = { casas: "Casa", departamentos: "Departamento", locales: "Local", terrenos: "Lote" };
     var key = pressed ? pressed.getAttribute("data-filter") : "casas";
-    return map[key] || "casa";
+    return map[key] || "Casa";
   }
   function operacionSeleccionada(){
     var pressed = document.querySelector(".filter-op-btn[aria-pressed='true']");
@@ -966,7 +966,7 @@ section{ padding-block:var(--sp-8); }
       card.className = "result-card";
       card.innerHTML =
         '<span class="result-match">' + score + '% match</span>' +
-        '<div class="result-title">' + (p.tipo_propiedad || "Propiedad") + ' en ' + (p.barrio || p.localidad || "") + '</div>' +
+        '<div class="result-title">' + (p.tipo || "Propiedad") + ' en ' + (p.barrio || p.localidad || "") + '</div>' +
         '<div class="result-meta">' + (p.localidad || "") + (p.dormitorios ? " · " + p.dormitorios + " dorm." : "") + (p.banos ? " · " + p.banos + " baños" : "") + '</div>' +
         '<div class="result-price">' + fmtPrecio(p.precio, p.moneda) + '</div>';
       searchResults.appendChild(card);
