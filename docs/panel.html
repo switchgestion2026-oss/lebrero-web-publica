@@ -300,6 +300,13 @@ table.data tr:hover td{ background:#faf8f3; }
         <label>Superficie (m²)<input type="number" id="p-superficie" min="0"></label>
         <label>Estado comercial<select id="p-estado"><option value="Disponible">Disponible</option><option value="Reservado">Reservado</option><option value="Vendido">Vendido</option><option value="Alquilado">Alquilado</option></select></label>
         <label>¿Publicada en la web?<select id="p-publicada"><option value="true">Sí</option><option value="false">No</option></select></label>
+        <label class="full">Fotos (una URL por línea)<textarea id="p-fotos" rows="3" placeholder="https://..."></textarea></label>
+        <label class="full">
+          Fotos
+          <input type="file" id="p-fotos-input" accept="image/*" multiple style="margin-bottom:8px;">
+          <span class="status-msg" id="p-fotos-status"></span>
+          <textarea id="p-fotos" rows="3" placeholder="Las fotos que subís aparecen acá solas. También podés pegar un link a mano."></textarea>
+        </label>
         <label class="full">Observaciones<textarea id="p-observaciones" rows="3"></textarea></label>
       </div>
       <p class="status-msg" id="prop-modal-status"></p>
@@ -465,6 +472,39 @@ table.data tr:hover td{ background:#faf8f3; }
     }).catch(function(e){ status.textContent = "Error: " + e.message; });
   }
 
+  var CLOUDINARY_CLOUD = "refhunwx";
+  var CLOUDINARY_PRESET = "panel_fotos";
+  function subirFotoACloudinary(file){
+    var fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", CLOUDINARY_PRESET);
+    return fetch("https://api.cloudinary.com/v1_1/" + CLOUDINARY_CLOUD + "/image/upload", { method:"POST", body:fd })
+      .then(function(res){ if(!res.ok) throw new Error("Error subiendo imagen"); return res.json(); })
+      .then(function(data){ return data.secure_url; });
+  }
+  var fotosInput = document.getElementById("p-fotos-input");
+  var fotosStatus = document.getElementById("p-fotos-status");
+  var fotosTextarea = document.getElementById("p-fotos");
+  fotosInput.addEventListener("change", function(){
+    var files = Array.prototype.slice.call(fotosInput.files);
+    if (!files.length) return;
+    var subidas = 0;
+    fotosStatus.textContent = "Subiendo 0/" + files.length + "...";
+    var promesas = files.map(function(file){
+      return subirFotoACloudinary(file)
+        .then(function(url){ subidas++; fotosStatus.textContent = "Subiendo " + subidas + "/" + files.length + "..."; return url; })
+        .catch(function(){ subidas++; fotosStatus.textContent = "Subiendo " + subidas + "/" + files.length + "..."; return null; });
+    });
+    Promise.all(promesas).then(function(urls){
+      var ok = urls.filter(Boolean);
+      var actuales = fotosTextarea.value.split("\n").map(function(s){ return s.trim(); }).filter(Boolean);
+      fotosTextarea.value = actuales.concat(ok).join("\n");
+      var fallidas = urls.length - ok.length;
+      fotosStatus.textContent = ok.length + " foto(s) subida(s)." + (fallidas ? " " + fallidas + " fallaron." : "");
+      fotosInput.value = "";
+    });
+  });
+
   var propModal = document.getElementById("prop-modal-overlay");
   function openPropModal(p){
     p = p || {};
@@ -483,6 +523,8 @@ table.data tr:hover td{ background:#faf8f3; }
     document.getElementById("p-superficie").value = p.superficie != null ? p.superficie : "";
     document.getElementById("p-estado").value = p.estado_comercial || "Disponible";
     document.getElementById("p-publicada").value = String(p.publicada !== false);
+    document.getElementById("p-fotos").value = Array.isArray(p.fotos) ? p.fotos.join("\n") : "";
+    document.getElementById("p-fotos-status").textContent = "";
     document.getElementById("p-observaciones").value = p.observaciones || "";
     document.getElementById("prop-modal-status").textContent = "";
     propModal.classList.add("is-open");
@@ -506,6 +548,7 @@ table.data tr:hover td{ background:#faf8f3; }
       superficie: document.getElementById("p-superficie").value ? Number(document.getElementById("p-superficie").value) : undefined,
       estado_comercial: document.getElementById("p-estado").value,
       publicada: document.getElementById("p-publicada").value === "true",
+      fotos: document.getElementById("p-fotos").value.split("\n").map(function(s){ return s.trim(); }).filter(Boolean),
       observaciones: document.getElementById("p-observaciones").value.trim() || undefined
     };
     var statusEl = document.getElementById("prop-modal-status");
