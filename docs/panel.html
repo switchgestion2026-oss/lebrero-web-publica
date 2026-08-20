@@ -122,6 +122,35 @@ table.data tr:hover td{ background:#faf8f3; }
 .inline-form label{ display:flex; flex-direction:column; gap:var(--sp-2); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:#666; }
 .inline-form input, .inline-form select{ padding:.6rem .8rem; border:1px solid #ccc; border-radius:3px; }
 
+/* ---------- Carga Propiedad ---------- */
+.pf-layout{ display:flex; gap:var(--sp-5); align-items:flex-start; margin-top:var(--sp-5); }
+.pf-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:var(--sp-4); }
+.pf-side{ width:280px; flex-shrink:0; position:sticky; top:var(--sp-4); }
+.pf-block-hd{ padding:.8rem 1.2rem; border-bottom:1px solid #eee; display:flex; align-items:center; gap:8px; }
+.pf-block-num{ width:22px; height:22px; border-radius:5px; background:var(--magenta); color:#fff; font-size:.7rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pf-block-title{ font-family:var(--font-display); font-size:.95rem; color:var(--navy-dark); }
+.pf-block-sub{ font-family:var(--font-mono); font-size:.68rem; color:var(--bronze); }
+.pf-block-body{ padding:var(--sp-5); }
+.pf-type-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+.pf-type-btn{ display:flex; flex-direction:column; align-items:center; gap:4px; padding:.6rem .5rem; border-radius:6px; border:1.5px solid #ddd; background:#fafafa; cursor:pointer; min-width:64px; font-family:var(--font-mono); font-size:.65rem; color:#666; }
+.pf-type-btn.sel{ border-color:var(--navy); background:#eef1f5; color:var(--navy-dark); font-weight:700; }
+.pf-op-group{ display:flex; gap:8px; }
+.pf-op-btn{ padding:.6rem 1.2rem; border-radius:6px; border:1.5px solid #ddd; background:#fafafa; cursor:pointer; font-size:.8rem; font-weight:600; color:#666; }
+.pf-op-btn.sel{ background:var(--magenta); border-color:var(--magenta); color:#fff; }
+.pf-switch-row{ display:flex; align-items:center; gap:10px; margin-top:var(--sp-4); }
+.pf-switch{ position:relative; width:38px; height:21px; border-radius:11px; background:#ccc; cursor:pointer; flex-shrink:0; transition:background .15s; }
+.pf-switch.on{ background:var(--magenta); }
+.pf-switch-knob{ position:absolute; top:2px; left:2px; width:17px; height:17px; border-radius:50%; background:#fff; transition:left .15s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+.pf-switch.on .pf-switch-knob{ left:19px; }
+.pf-switch-lbl{ font-size:.8rem; color:#444; }
+.pf-chip{ display:inline-flex; align-items:center; gap:5px; padding:.4rem .8rem; border-radius:20px; border:1.5px solid #ddd; background:#fafafa; cursor:pointer; font-size:.75rem; color:#666; }
+.pf-chip.sel{ background:var(--teal); border-color:var(--teal); color:#fff; font-weight:600; }
+.pf-subhd{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--bronze); margin:var(--sp-4) 0 var(--sp-2); }
+.pf-subhd:first-child{ margin-top:0; }
+.pf-sticky-bar{ position:sticky; bottom:0; background:#fff; border-top:1px solid #eee; padding:var(--sp-4) var(--sp-5); margin:0 calc(-1 * var(--sp-5)) calc(-1 * var(--sp-5)); border-radius:0 0 4px 4px; display:flex; align-items:center; gap:10px; box-shadow:0 -2px 8px rgba(0,0,0,.05); z-index:5; }
+.pf-field-err{ border-color:var(--red) !important; }
+.pf-err-msg{ font-size:.7rem; color:var(--red); margin-top:2px; display:none; }
+
 @media (max-width:900px){
   .sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
   .sidebar-nav{ flex-direction:row; }
@@ -148,6 +177,7 @@ table.data tr:hover td{ background:#faf8f3; }
     <nav class="sidebar-nav" id="nav">
       <button data-view="dashboard" class="is-active">Dashboard</button>
       <button data-view="propiedades">Propiedades</button>
+      <button data-view="propForm">+ Carga Propiedad</button>
       <button data-view="solicitudes">Solicitudes</button>
       <button data-view="requerimientos">Requerimientos</button>
       <button data-view="matches">Matches</button>
@@ -183,6 +213,131 @@ table.data tr:hover td{ background:#faf8f3; }
           <thead><tr><th>ID</th><th>Tipo</th><th>Operación</th><th>Localidad / Barrio</th><th>Precio</th><th>Estado</th><th>Match / Publicada</th><th></th></tr></thead>
           <tbody></tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- ============ CARGA PROPIEDAD ============ -->
+    <section class="view" id="view-propForm">
+      <span class="eyebrow">— Carga rápida</span>
+      <h2>Nueva propiedad</h2>
+
+      <div class="pf-layout">
+        <div class="pf-main">
+
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-num">1</span><span class="pf-block-title">Identificación</span></div>
+            <div class="pf-block-body">
+              <div class="pf-subhd">Tipo de propiedad</div>
+              <div class="pf-type-grid" id="pf-tipo-grid"></div>
+              <div class="pf-subhd">Operación</div>
+              <div class="pf-op-group" id="pf-op-grid"></div>
+              <div class="pf-subhd">Estado</div>
+              <select class="fs" id="pf-estado" style="max-width:220px;">
+                <option value="Disponible">Disponible</option>
+                <option value="Reservado">Reservada</option>
+                <option value="Vendido">Vendida</option>
+                <option value="Alquilado">Alquilada</option>
+              </select>
+              <div class="pf-switch-row">
+                <div class="pf-switch on" id="pf-publicada-switch"><div class="pf-switch-knob"></div></div>
+                <span class="pf-switch-lbl">Publicar en la web</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-num">2</span><span class="pf-block-title">Propietario</span></div>
+            <div class="pf-block-body">
+              <label class="fl">Buscar por nombre, DNI o teléfono</label>
+              <input class="fi" type="text" id="pf-cliente-search" placeholder="Escribí para buscar..." autocomplete="off">
+              <div id="pf-cliente-results" style="margin-top:6px;"></div>
+              <div id="pf-cliente-selected" class="status-msg" style="display:none;margin-top:8px;"></div>
+              <button type="button" class="btn btn-outline btn-sm" id="pf-cliente-new-btn" style="margin-top:10px;">+ Crear cliente nuevo</button>
+              <div class="form-grid" id="pf-cliente-new-form" style="display:none;margin-top:10px;">
+                <label>Nombre<input class="fi" type="text" id="pf-cliente-nombre"></label>
+                <label>WhatsApp<input class="fi" type="text" id="pf-cliente-whatsapp"></label>
+                <button type="button" class="btn btn-magenta btn-sm" id="pf-cliente-guardar-btn" style="align-self:flex-end;">Guardar cliente</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-num">3</span><span class="pf-block-title">Ubicación y precio</span></div>
+            <div class="pf-block-body">
+              <div class="form-grid">
+                <label>Localidad
+                  <input class="fi" type="text" id="pf-localidad" list="pf-localidades-list" autocomplete="off">
+                  <datalist id="pf-localidades-list"></datalist>
+                </label>
+                <label>Barrio
+                  <input class="fi" type="text" id="pf-barrio" list="pf-barrios-list" autocomplete="off">
+                  <datalist id="pf-barrios-list"></datalist>
+                </label>
+                <label class="full">Dirección<input class="fi" type="text" id="pf-direccion" placeholder="Calle y número"></label>
+                <label>N° de partida (ARBA)
+                  <div style="display:flex;gap:6px;">
+                    <input class="fi" type="text" id="pf-partida" placeholder="Opcional">
+                    <a href="https://carto.arba.gov.ar/cartoArba/" target="_blank" class="btn btn-outline btn-sm" style="white-space:nowrap;">🔗 Buscar</a>
+                  </div>
+                </label>
+                <label>Precio<input class="fi" type="number" id="pf-precio" min="0"></label>
+                <label>Moneda<select class="fs" id="pf-moneda"><option value="USD">USD</option><option value="ARS">ARS</option></select></label>
+              </div>
+              <div class="pf-switch-row">
+                <div class="pf-switch" id="pf-apto-credito-switch"><div class="pf-switch-knob"></div></div>
+                <span class="pf-switch-lbl">Apto crédito</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-num">4</span><span class="pf-block-title">Características</span></div>
+            <div class="pf-block-body">
+              <div class="pf-subhd">Básicas</div>
+              <div class="form-grid">
+                <label>Ambientes<input class="fi" type="number" id="pf-ambientes" min="0"></label>
+                <label>Dormitorios<input class="fi" type="number" id="pf-dormitorios" min="0"></label>
+                <label>Baños<input class="fi" type="number" id="pf-banos" min="0"></label>
+              </div>
+              <div class="pf-subhd">Superficie</div>
+              <div class="form-grid">
+                <label>Cubierta (m²)<input class="fi" type="number" id="pf-sup-cubierta" min="0"></label>
+                <label>Terreno (m²)<input class="fi" type="number" id="pf-sup-terreno" min="0"></label>
+              </div>
+              <div class="pf-subhd">Estado general</div>
+              <select class="fs" id="pf-estado-general" style="max-width:220px;">
+                <option value="">—</option><option>Excelente</option><option>Muy bueno</option><option>Bueno</option><option>Regular</option><option>A refaccionar</option>
+              </select>
+              <div class="pf-subhd">Amenities</div>
+              <div id="pf-amenities" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+              <button type="button" class="btn-ghost-mono" id="pf-amenities-more" style="margin-top:8px;background:none;border:none;cursor:pointer;font-size:.7rem;"></button>
+              <div class="pf-subhd">Observaciones</div>
+              <textarea class="ft" id="pf-observaciones" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-num">5</span><span class="pf-block-title">Fotos</span></div>
+            <div class="pf-block-body">
+              <input type="file" id="pf-fotos-input" accept="image/*" multiple style="margin-bottom:8px;">
+              <span class="status-msg" id="pf-fotos-status"></span>
+              <div id="pf-fotos-preview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+            </div>
+            <div class="pf-sticky-bar">
+              <p class="status-msg" id="pf-status" style="margin:0;flex:1;"></p>
+              <button type="button" class="btn btn-outline" id="pf-guardar-btn">Guardar</button>
+              <button type="button" class="btn btn-magenta" id="pf-guardar-publicar-btn">Guardar y publicar</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pf-side">
+          <div class="card">
+            <div class="pf-block-hd"><span class="pf-block-title" style="font-size:.85rem;">Resumen</span></div>
+            <div class="pf-block-body" id="pf-resumen" style="font-size:.8rem;color:#555;display:flex;flex-direction:column;gap:6px;"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -528,7 +683,290 @@ table.data tr:hover td{ background:#faf8f3; }
     });
   });
 
+  /* ---------- Carga Propiedad (sección nueva) ---------- */
+  var PF_TIPOS = ["Casa","Departamento","Local","Lote"];
+  var pfState = { tipo:"Casa", operacion:"Venta" };
+
+  var pfTipoGrid = document.getElementById("pf-tipo-grid");
+  if (pfTipoGrid) {
+    pfTipoGrid.innerHTML = PF_TIPOS.map(function(t){
+      return '<button type="button" class="pf-type-btn' + (t===pfState.tipo?' sel':'') + '" data-tipo="' + t + '">' + t + '</button>';
+    }).join("");
+    pfTipoGrid.querySelectorAll("[data-tipo]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        pfState.tipo = btn.getAttribute("data-tipo");
+        pfTipoGrid.querySelectorAll(".pf-type-btn").forEach(function(b){ b.classList.toggle("sel", b===btn); });
+        pfUpdateResumen();
+      });
+    });
+  }
+
+  var PF_OPS = ["Venta","Alquiler"];
+  var pfOpGrid = document.getElementById("pf-op-grid");
+  if (pfOpGrid) {
+    pfOpGrid.innerHTML = PF_OPS.map(function(o){
+      return '<button type="button" class="pf-op-btn' + (o===pfState.operacion?' sel':'') + '" data-op="' + o + '">' + o + '</button>';
+    }).join("");
+    pfOpGrid.querySelectorAll("[data-op]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        pfState.operacion = btn.getAttribute("data-op");
+        pfOpGrid.querySelectorAll(".pf-op-btn").forEach(function(b){ b.classList.toggle("sel", b===btn); });
+        pfUpdateResumen();
+      });
+    });
+  }
+
+  function pfSwitch(id, defaultOn){
+    var el = document.getElementById(id);
+    if (!el) return { get:function(){ return false; } };
+    if (defaultOn) el.classList.add("on");
+    el.addEventListener("click", function(){ el.classList.toggle("on"); });
+    return { get:function(){ return el.classList.contains("on"); } };
+  }
+  var pfPublicadaSwitch = pfSwitch("pf-publicada-switch", true);
+  var pfAptoCreditoSwitch = pfSwitch("pf-apto-credito-switch", false);
+
+  function pfTitulo(){
+    var dir = (document.getElementById("pf-direccion").value || "").trim();
+    var barrio = (document.getElementById("pf-barrio").value || "").trim();
+    var precio = document.getElementById("pf-precio").value;
+    var moneda = document.getElementById("pf-moneda").value;
+    var lugar = dir || barrio || "";
+    var precioTxt = precio ? (moneda + " " + Number(precio).toLocaleString("es-AR")) : "";
+    return [pfState.tipo, lugar ? ("en " + lugar) : "", precioTxt].filter(Boolean).join(" ");
+  }
+
+  function pfUpdateResumen(){
+    var el = document.getElementById("pf-resumen");
+    if (!el) return;
+    var dorm = document.getElementById("pf-dormitorios").value;
+    var banos = document.getElementById("pf-banos").value;
+    var localidad = document.getElementById("pf-localidad").value;
+    var precio = document.getElementById("pf-precio").value;
+    var moneda = document.getElementById("pf-moneda").value;
+    el.innerHTML =
+      '<div><b>' + pfState.tipo + '</b> · ' + pfState.operacion + '</div>' +
+      (localidad ? '<div>' + localidad + '</div>' : '') +
+      (precio ? '<div>' + moneda + ' ' + Number(precio).toLocaleString("es-AR") + '</div>' : '<div style="color:#bbb;">Sin precio</div>') +
+      (dorm ? '<div>' + dorm + ' dorm.</div>' : '') +
+      (banos ? '<div>' + banos + ' baños</div>' : '');
+  }
+  ["pf-direccion","pf-barrio","pf-localidad","pf-precio","pf-moneda","pf-dormitorios","pf-banos"].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("input", pfUpdateResumen);
+  });
+  pfUpdateResumen();
+
+    /* ---------- Carga Propiedad: Bloque 2 (Propietario) ---------- */
+  var pfClientesCache = [];
+  function pfCargarClientes(){
+    apiFetch("/clients").then(function(data){ pfClientesCache = data || []; }).catch(function(){});
+  }
+
+  var pfClienteSearch = document.getElementById("pf-cliente-search");
+  var pfClienteResults = document.getElementById("pf-cliente-results");
+  var pfClienteSelected = document.getElementById("pf-cliente-selected");
+  var pfClienteNewBtn = document.getElementById("pf-cliente-new-btn");
+  var pfClienteNewForm = document.getElementById("pf-cliente-new-form");
+
+  pfClienteSearch.addEventListener("focus", function(){ if (!pfClientesCache.length) pfCargarClientes(); });
+
+  function pfMostrarClienteSeleccionado(c){
+    pfState.clienteId = c.id;
+    pfState.clienteNombre = c.nombre;
+    pfClienteSearch.style.display = "none";
+    pfClienteResults.innerHTML = "";
+    pfClienteNewBtn.style.display = "none";
+    pfClienteNewForm.style.display = "none";
+    pfClienteSelected.style.display = "block";
+    pfClienteSelected.innerHTML = "✓ " + (c.nombre||"") + (c.whatsapp ? " · " + c.whatsapp : "") +
+      ' <a href="#" id="pf-cliente-cambiar" style="margin-left:8px;text-decoration:underline;">cambiar</a>';
+    document.getElementById("pf-cliente-cambiar").addEventListener("click", function(e){
+      e.preventDefault();
+      pfState.clienteId = null;
+      pfState.clienteNombre = "";
+      pfClienteSelected.style.display = "none";
+      pfClienteSearch.style.display = "";
+      pfClienteNewBtn.style.display = "";
+      pfClienteSearch.value = "";
+      pfClienteSearch.focus();
+      if (typeof pfUpdateResumen === "function") pfUpdateResumen();
+    });
+    if (typeof pfUpdateResumen === "function") pfUpdateResumen();
+  }
+
+  pfClienteSearch.addEventListener("input", function(){
+    var q = pfClienteSearch.value.trim().toLowerCase();
+    pfClienteResults.innerHTML = "";
+    if (!q) return;
+    var matches = pfClientesCache.filter(function(c){
+      return (c.nombre||"").toLowerCase().indexOf(q) !== -1 || (c.whatsapp||"").indexOf(q) !== -1;
+    }).slice(0, 6);
+    matches.forEach(function(c){
+      var div = document.createElement("div");
+      div.className = "pf-chip";
+      div.style.cursor = "pointer";
+      div.style.marginBottom = "4px";
+      div.textContent = (c.nombre||"(sin nombre)") + (c.whatsapp ? " · " + c.whatsapp : "");
+      div.addEventListener("click", function(){ pfMostrarClienteSeleccionado(c); });
+      pfClienteResults.appendChild(div);
+    });
+    if (!matches.length) {
+      var none = document.createElement("div");
+      none.className = "status-msg";
+      none.textContent = "Sin resultados — podés crear un cliente nuevo.";
+      pfClienteResults.appendChild(none);
+    }
+  });
+
+  pfClienteNewBtn.addEventListener("click", function(){
+    var visible = pfClienteNewForm.style.display !== "none";
+    pfClienteNewForm.style.display = visible ? "none" : "grid";
+    if (!visible) document.getElementById("pf-cliente-nombre").value = pfClienteSearch.value.trim();
+  });
+
+  document.getElementById("pf-cliente-guardar-btn").addEventListener("click", function(){
+    var nombre = document.getElementById("pf-cliente-nombre").value.trim();
+    var whatsapp = document.getElementById("pf-cliente-whatsapp").value.trim();
+    if (!nombre) { alert("Ingresá un nombre."); return; }
+    apiFetch("/clients", { method:"POST", body:JSON.stringify({ nombre: nombre, whatsapp: whatsapp || undefined, tipo: "propietario" }) })
+      .then(function(c){
+        pfClientesCache.push(c);
+        pfMostrarClienteSeleccionado(c);
+      }).catch(function(e){ alert("Error: " + e.message); });
+  });
+  /* ---------- Carga Propiedad: Bloque 3 (Localidad / Barrio) ---------- */
+  var pfPropiedadesCache = [];
+  function pfCargarPropiedades(){
+    apiFetch("/properties").then(function(data){
+      pfPropiedadesCache = data || [];
+      pfPoblarLocalidades();
+    }).catch(function(){});
+  }
+
+  var pfLocalidadInput = document.getElementById("pf-localidad");
+  var pfBarrioInput = document.getElementById("pf-barrio");
+  var pfLocalidadesList = document.getElementById("pf-localidades-list");
+  var pfBarriosList = document.getElementById("pf-barrios-list");
+
+  pfLocalidadInput.addEventListener("focus", function(){ if (!pfPropiedadesCache.length) pfCargarPropiedades(); });
+
+  function pfPoblarLocalidades(){
+    var set = {};
+    pfPropiedadesCache.forEach(function(p){ if (p.localidad) set[p.localidad] = true; });
+    pfLocalidadesList.innerHTML = Object.keys(set).sort().map(function(v){ return '<option value="' + v + '">'; }).join("");
+  }
+
+  function pfPoblarBarrios(){
+    var loc = pfLocalidadInput.value.trim().toLowerCase();
+    var set = {};
+    pfPropiedadesCache.forEach(function(p){
+      if (p.barrio && (!loc || (p.localidad||"").toLowerCase() === loc)) set[p.barrio] = true;
+    });
+    pfBarriosList.innerHTML = Object.keys(set).sort().map(function(v){ return '<option value="' + v + '">'; }).join("");
+  }
+
+  pfLocalidadInput.addEventListener("input", pfPoblarBarrios);
+  pfBarrioInput.addEventListener("focus", function(){
+    if (!pfPropiedadesCache.length) pfCargarPropiedades();
+    pfPoblarBarrios();
+  });
+
+    /* ---------- Carga Propiedad: Bloque 4 (Características) ---------- */
+  var PF_AMENITIES = [
+    {key:"garage", label:"Garage", primary:true},
+    {key:"pileta", label:"Pileta", primary:true},
+    {key:"parrilla", label:"Parrilla", primary:true},
+    {key:"balcon", label:"Balcón", primary:true},
+    {key:"amoblado", label:"Amoblado", primary:true},
+    {key:"quincho", label:"Quincho"},
+    {key:"lavadero", label:"Lavadero"},
+    {key:"ascensor", label:"Ascensor"},
+    {key:"patio", label:"Patio"},
+    {key:"alambrado", label:"Alambrado"},
+    {key:"esquina", label:"Esquina"},
+    {key:"agua", label:"Agua"}
+  ];
+  pfState.amenities = {};
+  var pfAmenitiesShowAll = false;
+  var pfAmenitiesWrap = document.getElementById("pf-amenities");
+  var pfAmenitiesMoreBtn = document.getElementById("pf-amenities-more");
+
+  function pfRenderAmenities(){
+    var visibles = pfAmenitiesShowAll ? PF_AMENITIES : PF_AMENITIES.filter(function(a){ return a.primary; });
+    pfAmenitiesWrap.innerHTML = "";
+    visibles.forEach(function(a){
+      var sel = !!pfState.amenities[a.key];
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "pf-chip";
+      chip.textContent = a.label;
+      chip.style.cursor = "pointer";
+      chip.style.border = sel ? "1px solid var(--magenta)" : "1px solid #ccc";
+      chip.style.background = sel ? "var(--magenta)" : "transparent";
+      chip.style.color = sel ? "#fff" : "inherit";
+      chip.addEventListener("click", function(){
+        pfState.amenities[a.key] = !pfState.amenities[a.key];
+        pfRenderAmenities();
+      });
+      pfAmenitiesWrap.appendChild(chip);
+    });
+    var hiddenCount = PF_AMENITIES.length - PF_AMENITIES.filter(function(a){ return a.primary; }).length;
+    pfAmenitiesMoreBtn.textContent = pfAmenitiesShowAll ? "Ver menos" : ("Ver más (" + hiddenCount + ")");
+  }
+  pfAmenitiesMoreBtn.addEventListener("click", function(){
+    pfAmenitiesShowAll = !pfAmenitiesShowAll;
+    pfRenderAmenities();
+  });
+  pfRenderAmenities();
+
+    /* ---------- Carga Propiedad: Bloque 5 (Fotos) ---------- */
+  pfState.fotos = [];
+  var pfFotosInput = document.getElementById("pf-fotos-input");
+  var pfFotosStatus = document.getElementById("pf-fotos-status");
+  var pfFotosPreview = document.getElementById("pf-fotos-preview");
+
+  function pfSubirFoto(file){
+    var fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", CLOUDINARY_PRESET);
+    return fetch("https://api.cloudinary.com/v1_1/" + CLOUDINARY_CLOUD + "/image/upload", { method:"POST", body:fd })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (!data.secure_url) throw new Error("Cloudinary no devolvió URL.");
+        return data.secure_url;
+      });
+  }
+
+  function pfRenderFotosPreview(){
+    pfFotosPreview.innerHTML = "";
+    pfState.fotos.forEach(function(url, i){
+      var box = document.createElement("div");
+      box.style.position = "relative";
+      box.innerHTML = '<img src="' + url + '" style="width:80px;height:80px;object-fit:cover;border-radius:4px;">' +
+        '<button type="button" style="position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;line-height:1;cursor:pointer;">✕</button>';
+      box.querySelector("button").addEventListener("click", function(){
+        pfState.fotos.splice(i, 1);
+        pfRenderFotosPreview();
+      });
+      pfFotosPreview.appendChild(box);
+    });
+  }
+
+  pfFotosInput.addEventListener("change", function(){
+    var files = Array.prototype.slice.call(pfFotosInput.files);
+    if (!files.length) return;
+    pfFotosStatus.textContent = "Subiendo " + files.length + " foto(s)...";
+    Promise.all(files.map(pfSubirFoto)).then(function(urls){
+      pfState.fotos = pfState.fotos.concat(urls);
+      pfFotosStatus.textContent = "";
+      pfFotosInput.value = "";
+      pfRenderFotosPreview();
+    }).catch(function(e){ pfFotosStatus.textContent = "Error al subir: " + e.message; });
+  });
+
   var propModal = document.getElementById("prop-modal-overlay");
+
   function openPropModal(p){
     p = p || {};
     document.getElementById("prop-modal-title").textContent = p.id ? ("Editar propiedad #" + p.id) : "Nueva propiedad";
