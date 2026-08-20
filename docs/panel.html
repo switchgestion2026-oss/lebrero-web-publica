@@ -287,6 +287,7 @@ table.data tr:hover td{ background:#faf8f3; }
     <form id="prop-form">
       <input type="hidden" id="p-id">
       <div class="form-grid">
+        <label class="full">Título<input type="text" id="p-titulo" placeholder="Ej: Casa 3 ambientes en Centro" required></label>
         <label>Tipo<select id="p-tipo"><option value="casa">Casa</option><option value="departamento">Departamento</option><option value="local">Local</option><option value="terreno">Terreno</option></select></label>
         <label>Operación<select id="p-operacion"><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option></select></label>
         <label>Localidad<input type="text" id="p-localidad"></label>
@@ -510,6 +511,7 @@ table.data tr:hover td{ background:#faf8f3; }
     p = p || {};
     document.getElementById("prop-modal-title").textContent = p.id ? ("Editar propiedad #" + p.id) : "Nueva propiedad";
     document.getElementById("p-id").value = p.id || "";
+    document.getElementById("p-titulo").value = p.titulo || "";
     document.getElementById("p-tipo").value = p.tipo_propiedad || "casa";
     document.getElementById("p-operacion").value = p.operacion || "Venta";
     document.getElementById("p-localidad").value = p.localidad || "";
@@ -535,6 +537,7 @@ table.data tr:hover td{ background:#faf8f3; }
     e.preventDefault();
     var id = document.getElementById("p-id").value;
     var body = {
+      titulo: document.getElementById("p-titulo").value.trim(),
       tipo_propiedad: document.getElementById("p-tipo").value,
       operacion: document.getElementById("p-operacion").value,
       localidad: document.getElementById("p-localidad").value.trim() || undefined,

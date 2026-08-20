@@ -21,12 +21,21 @@ router.post('/properties', async (req, res) => {
       `INSERT INTO properties
         (titulo, tipo, operacion, localidad, barrio, direccion, precio, ambientes, dormitorios, banos,
          garage, patio, lavadero, pileta, quincho, parrilla, amoblado, ascensor, balcon, esquina, agua, alambrado,
-         descripcion, publicada, estado_comercial, activo_match, propietario_id)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27)
+         descripcion, publicada, estado_comercial, activo_match, propietario_id,
+         zona, fotos, moneda, apto_credito, exclusividad, inmobiliaria, contacto_operativo,
+         garage_cant, tipo_patio, sup_terreno_m2, sup_cubierta_m2, frente, fondo, estado_general,
+         servicios, ocupada, disponible_desde, perfil_ideal, entre_calles, piso, depto,
+         impuesto, servicio, partida, acepta_permutas)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,
+               $28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52)
        RETURNING *`,
       [b.titulo, b.tipo, b.operacion, b.localidad, b.barrio, b.direccion, b.precio, b.ambientes, b.dormitorios, b.banos,
        !!b.garage, !!b.patio, !!b.lavadero, !!b.pileta, !!b.quincho, !!b.parrilla, !!b.amoblado, !!b.ascensor, !!b.balcon, !!b.esquina, !!b.agua, !!b.alambrado,
-       b.descripcion, !!b.publicada, b.estado_comercial || 'Disponible', b.activo_match !== false, b.propietario_id || null]
+       b.descripcion, !!b.publicada, b.estado_comercial || 'Disponible', b.activo_match !== false, b.propietario_id || null,
+       b.zona || b.barrio || null, b.fotos || [], b.moneda || 'USD', !!b.apto_credito, !!b.exclusividad, b.inmobiliaria || null, b.contacto_operativo || null,
+       b.garage_cant || null, b.tipo_patio || null, b.sup_terreno_m2 || null, b.sup_cubierta_m2 || null, b.frente || null, b.fondo || null, b.estado_general || null,
+       b.servicios || null, !!b.ocupada, b.disponible_desde || null, b.perfil_ideal || null, b.entre_calles || null, b.piso || null, b.depto || null,
+       !!b.impuesto, !!b.servicio, b.partida || null, !!b.acepta_permutas]
     );
     res.status(201).json(r.rows[0]);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear propiedad' }); }
@@ -61,6 +70,18 @@ router.get('/clients/:id', async (req, res) => {
     if (!r.rows.length) return res.status(404).json({ error: 'No encontrado' });
     res.json(r.rows[0]);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al obtener cliente' }); }
+});
+
+router.post('/clients', async (req, res) => {
+  const b = req.body;
+  if (!b.nombre) return res.status(400).json({ error: 'Falta nombre' });
+  try {
+    const r = await pool.query(
+      `INSERT INTO clients (nombre, whatsapp, email, tipo) VALUES ($1,$2,$3,$4) RETURNING *`,
+      [b.nombre, b.whatsapp || null, b.email || null, b.tipo || 'propietario']
+    );
+    res.status(201).json(r.rows[0]);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear cliente' }); }
 });
 
 /* ── REQUIREMENTS ── */
