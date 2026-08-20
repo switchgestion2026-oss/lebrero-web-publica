@@ -306,7 +306,8 @@ table.data tr:hover td{ background:#faf8f3; }
           Fotos
           <input type="file" id="p-fotos-input" accept="image/*" multiple style="margin-bottom:8px;">
           <span class="status-msg" id="p-fotos-status"></span>
-          <textarea id="p-fotos" rows="3" placeholder="Las fotos que subís aparecen acá solas. También podés pegar un link a mano."></textarea>
+          <textarea id="p-fotos" rows="3" style="display:none;"></textarea>
+          <div id="p-fotos-preview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
         </label>
         <label class="full">Observaciones<textarea id="p-observaciones" rows="3"></textarea></label>
       </div>
@@ -486,6 +487,26 @@ table.data tr:hover td{ background:#faf8f3; }
   var fotosInput = document.getElementById("p-fotos-input");
   var fotosStatus = document.getElementById("p-fotos-status");
   var fotosTextarea = document.getElementById("p-fotos");
+  function renderFotosPreview(){
+    var urls = fotosTextarea.value.split("\n").map(function(s){ return s.trim(); }).filter(Boolean);
+    var preview = document.getElementById("p-fotos-preview");
+    preview.innerHTML = "";
+    urls.forEach(function(url, i){
+      var wrap = document.createElement("div");
+      wrap.style.cssText = "position:relative;width:70px;height:70px;";
+      wrap.innerHTML = '<img src="' + url + '" style="width:70px;height:70px;object-fit:cover;border-radius:4px;border:1px solid #ccc;">' +
+        '<button type="button" data-remove-foto="' + i + '" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:12px;line-height:1;">×</button>';
+      preview.appendChild(wrap);
+    });
+    preview.querySelectorAll("[data-remove-foto]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var idx = Number(btn.getAttribute("data-remove-foto"));
+        urls.splice(idx, 1);
+        fotosTextarea.value = urls.join("\n");
+        renderFotosPreview();
+      });
+    });
+  }
   fotosInput.addEventListener("change", function(){
     var files = Array.prototype.slice.call(fotosInput.files);
     if (!files.length) return;
@@ -503,6 +524,7 @@ table.data tr:hover td{ background:#faf8f3; }
       var fallidas = urls.length - ok.length;
       fotosStatus.textContent = ok.length + " foto(s) subida(s)." + (fallidas ? " " + fallidas + " fallaron." : "");
       fotosInput.value = "";
+      renderFotosPreview();
     });
   });
 
@@ -527,6 +549,7 @@ table.data tr:hover td{ background:#faf8f3; }
     document.getElementById("p-publicada").value = String(p.publicada !== false);
     document.getElementById("p-fotos").value = Array.isArray(p.fotos) ? p.fotos.join("\n") : "";
     document.getElementById("p-fotos-status").textContent = "";
+    renderFotosPreview();
     document.getElementById("p-observaciones").value = p.observaciones || "";
     document.getElementById("prop-modal-status").textContent = "";
     propModal.classList.add("is-open");
