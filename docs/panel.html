@@ -965,6 +965,57 @@ table.data tr:hover td{ background:#faf8f3; }
     }).catch(function(e){ pfFotosStatus.textContent = "Error al subir: " + e.message; });
   });
 
+    /* ---------- Carga Propiedad: Guardar ---------- */
+  function pfArmarBody(publicar){
+    var am = pfState.amenities || {};
+    return {
+      titulo: pfTitulo(),
+      tipo: pfState.tipo,
+      operacion: pfState.operacion,
+      estado_comercial: document.getElementById("pf-estado").value,
+      publicada: publicar,
+      propietario_id: pfState.clienteId || undefined,
+      localidad: document.getElementById("pf-localidad").value.trim() || undefined,
+      barrio: document.getElementById("pf-barrio").value.trim() || undefined,
+      direccion: document.getElementById("pf-direccion").value.trim() || undefined,
+      partida: document.getElementById("pf-partida").value.trim() || undefined,
+      precio: document.getElementById("pf-precio").value ? Number(document.getElementById("pf-precio").value) : undefined,
+      moneda: document.getElementById("pf-moneda").value,
+      apto_credito: document.getElementById("pf-apto-credito-switch").classList.contains("on"),
+      ambientes: document.getElementById("pf-ambientes").value ? Number(document.getElementById("pf-ambientes").value) : undefined,
+      dormitorios: document.getElementById("pf-dormitorios").value ? Number(document.getElementById("pf-dormitorios").value) : undefined,
+      banos: document.getElementById("pf-banos").value ? Number(document.getElementById("pf-banos").value) : undefined,
+      sup_cubierta_m2: document.getElementById("pf-sup-cubierta").value ? Number(document.getElementById("pf-sup-cubierta").value) : undefined,
+      sup_terreno_m2: document.getElementById("pf-sup-terreno").value ? Number(document.getElementById("pf-sup-terreno").value) : undefined,
+      estado_general: document.getElementById("pf-estado-general").value || undefined,
+      garage: !!am.garage, pileta: !!am.pileta, parrilla: !!am.parrilla, balcon: !!am.balcon,
+      amoblado: !!am.amoblado, quincho: !!am.quincho, lavadero: !!am.lavadero, ascensor: !!am.ascensor,
+      patio: !!am.patio, alambrado: !!am.alambrado, esquina: !!am.esquina, agua: !!am.agua,
+      observaciones: document.getElementById("pf-observaciones").value.trim() || undefined,
+      fotos: (pfState.fotos && pfState.fotos.length) ? pfState.fotos : undefined
+    };
+  }
+
+  function pfGuardarPropiedad(publicar){
+    var statusEl = document.getElementById("pf-status");
+    if (!pfState.clienteId) { statusEl.textContent = "Falta seleccionar o crear el propietario (Bloque 2)."; return; }
+    if (!document.getElementById("pf-precio").value) { statusEl.textContent = "Falta el precio."; return; }
+    statusEl.textContent = "Guardando...";
+    apiFetch("/properties", { method:"POST", body:JSON.stringify(pfArmarBody(publicar)) })
+      .then(function(){
+        statusEl.textContent = "Propiedad guardada" + (publicar ? " y publicada." : ".");
+        setTimeout(function(){ loadView("propiedades"); }, 600);
+      })
+      .catch(function(e){ statusEl.textContent = "Error: " + e.message; });
+  }
+
+  document.getElementById("pf-guardar-btn").addEventListener("click", function(){
+    pfGuardarPropiedad(document.getElementById("pf-publicada-switch").classList.contains("on"));
+  });
+  document.getElementById("pf-guardar-publicar-btn").addEventListener("click", function(){
+    pfGuardarPropiedad(true);
+  });
+
   var propModal = document.getElementById("prop-modal-overlay");
 
   function openPropModal(p){
