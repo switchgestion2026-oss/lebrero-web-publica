@@ -151,7 +151,14 @@ table.data tr:hover td{ background:#faf8f3; }
 .pf-field-err{ border-color:var(--red) !important; }
 .pf-err-msg{ font-size:.7rem; color:var(--red); margin-top:2px; display:none; }
 
+.chip-row{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.4rem; }
+.chip{ padding:.45rem .8rem; border:1px solid #ccc; border-radius:20px; background:#faf8f3; font-size:.8rem; }
+.chip[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:#fff; }
+.carga-layout{ display:grid; grid-template-columns:1fr 280px; gap:var(--sp-5); align-items:start; }
+.carga-resumen{ position:sticky; top:var(--sp-5); background:#fff; border-radius:4px; padding:var(--sp-4); box-shadow:0 1px 3px rgba(0,0,0,0.08); font-size:.85rem; }
+.carga-actionbar{ display:flex; justify-content:flex-end; gap:var(--sp-3); margin-top:var(--sp-5); }
 @media (max-width:900px){
+  .carga-layout{ grid-template-columns:1fr; }
   .sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
   .sidebar-nav{ flex-direction:row; }
   .main{ margin-left:0; padding:var(--sp-4); }
@@ -177,6 +184,7 @@ table.data tr:hover td{ background:#faf8f3; }
     <nav class="sidebar-nav" id="nav">
       <button data-view="dashboard" class="is-active">Dashboard</button>
       <button data-view="propiedades">Propiedades</button>
+      <button data-view="carga">+ Carga Propiedad</button>
       <button data-view="propForm">+ Carga Propiedad</button>
       <button data-view="solicitudes">Solicitudes</button>
       <button data-view="requerimientos">Requerimientos</button>
@@ -339,6 +347,61 @@ table.data tr:hover td{ background:#faf8f3; }
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ============ CARGA PROPIEDAD ============ -->
+    <section class="view" id="view-carga">
+      <span class="eyebrow">— Carga rápida</span>
+      <h2>Nueva propiedad</h2>
+      <form id="carga-form">
+        <div class="carga-layout">
+          <div>
+            <div class="card">
+              <label>Tipo</label>
+              <div class="chip-row" id="c-tipo-chips">
+                <button type="button" class="chip" data-v="casa" aria-pressed="true">Casa</button>
+                <button type="button" class="chip" data-v="departamento" aria-pressed="false">Departamento</button>
+                <button type="button" class="chip" data-v="local" aria-pressed="false">Local</button>
+                <button type="button" class="chip" data-v="terreno" aria-pressed="false">Terreno</button>
+              </div>
+              <label style="margin-top:var(--sp-4);">Operación</label>
+              <div class="chip-row" id="c-op-chips">
+                <button type="button" class="chip" data-v="Venta" aria-pressed="true">Venta</button>
+                <button type="button" class="chip" data-v="Alquiler" aria-pressed="false">Alquiler</button>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:var(--sp-4);">
+              <div class="form-grid">
+                <label>Localidad<input type="text" id="c-localidad"></label>
+                <label>Barrio<input type="text" id="c-barrio"></label>
+                <label class="full">Dirección<input type="text" id="c-direccion"></label>
+                <label>Precio<input type="number" id="c-precio" min="0"></label>
+                <label>Moneda<select id="c-moneda"><option>USD</option><option>ARS</option></select></label>
+                <label>Dormitorios<input type="number" id="c-dormitorios" min="0"></label>
+                <label>Baños<input type="number" id="c-banos" min="0"></label>
+                <label>Garage<input type="number" id="c-garage" min="0"></label>
+                <label>Superficie (m²)<input type="number" id="c-superficie" min="0"></label>
+                <label>Estado<select id="c-estado"><option>Disponible</option><option>Reservado</option><option>Vendido</option><option>Alquilado</option></select></label>
+                <label>Publicar en web<select id="c-publicada"><option value="true">Sí</option><option value="false">No</option></select></label>
+                <label class="full">Observaciones<textarea id="c-observaciones" rows="3"></textarea></label>
+              </div>
+            </div>
+          </div>
+
+          <aside class="carga-resumen">
+            <strong id="c-rs-tipo">Casa · Venta</strong>
+            <p style="margin-top:.5rem; color:#777;" id="c-rs-loc">Sin localidad</p>
+            <p style="margin-top:.5rem; font-size:1.1rem;" id="c-rs-precio">—</p>
+          </aside>
+        </div>
+
+        <div class="carga-actionbar">
+          <button type="button" class="btn btn-outline" id="carga-cancel">Cancelar</button>
+          <button type="submit" class="btn btn-magenta">Guardar propiedad</button>
+        </div>
+        <p class="status-msg" id="carga-status"></p>
+      </form>
     </section>
 
     <!-- ============ SOLICITUDES ============ -->
@@ -566,8 +629,63 @@ table.data tr:hover td{ background:#faf8f3; }
     propiedades: loadPropiedades,
     solicitudes: loadSolicitudes,
     requerimientos: loadRequerimientos,
-    clientes: loadClientes
+    clientes: loadClientes,
+    carga: initCarga
   };
+
+  function initCarga(){
+    document.getElementById("carga-form").reset();
+    document.getElementById("carga-status").textContent = "";
+    updateCargaResumen();
+  }
+  function chipGroup(id, cb){
+    var wrap = document.getElementById(id);
+    wrap.querySelectorAll(".chip").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        wrap.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed","false"); });
+        btn.setAttribute("aria-pressed","true");
+        cb();
+      });
+    });
+  }
+  function cargaVal(id){ var pressed = document.querySelector("#" + id + " .chip[aria-pressed='true']"); return pressed ? pressed.getAttribute("data-v") : ""; }
+  function updateCargaResumen(){
+    document.getElementById("c-rs-tipo").textContent = cargaVal("c-tipo-chips") + " · " + cargaVal("c-op-chips");
+    document.getElementById("c-rs-loc").textContent = document.getElementById("c-localidad").value || "Sin localidad";
+    var precio = document.getElementById("c-precio").value;
+    document.getElementById("c-rs-precio").textContent = precio ? document.getElementById("c-moneda").value + " " + Number(precio).toLocaleString("es-AR") : "—";
+  }
+  chipGroup("c-tipo-chips", updateCargaResumen);
+  chipGroup("c-op-chips", updateCargaResumen);
+  ["c-localidad","c-precio","c-moneda"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", updateCargaResumen);
+    document.getElementById(id).addEventListener("change", updateCargaResumen);
+  });
+  document.getElementById("carga-cancel").addEventListener("click", function(){ loadView("propiedades"); });
+  document.getElementById("carga-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var body = {
+      tipo_propiedad: cargaVal("c-tipo-chips"),
+      operacion: cargaVal("c-op-chips"),
+      localidad: document.getElementById("c-localidad").value.trim() || undefined,
+      barrio: document.getElementById("c-barrio").value.trim() || undefined,
+      direccion: document.getElementById("c-direccion").value.trim() || undefined,
+      precio: document.getElementById("c-precio").value ? Number(document.getElementById("c-precio").value) : undefined,
+      moneda: document.getElementById("c-moneda").value,
+      dormitorios: document.getElementById("c-dormitorios").value ? Number(document.getElementById("c-dormitorios").value) : undefined,
+      banos: document.getElementById("c-banos").value ? Number(document.getElementById("c-banos").value) : undefined,
+      garage: document.getElementById("c-garage").value ? Number(document.getElementById("c-garage").value) : undefined,
+      superficie: document.getElementById("c-superficie").value ? Number(document.getElementById("c-superficie").value) : undefined,
+      estado_comercial: document.getElementById("c-estado").value,
+      publicada: document.getElementById("c-publicada").value === "true",
+      observaciones: document.getElementById("c-observaciones").value.trim() || undefined
+    };
+    var statusEl = document.getElementById("carga-status");
+    statusEl.textContent = "Guardando...";
+    apiFetch("/properties", { method:"POST", body:JSON.stringify(body) })
+      .then(function(){ statusEl.textContent = "Propiedad guardada."; loadView("propiedades"); })
+      .catch(function(e){ statusEl.textContent = "Error: " + e.message; });
+  });
   function loadView(name){
     navButtons.forEach(function(b){ b.classList.toggle("is-active", b.getAttribute("data-view") === name); });
     views.forEach(function(v){ v.classList.toggle("is-active", v.id === "view-" + name); });
