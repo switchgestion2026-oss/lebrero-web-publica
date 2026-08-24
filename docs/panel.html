@@ -171,6 +171,28 @@
   #modal-selector-kiosco .ksk-box{background:#fff;width:100%;max-height:70vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:16px}
   #modal-selector-kiosco .ksk-title{font-size:16px;font-weight:700;color:#1C2B39;margin-bottom:10px}
   .kiosco-opcion{display:block;width:100%;text-align:left;padding:16px;font-size:20px;border:none;border-bottom:1px solid #F0EBE4;background:#fff;cursor:pointer}
+
+@media (max-width:768px){
+  #mobile-menu-btn{display:flex!important;}
+  aside#sidebar{position:fixed!important;top:0;left:0;height:100vh;z-index:50;transform:translateX(-100%);transition:transform .22s ease;}
+  aside#sidebar.sidebar-open{transform:translateX(0);}
+  #app-header{padding:18px 18px 0 60px!important;}
+  [style*="position:absolute;top:0;right:0;width:340px"],
+  [style*="position:absolute;bottom:0;left:226px;width:280px"]{display:none!important;}
+  [style*="grid-template-columns:repeat(4,1fr)"],
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:repeat(5,1fr)"],
+  [style*="grid-template-columns:1fr 1fr"],
+  [style*="grid-template-columns:5fr 3fr 2fr"]{grid-template-columns:1fr!important;}
+  #content-area [style="display:flex;height:100%;overflow:hidden;"]{flex-direction:column!important;height:auto!important;overflow:visible!important;}
+  #content-area [style="flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;padding:24px 28px;display:flex;gap:16px;align-items:flex-start;"]{flex-direction:column!important;padding:16px!important;}
+  #content-area [style="width:240px;flex-shrink:0;border-right:1px solid #EAEAEA;padding:20px 14px;overflow-y:auto;display:flex;flex-direction:column;"],
+  #content-area [style="width:220px;flex-shrink:0;display:flex;flex-direction:column;min-width:0;"],
+  #content-area [style="width:260px;flex-shrink:0;"]{width:100%!important;border-right:none!important;}
+  #content-area [style="padding:22px 26px;display:flex;gap:20px;"],
+  #content-area [style="display:flex;gap:16px;"]{flex-direction:column!important;}
+  #content-area [style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;"]{flex-wrap:wrap!important;}
+}
 </style>
 
 <script>
