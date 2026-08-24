@@ -20,6 +20,8 @@
 </div>
 
 <div id="app-root" style="display:flex;height:100vh;overflow:hidden;background:#F7F8FA;position:relative;">
+  <button id="mobile-menu-btn" type="button" onclick="toggleSidebarMobile()" style="display:none;position:fixed;top:14px;left:14px;z-index:60;width:38px;height:38px;border:none;border-radius:8px;background:#31455C;color:#fff;font-size:16px;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);">☰</button>
+  <div id="sidebar-backdrop" onclick="toggleSidebarMobile()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40;"></div>
   <!-- Decorativo esquina superior derecha -->
   <div style="position:absolute;top:0;right:0;width:340px;opacity:.12;pointer-events:none;z-index:0;">
     <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#31455C" stroke-width="1">
@@ -112,6 +114,7 @@
   .nav-btn{display:flex;align-items:center;gap:11px;width:100%;padding:13px 20px;border-radius:0 9px 9px 0;border:none;cursor:pointer;text-align:left;background:transparent;color:rgba(255,255,255,.65);transition:all .25s}
   .nav-btn:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.92);transform:translateX(3px)}
   .nav-btn.active{background:rgba(212,10,140,.18);color:#fff;border-left:3px solid #D40A8C;border-radius:0 10px 10px 0;padding-left:17px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.12);}
+  .acc-row:hover:not(.acc-open){background:#fff!important;opacity:1!important;box-shadow:0 4px 14px rgba(0,0,0,.08)!important;border-color:#D0CAC0!important;}
   .card{background:#fff;border-radius:14px;border:1px solid #EAEAEA;overflow:hidden}
 .modal-box{background:#fff;border-radius:16px;padding:24px 26px;width:380px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.28);border-top:4px solid #D40A8C}
   .card-hd{padding:14px 20px;border-bottom:1px solid #EAEAEA;display:flex;align-items:center;justify-content:space-between}
@@ -172,6 +175,16 @@
 
 <script>
 'use strict';
+
+function toggleSidebarMobile(){
+  document.getElementById('sidebar').classList.toggle('sidebar-open');
+  document.getElementById('sidebar-backdrop').style.display=document.getElementById('sidebar').classList.contains('sidebar-open')?'block':'none';
+}
+function closeSidebarMobile(){
+  if(window.innerWidth>768) return;
+  document.getElementById('sidebar').classList.remove('sidebar-open');
+  document.getElementById('sidebar-backdrop').style.display='none';
+}
 
 function toggleAcc(id){
   var el=document.getElementById(id);
@@ -245,23 +258,27 @@ var ICONS = {
 function capitalize(s){ s=String(s||''); return s ? s.charAt(0).toUpperCase()+s.slice(1).toLowerCase() : ''; }
 
 /* ─── NORMALIZACIÓN (desde la API real, no desde Sheets) ─────────── */
-function normProps(arr) {
+function normProps(arr, clientsMap) {
   if (!arr || !arr.length) return [];
+  clientsMap = clientsMap || {};
   return arr.map(function(o) {
+    var cli = o.propietario_id!=null ? clientsMap[String(o.propietario_id)] : null;
     return {
       id: o.id!=null ? String(o.id) : '',
-      tipo: capitalize(o.tipo_propiedad||''),
+      titulo: o.titulo||'',
+      tipo: capitalize(o.tipo||''),
       operacion: o.operacion||'',
       estadoComercial: o.estado_comercial||'',
-      activoMatch: !!o.publicada,
+      activoMatch: !!o.activo_match,
+      fotos: Array.isArray(o.fotos) ? o.fotos : [],
       // — confirmados en /properties —
       direccion: o.direccion||'', barrio: o.barrio||'', localidad: o.localidad||'', zona: o.barrio||o.localidad||'',
       precio: Number(o.precio)||0, moneda: o.moneda||'USD',
       dormitorios: Number(o.dormitorios)||0, banos: Number(o.banos)||0,
-      garage: !!Number(o.garage), cantGarage: Number(o.garage)||0,
-      supCubierta: Number(o.superficie)||0, obs: o.observaciones||'',
-      // — estimados (columnas extendidas, confirmar contra admin.js) —
-      propietario: o.propietario||'', telefono: String(o.telefono||''),
+      garage: !!o.garage, cantGarage: Number(o.garage_cant)||0,
+      supCubierta: Number(o.sup_cubierta_m2)||0, obs: o.descripcion||'',
+      // — propietario: join client-side con /clients por propietario_id —
+      propietario: cli ? (cli.nombre||'') : '', telefono: cli ? String(cli.whatsapp||'') : '',
       contactoOperativo: o.contacto_operativo||'', exclusividad: isSi(o.exclusividad),
       inmobiliaria: o.inmobiliaria||'', aptoCredito: isSi(o.apto_credito),
       ambientes: Number(o.ambientes)||0, tipoPatio: o.tipo_patio||'',
@@ -408,9 +425,7 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
     var dot=p.estadoComercial==='Disponible'?'#22C55E':p.estadoComercial==='Reservado'?'#F59E0B':p.estadoComercial==='Alquilado'?'#3B62A8':'#9CA3AF';
     var pid='acc-'+p.id.replace(/[^a-z0-9]/gi,'');
     var vendida=p.estadoComercial==='Vendido'||p.estadoComercial==='Alquilado';
-    return '<div id="'+pid+'" style="background:'+(vendida?'#F3E9EE':'#F8F6F2')+';border-radius:10px;border:1px solid '+(vendida?'#E0C8D4':'#EAE4DC')+';border-left-width:4px;border-left-color:'+(p.operacion==='Alquiler'?'#E08A3E':'#3B62A8')+';box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .25s ease;opacity:'+(vendida?'.7':'.82')+';"'
-      +(vendida?'>':' onmouseenter="if(!this.classList.contains(\'acc-open\')){this.style.background=\'#fff\';this.style.opacity=\'1\';this.style.boxShadow=\'0 4px 14px rgba(0,0,0,.08)\';this.style.borderTopColor=this.style.borderRightColor=this.style.borderBottomColor=\'#D0CAC0\';}" '
-      +'onmouseleave="if(!this.classList.contains(\'acc-open\')){this.style.background=\'#F8F6F2\';this.style.opacity=\'.82\';this.style.boxShadow=\'0 1px 3px rgba(0,0,0,.04)\';this.style.borderTopColor=this.style.borderRightColor=this.style.borderBottomColor=\'#EAE4DC\';}">')
+    return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'#F8F6F2')+';border-radius:10px;border:1px solid '+(vendida?'#E0C8D4':'#EAE4DC')+';border-left-width:4px;border-left-color:'+(p.operacion==='Alquiler'?'#E08A3E':'#3B62A8')+';box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .25s ease;opacity:'+(vendida?'.7':'.82')+';">'
       +'<div style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;" onclick="toggleAcc(\''+pid+'\')">'
       +'<span style="width:28px;height:28px;border-radius:7px;background:'+({Casa:'#E8F0EE',Departamento:'#EEF1F5',Chalet:'#F3EEE0',Lote:'#F0EBE4',Local:'#FCEFF7',Galpón:'#EFEBE4',PH:'#E7EEF3','Fondo de Comercio':'#F5EDF1'}[p.tipo]||'#EEF1F5')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+({Casa:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>',Departamento:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>',Chalet:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/><path d="M12 3v18"/></svg>',Lote:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/></svg>',Local:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><path d="M10 21v-6h4v6"/></svg>',Galpón:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 9L12 3l10 6v12H2z"/><path d="M2 9h20"/></svg>',PH:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/><path d="M9 9l6-6"/></svg>','Fondo de Comercio':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><circle cx="12" cy="14" r="2"/></svg>'}[p.tipo]||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>')+'</span>'
       +'<span class="badge" style="font-size:11px;padding:4px 10px;line-height:1;background:'+(TIPO_COLORS[p.tipo]||'#31455C')+'33;color:'+(TIPO_COLORS[p.tipo]||'#31455C')+';flex-shrink:0;">'+esc(p.tipo)+'</span>'
@@ -1136,7 +1151,7 @@ var PF_TOGGLES={pf_activoMatch:'activoMatch',pf_exclusividad:'exclusividad',pf_a
 /* ─── EVENTOS ────────────────────────────────────────────────────── */
 document.addEventListener('click',function(e){
   var navBtn=e.target.closest('.nav-btn[data-section]');
-  if(navBtn){if(navBtn.classList.contains('disabled'))return;navigate(navBtn.dataset.section);return;}
+  if(navBtn){if(navBtn.classList.contains('disabled'))return;navigate(navBtn.dataset.section);closeSidebarMobile();return;}
   var el=e.target.closest('[data-action]');
   if(el){var a=el.dataset.action;if(a==='nav-propForm'){navigate('propForm');return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();reRender();return;}if(a==='save-reqForm'){saveReqForm();return;}if(a==='save-reqForm-match'){saveReqForm();navigate('match');return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _grupos=Object.keys(ZONA_GROUPS);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí a qué grupo pertenece.',inputs:[{id:'grupo',label:'Grupo',type:'select',options:_grupos.concat(['— Nueva sin grupo (aislada) —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _g=vals.grupo==='— Nueva sin grupo (aislada) —'?('Loc_'+_v.replace(/\s+/g,'')):vals.grupo;BARRIOS.push(_v);if(!ZONA_GROUPS[_g])ZONA_GROUPS[_g]=[];ZONA_GROUPS[_g].push(_v);showToast('✓ Barrio "'+_v+'" agregado (solo en este panel)');}});return;}}
   var tog=e.target.closest('[data-toggle]');
@@ -1362,27 +1377,29 @@ function showModal(o){
   };
 }
 
-/* ─── LOGIN GATE + INIT (reemplaza el JSON.parse('<?= ?>') de Apps Script) ─── */
-function bootApp(){
-  document.getElementById('login-gate').style.display='none';
-  loadData();
-}
-function loadData(){
-  Promise.all([ apiFetch('/properties'), apiFetch('/requirements') ]).then(function(res){
-    STATE.props = normProps(res[0]);
+/* ─── LOGIN GATE + INIT ───
+   Antes: /dashboard (valida token) → /properties + /requirements (datos).
+   Ahora: una sola tanda — /properties valida Y trae datos a la vez. ─── */
+function loadData(onError){
+  Promise.all([ apiFetch('/properties'), apiFetch('/requirements'), apiFetch('/clients') ]).then(function(res){
+    document.getElementById('login-gate').style.display='none';
+    var clientsMap={};
+    (res[2]||[]).forEach(function(c){ clientsMap[String(c.id)] = c; });
+    STATE.props = normProps(res[0], clientsMap);
     STATE.reqs  = normReqs(res[1]);
     try{ STATE.sentMatches = JSON.parse(localStorage.getItem('lebrero_sent_matches')||'{}'); }catch(e){ STATE.sentMatches={}; }
     var firstActive = STATE.reqs.filter(function(r){return r.estado==='Buscando';})[0];
     STATE.selectedReqId = firstActive ? firstActive.id : (STATE.reqs[0]?STATE.reqs[0].id:'');
+    localStorage.setItem('lebrero_admin_token', TOKEN);
     checkReactivaciones();
     render();
   }).catch(function(e){
-    alert('No se pudieron cargar los datos desde la API: ' + e.message);
+    if (onError) onError(e); else alert('No se pudieron cargar los datos desde la API: ' + e.message);
   });
 }
 document.addEventListener('DOMContentLoaded', function(){
   if (TOKEN) {
-    apiFetch('/dashboard').then(bootApp).catch(function(){ TOKEN=null; localStorage.removeItem('lebrero_admin_token'); });
+    loadData(function(){ TOKEN=null; localStorage.removeItem('lebrero_admin_token'); });
   }
   document.getElementById('token-submit').addEventListener('click', function(){
     var val = document.getElementById('token-input').value.trim();
@@ -1390,10 +1407,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (!val) { err.textContent = 'Ingresá un token.'; return; }
     TOKEN = val;
     err.textContent = 'Verificando...';
-    apiFetch('/dashboard').then(function(){
-      localStorage.setItem('lebrero_admin_token', val);
-      bootApp();
-    }).catch(function(){
+    loadData(function(){
       err.textContent = 'Token incorrecto o sin conexión.';
       TOKEN = null;
     });
