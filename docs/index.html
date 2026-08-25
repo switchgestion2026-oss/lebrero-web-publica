@@ -535,15 +535,16 @@ section{ padding-block:var(--sp-8); }
 .property-modal-stats span{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.82rem; color:var(--navy); }
 .property-modal-price{ font-family:var(--font-body); font-weight:700; font-size:1.3rem; color:var(--navy-dark); }
 
-/* ---------- Scroll-driven reveal engine ---------- */
-[data-reveal]{ opacity:calc(var(--p, 0)); will-change:transform, opacity; }
-[data-reveal="up"]{ transform:translateY(calc((1 - var(--p, 0)) * 60px)); }
-[data-reveal="scale"]{ transform:scale(calc(0.92 + var(--p, 0) * 0.08)); }
-[data-reveal="clip"]{ clip-path:inset(calc((1 - var(--p, 0)) * 100%) 0 0 0); transform:none; }
-[data-reveal="left"]{ transform:translateX(calc((1 - var(--p, 0)) * -50px)); }
-[data-reveal="right"]{ transform:translateX(calc((1 - var(--p, 0)) * 50px)); }
+/* ---------- Scroll reveal (IntersectionObserver, dispara una vez) ---------- */
+[data-reveal]{ opacity:0; transition:opacity 700ms cubic-bezier(.16,1,.3,1), transform 700ms cubic-bezier(.16,1,.3,1), clip-path 700ms cubic-bezier(.16,1,.3,1); }
+[data-reveal="up"]{ transform:translateY(32px); }
+[data-reveal="scale"]{ transform:scale(0.96); }
+[data-reveal="clip"]{ clip-path:inset(100% 0 0 0); }
+[data-reveal="left"]{ transform:translateX(-32px); }
+[data-reveal="right"]{ transform:translateX(32px); }
+[data-reveal].is-revealed{ opacity:1; transform:none; clip-path:inset(0 0 0 0); }
 @media (prefers-reduced-motion: reduce){
-  [data-reveal]{ opacity:1 !important; transform:none !important; clip-path:none !important; }
+  [data-reveal]{ transition:none !important; opacity:1 !important; transform:none !important; clip-path:none !important; }
 }
 
 /* ---------- WhatsApp flotante ---------- */
@@ -1076,24 +1077,22 @@ section{ padding-block:var(--sp-8); }
     return "https://wa.me/549" + WHATSAPP_NUMERO.replace(/\D/g, "") + "?text=" + encodeURIComponent(msg);
   }
 
-  /* ---------- Scroll-driven reveal engine ---------- */
+  /* ---------- Scroll reveal (IntersectionObserver, dispara una vez) ---------- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
-  var ticking = false;
-  function computeProgress(el){
-    var r = el.getBoundingClientRect();
-    var vh = window.innerHeight;
-    var start = vh * 0.85, end = vh * 0.35;
-    return Math.max(0, Math.min(1, (start - r.top) / (start - end)));
-  }
-  function updateReveals(){
-    revealEls.forEach(function(el){ el.style.setProperty("--p", computeProgress(el)); });
-    ticking = false;
-  }
-  function onScroll(){ if (!ticking) { requestAnimationFrame(updateReveals); ticking = true; } }
   if (revealEls.length) {
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    updateReveals();
+    if ("IntersectionObserver" in window) {
+      var revealObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+      revealEls.forEach(function(el){ revealObs.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add("is-revealed"); });
+    }
   }
 
   /* Menú mobile */
