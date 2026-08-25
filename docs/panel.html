@@ -1266,8 +1266,7 @@ function savePropForm(){
     dormitorios: f.dormitorios!=='' ? Number(f.dormitorios) : undefined,
     banos: f.banos!=='' ? Number(f.banos) : undefined,
     garage: f.garage ? (Number(f.cantGarage)||1) : 0,
-    superficie: f.supCubierta!=='' ? Number(f.supCubierta) : (f.supTerreno!=='' ? Number(f.supTerreno) : undefined),
-    observaciones: f.obs || undefined,
+    descripcion: f.obs || undefined,
     // — estimadas (columnas extendidas de la migración, ver comentario en normProps) —
     propietario: f.propietario || undefined, telefono: f.telefono || undefined,
     contacto_operativo: f.contactoOperativo || undefined, exclusividad: !!f.exclusividad,
@@ -1280,7 +1279,7 @@ function savePropForm(){
     patio: !!f.patio, tipo_patio: f.patio ? f.tipoPatio : undefined,
     lavadero: !!f.lavadero, pileta: !!f.pileta, quincho: !!f.quincho, parrilla: !!f.parrilla,
     amoblado: !!f.amoblado, ascensor: !!f.ascensor, balcon: !!f.balcon, esquina: !!f.esquina,
-    agua: !!f.agua, alambrado: !!f.alambrado, foto_url: f.fotoUrl || undefined,
+    agua: !!f.agua, alambrado: !!f.alambrado,
     fotos: (f.fotos&&f.fotos.length) ? f.fotos : undefined, instagram: f.instagram || undefined,
     partida: f.partida || undefined, acepta_permutas: !!f.aceptaPermutas,
     destacada: !!f.destacada
