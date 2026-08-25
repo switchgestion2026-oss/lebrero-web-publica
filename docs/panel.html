@@ -216,8 +216,8 @@ function toggleAcc(id){
   var prevOpen=document.querySelector('.acc-row.acc-open');
   if(prevOpen && prevOpen.id!==id){
     prevOpen.classList.remove('acc-open');
-    prevOpen.style.background='#F8F6F2';prevOpen.style.opacity='1';
-    prevOpen.style.boxShadow='0 1px 3px rgba(0,0,0,.04)';prevOpen.style.borderColor='#EAE4DC';
+    prevOpen.style.background='transparent';prevOpen.style.opacity='1';
+    prevOpen.style.boxShadow='none';prevOpen.style.borderColor='#EAE4DC';
     var pb=document.getElementById('body-'+prevOpen.id);if(pb)pb.style.maxHeight='0';
     var pa=document.getElementById('arr-'+prevOpen.id);if(pa)pa.style.transform='';
   }
@@ -229,8 +229,8 @@ function toggleAcc(id){
     arr.style.transform='rotate(180deg)';
   }else{
     el.classList.remove('acc-open');
-    el.style.background='#F8F6F2';el.style.opacity='1';
-    el.style.boxShadow='0 1px 3px rgba(0,0,0,.04)';el.style.borderColor='#EAE4DC';
+    el.style.background='transparent';el.style.opacity='1';
+    el.style.boxShadow='none';el.style.borderColor='#EAE4DC';
     body.style.maxHeight='0';
     arr.style.transform='';
   }
@@ -452,7 +452,7 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
     var dot=p.estadoComercial==='Disponible'?'#22C55E':p.estadoComercial==='Reservado'?'#F59E0B':p.estadoComercial==='Alquilado'?'#3B62A8':'#9CA3AF';
     var pid='acc-'+p.id.replace(/[^a-z0-9]/gi,'');
     var vendida=p.estadoComercial==='Vendido'||p.estadoComercial==='Alquilado';
-    return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'#F8F6F2')+';border-bottom:1px solid '+(vendida?'#E0C8D4':'#EAE4DC')+';border-left:4px solid '+(p.operacion==='Alquiler'?'#E08A3E':'#3B62A8')+';transition:background .2s ease;opacity:'+(vendida?'.7':'1')+';">'
+    return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'transparent')+';border-bottom:1px solid '+(vendida?'#E0C8D4':'#EAE4DC')+';transition:background .2s ease;opacity:'+(vendida?'.7':'1')+';">'
       +'<div style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;" onclick="toggleAcc(\''+pid+'\')">'
       +'<span style="width:28px;height:28px;border-radius:7px;background:'+({Casa:'#E8F0EE',Departamento:'#EEF1F5',Chalet:'#F3EEE0',Lote:'#F0EBE4',Local:'#FCEFF7',Galpón:'#EFEBE4',PH:'#E7EEF3','Fondo de Comercio':'#F5EDF1'}[p.tipo]||'#EEF1F5')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+({Casa:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>',Departamento:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>',Chalet:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/><path d="M12 3v18"/></svg>',Lote:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/></svg>',Local:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><path d="M10 21v-6h4v6"/></svg>',Galpón:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 9L12 3l10 6v12H2z"/><path d="M2 9h20"/></svg>',PH:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/><path d="M9 9l6-6"/></svg>','Fondo de Comercio':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><circle cx="12" cy="14" r="2"/></svg>'}[p.tipo]||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>')+'</span>'
       +'<span class="badge" style="font-size:11px;padding:4px 10px;line-height:1;background:'+(TIPO_COLORS[p.tipo]||'#31455C')+'33;color:'+(TIPO_COLORS[p.tipo]||'#31455C')+';flex-shrink:0;">'+esc(p.tipo)+'</span>'
