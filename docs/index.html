@@ -41,7 +41,7 @@
   --topbar-h: 72px;
 
   --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem;
-  --sp-5: 1.5rem; --sp-6: 2.5rem; --sp-7: 4rem; --sp-8: 6rem; --sp-9: 9rem;
+  --sp-5: 1.5rem; --sp-6: 2.5rem; --sp-7: 5rem; --sp-8: 8rem; --sp-9: 12rem;
 
   --max-content: 1360px;
   --ease: cubic-bezier(.4,0,.2,1);
@@ -172,10 +172,19 @@ section{ padding-block:var(--sp-8); }
 .hero-meta{ font-size:0.72rem; letter-spacing:0.12em; color:rgba(231,215,184,0.85); }
 
 /* ---------- Barra de confianza ---------- */
-.trust{ background:var(--sand); padding-block:var(--sp-4); }
-.trust .content{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:var(--sp-6); }
-.trust span{ font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em; color:var(--navy-dark); }
-.trust .sep{ color:var(--bronze); }
+.trust{ background:var(--sand); padding-block:var(--sp-7); }
+.trust-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); }
+.trust-item{ display:flex; flex-direction:column; gap:var(--sp-3); }
+.trust-item svg{ width:30px; height:30px; color:var(--navy); }
+.trust-item h3{ font-family:var(--font-body); font-size:0.92rem; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--navy-dark); margin:0; }
+.trust-item p{ font-size:0.88rem; line-height:1.5; color:#5a6a7a; max-width:32ch; margin:0; }
+.trust-item a{ font-family:var(--font-mono); font-size:1rem; color:var(--magenta); transition:transform var(--dur) var(--ease); width:fit-content; }
+.trust-item a:hover{ transform:translateX(4px); }
+@media (min-width:768px){
+  .trust-grid{ grid-template-columns:repeat(3,1fr); }
+  .trust-item{ padding-right:var(--sp-6); border-right:1px solid rgba(49,69,92,0.15); }
+  .trust-item:last-child{ border-right:none; padding-right:0; }
+}
 
 /* ---------- Sección genérica con línea ---------- */
 .line-divider{ display:block; margin-block:var(--sp-7); opacity:0.5; }
@@ -214,16 +223,21 @@ section{ padding-block:var(--sp-8); }
 .carousel-wrap{ position:relative; }
 .carousel-track{ display:flex; gap:var(--sp-4); overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:var(--sp-2); -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .carousel-track::-webkit-scrollbar{ display:none; }
-.carousel-card{ flex:0 0 260px; scroll-snap-align:start; background:var(--white); border:1px solid rgba(49,69,92,0.12); border-radius:2px; overflow:hidden; display:flex; flex-direction:column; }
-.carousel-card-img{ aspect-ratio:4/3; background:linear-gradient(150deg, var(--teal), var(--sage)); }
-.carousel-card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
-.carousel-card-body{ padding:var(--sp-4); display:flex; flex-direction:column; gap:6px; flex:1; }
-.carousel-card-kicker{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--bronze); }
-.carousel-card h4{ font-family:var(--font-display); font-size:1.02rem; color:var(--navy-dark); margin-top:2px; }
-.carousel-card-loc{ font-family:var(--font-mono); font-size:0.72rem; color:var(--sage); }
-.carousel-card-meta{ font-family:var(--font-mono); font-size:0.72rem; color:var(--navy); display:flex; gap:var(--sp-3); flex-wrap:wrap; margin-top:2px; }
-.carousel-card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:var(--sp-2); border-top:1px solid rgba(49,69,92,0.08); }
-.carousel-card-price{ font-family:var(--font-body); font-weight:700; color:var(--navy-dark); font-size:0.92rem; }
+.carousel-card{ flex:0 0 300px; scroll-snap-align:start; background:var(--white); border-radius:3px; overflow:hidden; display:flex; flex-direction:column; transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.carousel-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(21,26,30,0.12); }
+.carousel-card-img{ position:relative; aspect-ratio:4/5; background:linear-gradient(150deg, var(--teal), var(--sage)); overflow:hidden; }
+.carousel-card-img img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 600ms var(--ease); }
+.carousel-card:hover .carousel-card-img img{ transform:scale(1.05); }
+.carousel-card-badge{ position:absolute; top:14px; left:14px; background:var(--navy-dark); color:var(--sand); font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.4rem 0.85rem; border-radius:2px; z-index:1; }
+.carousel-card-body{ padding:var(--sp-4) var(--sp-4) var(--sp-5); display:flex; flex-direction:column; gap:8px; flex:1; }
+.carousel-card h4{ font-family:var(--font-display); font-size:1.08rem; color:var(--navy-dark); }
+.carousel-card-loc{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.75rem; color:var(--sage); }
+.carousel-card-loc svg{ width:14px; height:14px; flex-shrink:0; }
+.carousel-card-meta{ display:flex; gap:var(--sp-4); color:#8a9aaa; margin-top:2px; }
+.carousel-card-meta span{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:0.75rem; }
+.carousel-card-meta svg{ width:15px; height:15px; }
+.carousel-card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:var(--sp-3); }
+.carousel-card-price{ font-family:var(--font-body); font-weight:700; color:var(--navy-dark); font-size:0.95rem; }
 .carousel-btn{ position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; background:var(--white); border:1px solid rgba(49,69,92,0.2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; line-height:1; color:var(--navy); z-index:2; cursor:pointer; }
 .carousel-btn:hover{ background:var(--sand); }
 .carousel-btn.prev{ left:-8px; } .carousel-btn.next{ right:-8px; }
@@ -599,9 +613,9 @@ section{ padding-block:var(--sp-8); }
       <path d="M0,120 L0,80 L60,80 L60,40 L140,40 L140,90 L220,90 L220,20 L300,20 L300,70 L380,70 L380,110 L460,110 L460,50 L540,50 L540,95 L620,95 L620,30 L700,30 L700,75 L780,75 L780,15 L860,15 L860,60 L940,60 L940,100 L1020,100 L1020,45 L1100,45 L1100,85 L1180,85 L1180,25 L1260,25 L1260,65 L1340,65 L1340,105 L1440,105"/>
     </svg>
         <div class="content">
-      <h1 data-reveal="up">DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS</h1>
+      <h1 data-reveal="up">DONDE COMIENZAN<br>TUS MEJORES<br><span style="color:var(--magenta);">HISTORIAS</span></h1>
       <div class="hero-ctas" data-reveal="up">
-        <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades para comprar o alquilar en Olavarría.</p>
+        <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades seleccionadas para comprar o alquilar en Olavarría.</p>
         <a class="btn btn-magenta" href="#buscar">Ver propiedades</a>
         <span class="hero-meta mono">VENTA · ALQUILER · TASACIONES</span>
       </div>
@@ -610,12 +624,25 @@ section{ padding-block:var(--sp-8); }
 
   <!-- ================= BARRA DE CONFIANZA ================= -->
   <div class="trust">
-    <div class="content">
-      <span>VENTA Y ALQUILER</span>
-      <span class="sep">·</span>
-      <span>ATENCIÓN PERSONALIZADA</span>
-      <span class="sep">·</span>
-      <span>OLAVARRÍA Y ZONA</span>
+    <div class="content trust-grid">
+      <div class="trust-item" data-reveal="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
+        <h3>Venta y alquiler</h3>
+        <p>Te ayudamos a encontrar la propiedad que se adapta a vos.</p>
+        <a href="#buscar">→</a>
+      </div>
+      <div class="trust-item" data-reveal="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+        <h3>Atención personalizada</h3>
+        <p>Acompañamiento cercano y asesoramiento en cada paso del proceso.</p>
+        <a href="#contacto">→</a>
+      </div>
+      <div class="trust-item" data-reveal="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <h3>Olavarría y zona</h3>
+        <p>Conocemos la zona, su gente y sus oportunidades.</p>
+        <a href="#sobre-mi">→</a>
+      </div>
     </div>
   </div>
 
@@ -1386,14 +1413,20 @@ section{ padding-block:var(--sp-8); }
   var destacadasData = [];
   var destFiltroTipo = "todas";
   var destFiltroOp = "todas";
+  function statIcon(path, val){
+    return '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' + path + '</svg>' + esc(val) + '</span>';
+  }
   function cardDestacada(p){
+    var loc = p.zona && p.localidad ? p.zona + ", " + p.localidad : (p.zona || p.localidad || "");
+    var stats = "";
+    if (p.dormitorios) stats += statIcon('<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V8a2 2 0 0 1 2-2h3v4"/>', p.dormitorios);
+    if (p.banos) stats += statIcon('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M9 19v2M17 19v2"/>', p.banos);
     return '<div class="carousel-card">' +
-      '<div class="carousel-card-img">' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
+      '<div class="carousel-card-img">' + (p.operacion ? '<span class="carousel-card-badge">' + esc(p.operacion) + '</span>' : "") + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
       '<div class="carousel-card-body">' +
-        '<div class="carousel-card-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
         '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
-        '<div class="carousel-card-loc">' + esc(p.zona && p.localidad ? p.zona + ', ' + p.localidad : (p.zona || p.localidad || "")) + '</div>' +
-        '<div class="carousel-card-meta">' + specsRow(p) + '</div>' +
+        '<div class="carousel-card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>' + esc(loc) + '</div>' +
+        (stats ? '<div class="carousel-card-meta">' + stats + '</div>' : "") +
         '<div class="carousel-card-foot"><div class="carousel-card-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
           '<a class="btn-ghost-mono" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver →</a></div>' +
       '</div></div>';
