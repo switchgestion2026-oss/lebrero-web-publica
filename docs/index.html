@@ -1509,10 +1509,12 @@ section{ padding-block:var(--sp-8); }
     var wrap = document.querySelector(".carousel-wrap");
     var track = document.getElementById("destacadas-track");
     if (!wrap || !track) return;
+    var pos = track.scrollLeft;
     function step(){
       if (!destAutoplay.paused) {
-        track.scrollLeft += 0.4;
-        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 1) track.scrollLeft = 0;
+        pos += 0.6;
+        if (pos >= track.scrollWidth - track.clientWidth) pos = 0;
+        track.scrollLeft = pos;
       }
       requestAnimationFrame(step);
     }
