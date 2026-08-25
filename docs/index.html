@@ -228,6 +228,11 @@ section{ padding-block:var(--sp-8); }
 .carousel-btn:hover{ background:var(--sand); }
 .carousel-btn.prev{ left:-8px; } .carousel-btn.next{ right:-8px; }
 .carousel-loading, .carousel-empty{ font-family:var(--font-mono); font-size:0.85rem; color:var(--sage); padding:var(--sp-4) 0; }
+.carousel-filters{ display:flex; flex-wrap:wrap; gap:var(--sp-4); margin-bottom:var(--sp-5); }
+.carousel-filter-group{ display:flex; flex-wrap:wrap; gap:8px; }
+.carousel-filter-btn{ padding:0.5rem 1rem; border:1px solid rgba(49,69,92,0.25); border-radius:999px; background:var(--white); color:var(--navy-dark); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; cursor:pointer; transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.carousel-filter-btn:hover{ border-color:var(--navy); }
+.carousel-filter-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
 @media (max-width:640px){ .carousel-btn{ display:none; } }
 
 /* ---------- Tipologías ---------- */
@@ -623,6 +628,19 @@ section{ padding-block:var(--sp-8); }
         <p class="lead" style="margin-top:var(--sp-4);">Una selección de propiedades para vivir, invertir o proyectar tu próximo paso.</p>
       </div>
 
+      <div class="carousel-filters" data-reveal="up">
+        <div class="carousel-filter-group" role="group" aria-label="Tipo de propiedad">
+          <button type="button" class="carousel-filter-btn" data-dest-tipo="todas" aria-pressed="true">Todas</button>
+          <button type="button" class="carousel-filter-btn" data-dest-tipo="Casa" aria-pressed="false">Casas</button>
+          <button type="button" class="carousel-filter-btn" data-dest-tipo="Departamento" aria-pressed="false">Deptos</button>
+          <button type="button" class="carousel-filter-btn" data-dest-tipo="Local" aria-pressed="false">Locales</button>
+        </div>
+        <div class="carousel-filter-group" role="group" aria-label="Operación">
+          <button type="button" class="carousel-filter-btn" data-dest-op="todas" aria-pressed="true">Comprar y Alquilar</button>
+          <button type="button" class="carousel-filter-btn" data-dest-op="Venta" aria-pressed="false">Comprar</button>
+          <button type="button" class="carousel-filter-btn" data-dest-op="Alquiler" aria-pressed="false">Alquilar</button>
+        </div>
+      </div>
       <div class="carousel-wrap" data-reveal="up">
         <button type="button" class="carousel-btn prev" id="destacadas-prev" aria-label="Ver anteriores">‹</button>
         <div class="carousel-track" id="destacadas-track">
