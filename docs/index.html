@@ -1382,7 +1382,10 @@ section{ padding-block:var(--sp-8); }
       })
       .catch(function(){ /* si falla, quedan "Todas/Todos" nomás */ });
   }
-  /* ---------- Carrusel de propiedades destacadas (home) ---------- */
+  /* ---------- Carrusel de propiedades destacadas (home) + filtros ---------- */
+  var destacadasData = [];
+  var destFiltroTipo = "todas";
+  var destFiltroOp = "todas";
   function cardDestacada(p){
     return '<div class="carousel-card">' +
       '<div class="carousel-card-img">' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
@@ -1395,17 +1398,28 @@ section{ padding-block:var(--sp-8); }
           '<a class="btn-ghost-mono" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver →</a></div>' +
       '</div></div>';
   }
+  function renderDestacadas(){
+    var track = document.getElementById("destacadas-track");
+    if (!track) return;
+    var items = destacadasData.filter(function(p){
+      var okTipo = destFiltroTipo === "todas" || p.tipo === destFiltroTipo;
+      var okOp = destFiltroOp === "todas" || p.operacion === destFiltroOp;
+      return okTipo && okOp;
+    });
+    if (!items.length) { track.innerHTML = '<p class="carousel-empty">No hay propiedades destacadas con ese filtro.</p>'; return; }
+    track.innerHTML = items.map(cardDestacada).join("");
+  }
   function cargarDestacadas(){
     var track = document.getElementById("destacadas-track");
     if (!track) return;
     fetch(API_BASE + "/public/propiedades")
       .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
       .then(function(data){
-        var items = (Array.isArray(data) ? data : []).filter(function(p){
+        destacadasData = (Array.isArray(data) ? data : []).filter(function(p){
           return p.destacada && Array.isArray(p.fotos) && p.fotos.some(function(f){ return typeof f === "string" && f.indexOf("http") === 0; });
         });
-        if (!items.length) { track.innerHTML = '<p class="carousel-empty">Todavía no hay propiedades destacadas cargadas.</p>'; return; }
-        track.innerHTML = items.map(cardDestacada).join("");
+        if (!destacadasData.length) { track.innerHTML = '<p class="carousel-empty">Todavía no hay propiedades destacadas cargadas.</p>'; return; }
+        renderDestacadas();
       })
       .catch(function(){ track.innerHTML = '<p class="carousel-empty">No pudimos cargar las propiedades. Probá de nuevo más tarde.</p>'; });
   }
@@ -1413,6 +1427,22 @@ section{ padding-block:var(--sp-8); }
   var destNextBtn = document.getElementById("destacadas-next");
   if (destPrevBtn) destPrevBtn.addEventListener("click", function(){ var t = document.getElementById("destacadas-track"); if (t) t.scrollBy({ left: -280, behavior: "smooth" }); });
   if (destNextBtn) destNextBtn.addEventListener("click", function(){ var t = document.getElementById("destacadas-track"); if (t) t.scrollBy({ left: 280, behavior: "smooth" }); });
+  document.querySelectorAll("[data-dest-tipo]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll("[data-dest-tipo]").forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+      destFiltroTipo = btn.getAttribute("data-dest-tipo");
+      renderDestacadas();
+    });
+  });
+  document.querySelectorAll("[data-dest-op]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      document.querySelectorAll("[data-dest-op]").forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+      destFiltroOp = btn.getAttribute("data-dest-op");
+      renderDestacadas();
+    });
+  });
   cargarDestacadas();
 
   cargarFiltrosGeograficos();
