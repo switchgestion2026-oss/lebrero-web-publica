@@ -1254,7 +1254,7 @@ function savePropForm(){
   var editing=STATE.editingPropId;
   var body={
     // — confirmados en /properties (panel.html) —
-    tipo_propiedad: (f.tipo||'').toLowerCase(),
+    tipo: f.tipo || undefined,
     operacion: f.operacion==='Ambos' ? 'Venta' : f.operacion,
     estado_comercial: f.estadoComercial,
     publicada: !!f.activoMatch,
