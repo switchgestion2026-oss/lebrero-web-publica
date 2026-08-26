@@ -1196,8 +1196,12 @@ section{ padding-block:var(--sp-8); }
     return m > 0 ? m : null;
   }
   function imgTag(url, alt){
-    return url
-      ? '<img src="' + esc(url) + '" alt="' + esc(alt) + '" loading="lazy">'
+    var src = url;
+    if (src && src.indexOf("res.cloudinary.com") !== -1 && src.indexOf("/upload/") !== -1) {
+      src = src.replace("/upload/", "/upload/w_500,q_auto,f_auto/");
+    }
+    return src
+      ? '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy">'
       : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#1c2329,#263B50);"></div>';
   }
   function specsRow(p){
