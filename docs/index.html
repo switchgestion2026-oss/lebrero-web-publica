@@ -173,6 +173,14 @@ section{ padding-block:var(--sp-8); }
 }
 .hero-ctas{ margin-top:var(--sp-6); display:flex; flex-direction:column; align-items:flex-start; gap:var(--sp-4); }
 .hero-meta{ font-size:0.72rem; letter-spacing:0.12em; color:rgba(231,215,184,0.85); }
+.hero-benefits{
+  display:flex; flex-wrap:wrap; gap:var(--sp-5, 24px);
+  list-style:none; margin:var(--sp-4) 0 0; padding:0;
+  font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:rgba(231,215,184,0.85);
+}
+.hero-benefits li{ display:flex; align-items:center; gap:8px; }
+.hero-benefits svg{ width:16px; height:16px; flex-shrink:0; opacity:.85; }
 
 /* ---------- Barra de confianza ---------- */
 .trust{ background:var(--sand-bg); padding-block:var(--sp-7); }
@@ -645,34 +653,14 @@ section{ padding-block:var(--sp-8); }
       <div class="hero-ctas" data-reveal="up">
         <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades seleccionadas para comprar o alquilar en Olavarría.</p>
         <a class="btn btn-magenta" href="#buscar">Ver propiedades</a>
-        <span class="hero-meta mono">VENTA · ALQUILER · TASACIONES</span>
       </div>
+      <ul class="hero-benefits" data-reveal="up">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>Venta y alquiler</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>Atención personalizada</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Olavarría y zona</li>
+      </ul>
     </div>
   </section>
-
-  <!-- ================= BARRA DE CONFIANZA ================= -->
-  <div class="trust">
-    <div class="content trust-grid">
-      <div class="trust-item" data-reveal="up">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
-        <h3>Venta y alquiler</h3>
-        <p>Te ayudamos a encontrar la propiedad que se adapta a vos.</p>
-        <a href="#buscar">→</a>
-      </div>
-      <div class="trust-item" data-reveal="up">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-        <h3>Atención personalizada</h3>
-        <p>Acompañamiento cercano y asesoramiento en cada paso del proceso.</p>
-        <a href="#contacto">→</a>
-      </div>
-      <div class="trust-item" data-reveal="up">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        <h3>Olavarría y zona</h3>
-        <p>Conocemos la zona, su gente y sus oportunidades.</p>
-        <a href="#sobre-mi">→</a>
-      </div>
-    </div>
-  </div>
 
   <!-- ================= PROPIEDADES DESTACADAS ================= -->
   <section class="amenities" id="propiedades">
