@@ -459,19 +459,19 @@ function renderPropiedades(){
   }
   var tiposEnTab=['Casa','Chalet','Departamento','Fondo de Comercio','Galpón','Local','Lote'];
 if(tiposEnTab.indexOf(STATE.dashTipo)===-1) STATE.dashTipo='Todos';
-var subTabsH='<div style="display:flex;flex-wrap:wrap;gap:4px;padding:4px;background:rgba(255,255,255,.08);border-radius:12px;">'+['Todos'].concat(tiposEnTab).map(function(t){var sel=STATE.dashTipo===t;var c=t==='Todos'?'#fff':(TIPO_COLORS[t]||'#fff');return '<button data-action="dash-tipo" data-tipo="'+t+'" onmouseover="if(!this.classList.contains(\'act\'))this.style.background=\'rgba(255,255,255,.06)\'" onmouseout="if(!this.classList.contains(\'act\'))this.style.background=\'transparent\'" class="'+(sel?'act':'')+'" style="padding:7px 14px;border-radius:8px;border:none;white-space:nowrap;background:'+(sel?'rgba(255,255,255,.16)':'transparent')+';color:'+(sel?'#fff':'rgba(255,255,255,.5)')+';font-size:11px;font-weight:700;cursor:pointer;transition:all .2s ease;">'+t+'</button>';}).join('')+'</div>';
+var subTabsH='<div style="display:flex;flex-wrap:wrap;gap:6px;">'+['Todos'].concat(tiposEnTab).map(function(t){var sel=STATE.dashTipo===t;return '<button data-action="dash-tipo" data-tipo="'+t+'" class="'+(sel?'act':'')+'" style="padding:7px 14px;border-radius:20px;border:1.5px solid '+(sel?'#31455C':'#E5E0D8')+';white-space:nowrap;background:'+(sel?'#31455C':'#fff')+';color:'+(sel?'#fff':'#5A6A7A')+';font-size:11px;font-weight:700;cursor:pointer;transition:all .15s ease;">'+t+'</button>';}).join('')+'</div>';
 var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab&&(STATE.dashTipo==='Todos'||p.tipo===STATE.dashTipo)&&matchesSearch(p);}).sort(function(a,b){var av=(a.estadoComercial==='Vendido'||a.estadoComercial==='Alquilado')?1:0;var bv=(b.estadoComercial==='Vendido'||b.estadoComercial==='Alquilado')?1:0;return av-bv;}).map(function(p){
     var ec=p.estadoComercial==='Disponible'?'green':p.estadoComercial==='Reservado'?'amber':p.estadoComercial==='Alquilado'?'blue':'gray';
     var dot=p.estadoComercial==='Disponible'?'#22C55E':p.estadoComercial==='Reservado'?'#F59E0B':p.estadoComercial==='Alquilado'?'#3B62A8':'#9CA3AF';
     var pid='acc-'+p.id.replace(/[^a-z0-9]/gi,'');
     var vendida=p.estadoComercial==='Vendido'||p.estadoComercial==='Alquilado';
-    return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'transparent')+';border-bottom:1px solid '+(vendida?'#E0C8D4':'#EAE4DC')+';border-left:3px solid '+(TIPO_COLORS[p.tipo]||'#B0B8C1')+';transition:background .2s ease;opacity:'+(vendida?'.7':'1')+';">'
-      +'<div style="display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;" onclick="toggleAcc(\''+pid+'\')">'
+    return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'transparent')+';border-bottom:1px solid '+(vendida?'#E0C8D4':'#F1EEE8')+';border-left:3px solid '+(TIPO_COLORS[p.tipo]||'#B0B8C1')+';transition:background .2s ease;opacity:'+(vendida?'.7':'1')+';">'
+      +'<div style="display:flex;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;" onclick="toggleAcc(\''+pid+'\')">'
       +'<span style="width:28px;height:28px;border-radius:7px;background:'+({Casa:'#E8F0EE',Departamento:'#EEF1F5',Chalet:'#F3EEE0',Lote:'#F0EBE4',Local:'#FCEFF7',Galpón:'#EFEBE4',PH:'#E7EEF3','Fondo de Comercio':'#F5EDF1'}[p.tipo]||'#EEF1F5')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+({Casa:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>',Departamento:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>',Chalet:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/><path d="M12 3v18"/></svg>',Lote:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/></svg>',Local:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><path d="M10 21v-6h4v6"/></svg>',Galpón:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 9L12 3l10 6v12H2z"/><path d="M2 9h20"/></svg>',PH:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/><path d="M9 9l6-6"/></svg>','Fondo de Comercio':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><circle cx="12" cy="14" r="2"/></svg>'}[p.tipo]||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>')+'</span>'
       +'<span class="badge" style="font-size:11px;padding:4px 10px;line-height:1;background:'+(TIPO_COLORS[p.tipo]||'#31455C')+'33;color:'+(TIPO_COLORS[p.tipo]||'#31455C')+';flex-shrink:0;">'+esc(p.tipo)+'</span>'
-      +'<div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">'
-      +'<div style="font-size:15px;font-weight:600;color:#1C2B39;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(p.propietario||'—')+'</div>'
-      +'<div style="font-size:11px;color:#8A9AAA;font-weight:500;">'+esc(p.direccion)+(p.barrio||p.localidad?' · '+esc(p.barrio||p.localidad):'')+'</div>'
+      +'<div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;">'
+      +'<div style="font-size:16px;font-weight:700;color:#1C2B39;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(p.propietario||'—')+'</div>'
+      +'<div style="font-size:11px;color:#B0B8C1;font-weight:500;">'+esc(p.direccion)+(p.barrio||p.localidad?' · '+esc(p.barrio||p.localidad):'')+'</div>'
       +'</div>'
       +'<span style="font-size:13.5px;font-weight:700;color:#1C2B39;white-space:nowrap;">'+esc(fmtPrice(p.precio,p.moneda))+'</span>'
       +'<span style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#374151;white-space:nowrap;">'
@@ -534,10 +534,13 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
 +'<rect x="106" y="8" width="16" height="52"/><rect x="109" y="2" width="10" height="6"/>'
 +'<rect x="126" y="14" width="22" height="46"/><rect x="129" y="6" width="16" height="8"/>'
 +'</svg>'
-+'<div style="position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">'
++'<div style="position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">'
 +'<div style="flex-shrink:0;"><div style="font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px;">Propiedades</div><div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:2px;letter-spacing:.2px;">Cartera completa</div></div>'
-+'<div style="flex:1;display:flex;justify-content:center;min-width:200px;">'+subTabsH+'</div>'
-+'<div style="display:flex;align-items:center;gap:10px;flex-shrink:0;padding-left:12px;border-left:1px solid rgba(255,255,255,.15);">'
++'<div style="flex:1;min-width:220px;max-width:480px;position:relative;display:flex;align-items:center;">'
++'<svg style="position:absolute;left:14px;pointer-events:none;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
++'<input data-field="propSearch" value="'+esc(STATE.propSearch)+'" placeholder="Buscar propiedad, dirección, barrio o propietario…" style="width:100%;padding:10px 14px 10px 38px;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:12.5px;outline:none;">'
++'</div>'
++'<div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">'
 +'<div style="display:flex;background:rgba(255,255,255,.08);border-radius:8px;padding:2px;">'
 +'<button data-action="dash-tab" data-tab="Venta" style="padding:8px 20px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;background:'+(STATE.dashTab==='Venta'?'rgba(78,128,125,.25)':'transparent')+';color:'+(STATE.dashTab==='Venta'?'#9FD4CC':'rgba(255,255,255,.5)')+';">Venta</button>'
 +'<button data-action="dash-tab" data-tab="Alquiler" style="padding:8px 20px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;background:'+(STATE.dashTab==='Alquiler'?'rgba(184,151,106,.28)':'transparent')+';color:'+(STATE.dashTab==='Alquiler'?'#E7D7B8':'rgba(255,255,255,.5)')+';">Alquiler</button>'
@@ -546,7 +549,7 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
 +'</div>'
 +'</div>'
 +'</div>'
-    +'<div style="padding:14px 20px 0;"><input class="fi" data-field="propSearch" type="text" value="'+esc(STATE.propSearch||'')+'" placeholder="Buscar por dirección, barrio, propietario..." style="max-width:340px;"></div>'
+    +'<div style="padding:12px 20px;background:#FAF9F6;border-bottom:1px solid #EDE8E0;">'+subTabsH+'</div>'
     +'<div style="display:flex;flex-direction:column;">'+accordionH+'</div>'
     +'</div>'
     +'<div class="card"><div class="card-hd"><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Matches Recientes</div><div style="font-size:10.5px;color:#9AA5B0;margin-top:1px;">Mejor coincidencia por propiedad activa</div></div></div>'
@@ -1240,14 +1243,6 @@ function onFieldUpdate(e){
       if(mapEl) mapEl.src='https://maps.google.com/maps?q='+encodeURIComponent((STATE.propForm.direccion||'')+', '+(STATE.propForm.localidad||'Olavarría')+', Argentina')+'&output=embed';
     }
   }
-  else if(STATE.section==='propiedades'){
-    if(e.type==='change') return;
-    STATE.propSearch=v;
-    var posP=e.target.selectionStart;
-    reRender();
-    var niP=document.querySelector('[data-field="propSearch"]');
-    if(niP){niP.focus();niP.setSelectionRange(posP,posP);}
-  }
   else if(STATE.section==='reqForm'){
     STATE.reqForm[field]=v;
     if(field==='barrioSearch'){
@@ -1256,6 +1251,14 @@ function onFieldUpdate(e){
       var ni=document.querySelector('[data-field="barrioSearch"]');
       if(ni){ni.focus();ni.setSelectionRange(pos,pos);}
     } else if(e.type==='change') reRender();
+  }
+  else if(STATE.section==='propiedades'){
+    if(e.type==='change') return;
+    STATE.propSearch=v;
+    var posP=e.target.selectionStart;
+    reRender();
+    var niP=document.querySelector('[data-field="propSearch"]');
+    if(niP){niP.focus();niP.setSelectionRange(posP,posP);}
   }
 }
 
