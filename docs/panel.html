@@ -1425,7 +1425,7 @@ function deleteProp(id){
     body:'¿Confirmás que querés eliminar '+id+' ('+(p.direccion||p.barrio||'')+')? Esta acción no se puede deshacer.',
     confirmText:'Sí, eliminar',
     onConfirm:function(){
-      apiFetch('/properties/'+id, { method:'PUT', body:JSON.stringify({ estado_comercial:'Eliminada', publicada:false, activo_match:false }) })
+      apiFetch('/properties/'+id, { method:'DELETE' })
         .then(function(){
           STATE.props=STATE.props.filter(function(x){return x.id!==id;});
           showToast('✓ '+id+' eliminada');

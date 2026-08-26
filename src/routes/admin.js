@@ -56,6 +56,21 @@ router.put('/properties/:id', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al actualizar propiedad' }); }
 });
 
+router.delete('/properties/:id', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM matches WHERE propiedad_id = $1', [req.params.id]);
+    const r = await client.query('DELETE FROM properties WHERE id = $1 RETURNING id', [req.params.id]);
+    if (!r.rows.length) { await client.query('ROLLBACK'); return res.status(404).json({ error: 'No encontrada' }); }
+    await client.query('COMMIT');
+    res.json({ ok: true });
+  } catch (e) {
+    await client.query('ROLLBACK');
+    console.error(e); res.status(500).json({ error: 'Error al eliminar propiedad' });
+  } finally { client.release(); }
+});
+
 /* ── CLIENTS ── */
 router.get('/clients', async (req, res) => {
   try {
