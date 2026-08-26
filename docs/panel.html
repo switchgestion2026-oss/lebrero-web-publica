@@ -1241,6 +1241,7 @@ function onFieldUpdate(e){
     }
   }
   else if(STATE.section==='propiedades'){
+    if(e.type==='change') return;
     STATE.propSearch=v;
     var posP=e.target.selectionStart;
     reRender();
@@ -1424,7 +1425,7 @@ function deleteProp(id){
     body:'¿Confirmás que querés eliminar '+id+' ('+(p.direccion||p.barrio||'')+')? Esta acción no se puede deshacer.',
     confirmText:'Sí, eliminar',
     onConfirm:function(){
-      apiFetch('/properties/'+id, { method:'DELETE' })
+      apiFetch('/properties/'+id, { method:'PUT', body:JSON.stringify({ estado_comercial:'Eliminada', publicada:false, activo_match:false }) })
         .then(function(){
           STATE.props=STATE.props.filter(function(x){return x.id!==id;});
           showToast('✓ '+id+' eliminada');
@@ -1491,7 +1492,7 @@ function loadData(onError){
     document.getElementById('login-gate').style.display='none';
     var clientsMap={};
     (res[2]||[]).forEach(function(c){ clientsMap[String(c.id)] = c; });
-    STATE.props = normProps(res[0], clientsMap);
+    STATE.props = normProps(res[0], clientsMap).filter(function(p){return p.estadoComercial!=='Eliminada';});
     STATE.reqs  = normReqs(res[1], clientsMap);
     STATE.clients = res[2]||[];
     try{ STATE.sentMatches = JSON.parse(localStorage.getItem('lebrero_sent_matches')||'{}'); }catch(e){ STATE.sentMatches={}; }
