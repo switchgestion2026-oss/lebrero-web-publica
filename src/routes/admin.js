@@ -70,7 +70,16 @@ router.delete('/properties/:id', async (req, res) => {
     console.error(e); res.status(500).json({ error: 'Error al eliminar propiedad' });
   } finally { client.release(); }
 });
-
+router.get('/barrios', async (req, res) => {
+  try {
+    const r = await pool.query(
+      `SELECT b.id, b.nombre, b.localidad_id, l.nombre AS localidad, b.zona_id, z.nombre AS zona
+       FROM barrios b JOIN localidades l ON l.id = b.localidad_id
+       LEFT JOIN zonas z ON z.id = b.zona_id ORDER BY l.nombre, b.nombre`
+    );
+    res.json(r.rows);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al obtener barrios' }); }
+});
 /* ── CLIENTS ── */
 router.get('/clients', async (req, res) => {
   try {
