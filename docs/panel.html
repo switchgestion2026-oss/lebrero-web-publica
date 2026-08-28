@@ -941,7 +941,7 @@ function renderMatch() {
         var critPcts = {};
         var matchedCount=0, totalCount=0, weakLabels=[];
         Object.keys(m.criteria).forEach(function(k){
-          var maxW = req && req.soloPorValor && k==='precio' ? 35 : W[k];
+          var maxW = req && req.soloPorValor && k==='precio' ? 35 : m.max[k];
           if (maxW<=0) return;
           totalCount++;
           var pct = Math.round((m.criteria[k]/maxW)*100);
@@ -955,7 +955,7 @@ function renderMatch() {
             : 'Coincide con '+matchedCount+' de '+totalCount+' criterios.';
 
         var barsH = Object.keys(m.criteria).map(function(k) {
-          var maxW = req && req.soloPorValor && k==='precio' ? 35 : W[k];
+          var maxW = req && req.soloPorValor && k==='precio' ? 35 : m.max[k];
           if (maxW<=0) return '';
           var pct = critPcts[k];
           var bc = pct===100 ? (score>=80?'#D40A8C':'#31455C') : pct>=70 ? '#6D8A85' : pct>0 ? '#D97706' : '#EFEFEF';
