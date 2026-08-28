@@ -1487,6 +1487,11 @@ section{ padding-block:var(--sp-8); }
     }).slice(0, 12);
     if (!items.length) { track.innerHTML = '<p class="carousel-empty">No hay propiedades destacadas con ese filtro.</p>'; return; }
     track.innerHTML = items.map(cardDestacada).join("");
+    var prevBtn = document.getElementById("destacadas-prev");
+    var nextBtn = document.getElementById("destacadas-next");
+    var sinScroll = items.length <= 3;
+    if (prevBtn) prevBtn.style.display = sinScroll ? "none" : "";
+    if (nextBtn) nextBtn.style.display = sinScroll ? "none" : "";
   }
   function cargarDestacadas(){
     var track = document.getElementById("destacadas-track");
@@ -1531,9 +1536,10 @@ section{ padding-block:var(--sp-8); }
     if (!wrap || !track) return;
     var pos = track.scrollLeft;
     function step(){
-      if (!destAutoplay.paused) {
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if (!destAutoplay.paused && maxScroll > 1) {
         pos += 0.6;
-        if (pos >= track.scrollWidth - track.clientWidth) pos = 0;
+        if (pos >= maxScroll) pos = 0;
         track.scrollLeft = pos;
       }
       requestAnimationFrame(step);
