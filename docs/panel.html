@@ -265,6 +265,19 @@ function apiFetch(path, opts){
     });
   });
 }
+function ensureMatchLoaded(reqId){
+  if(!reqId) return;
+  var c = STATE.matchCache[reqId];
+  if(c && (c.status==='ready'||c.status==='loading')) return;
+  STATE.matchCache[reqId] = { status:'loading' };
+  apiFetch('/matches/requirement/'+reqId).then(function(data){
+    STATE.matchCache[reqId] = { status:'ready', data: data||[] };
+    if(STATE.selectedReqId===reqId && STATE.section==='match'){ reRender(); }
+  }).catch(function(e){
+    STATE.matchCache[reqId] = { status:'error', error:e.message };
+    if(STATE.selectedReqId===reqId && STATE.section==='match'){ reRender(); }
+  });
+}
 
 /* ─── CONSTANTES ─────────────────────────────────────────────────── */
 var BARRIOS_ALL = [];
@@ -377,6 +390,7 @@ STATE.editingPropId = null;
 STATE.dashTab = 'Venta';
 STATE.dashTipo = 'Todos';
 STATE.matchTab = 'Venta';
+STATE.matchCache = {};
 STATE.propSearch = '';
 STATE.clients = [];
 
@@ -741,11 +755,21 @@ function renderMatch() {
   var req   = STATE.reqs.filter(function(r){ return r.id === STATE.selectedReqId; })[0];
   var props = STATE.props.filter(function(p){ return p.activoMatch && p.estadoComercial === 'Disponible'; });
 
-  var allResults = props.map(function(p) {
-    var s = calcScore(p, req || { tipoBuscado:[], operacion:'', presupuestoMax:0, zonas:[], dormitoriosMin:0, garage:false, patio:false, soloPorValor:false });
-    return Object.assign({}, p, { score: s.total, criteria: s.c, max: s.max, pct: s.pct });
-  }).filter(function(m){ return m.criteria.tipo > 0 && (m.max.localidad===0 || m.criteria.localidad>0 || !m.localidad); })
-    .sort(function(a,b){ return b.score - a.score; });
+  var cache = req ? STATE.matchCache[req.id] : null;
+  if (req && (!cache || cache.status==='loading')) ensureMatchLoaded(req.id);
+  var isLoading = !!req && (!cache || cache.status==='loading');
+  var loadError = cache && cache.status==='error' ? cache.error : null;
+
+  var allResults = (req && cache && cache.status==='ready')
+    ? cache.data.map(function(r) {
+        var pid = (r.property && r.property.id!=null) ? String(r.property.id) : '';
+        var localProp = STATE.props.filter(function(p){ return p.id===pid; })[0];
+        if (!localProp) return null;
+        var pct = req.presupuestoMax > 0 ? localProp.precio / req.presupuestoMax : null;
+        return Object.assign({}, localProp, { score: r.score, criteria: r.criteria, max: r.max, pct: pct });
+      }).filter(function(m){ return m && (m.max.localidad===0 || m.criteria.localidad>0 || !m.localidad); })
+        .sort(function(a,b){ return b.score - a.score; })
+    : [];
   function impactSort(a,b){
     return b.score-a.score;
   }
@@ -834,7 +858,11 @@ function renderMatch() {
   var CRIT_LABELS = { tipo:'Tipo', op:'Operación', precio:'Presupuesto', zona:'Zona', localidad:'Localidad', dormitorios:'Dormit.', banos:'Baños', garage:'Garage', patio:'Patio' };
   var W = MATCH_W;
 
-  var cardsH = results.length === 0
+  var cardsH = isLoading
+    ? '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#B0B8C1;font-size:12px;">Calculando coincidencias...</div>'
+    : loadError
+    ? '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#B91C1C;font-size:12px;">Error al calcular match: '+esc(loadError)+'</div>'
+    : results.length === 0
     ? '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;">' +
       '<div style="font-size:32px;margin-bottom:12px;opacity:.3;">○</div>' +
       '<div style="font-size:13px;color:#B0B8C1;font-weight:500;">Sin propiedades compatibles para este requerimiento</div>' +
@@ -1358,6 +1386,7 @@ garage_cant: f.garage ? (Number(f.cantGarage)||1) : undefined,
     }
     STATE.editingPropId=null;
     STATE.propForm=emptyPF();
+    STATE.matchCache = {};
     showToast(editing?'✓ '+id+' actualizada':'✓ Propiedad '+id+' guardada');
     renderNav();reRender();
   }).catch(function(e){
@@ -1430,7 +1459,9 @@ function saveReqForm(){
       showToast('✓ Requerimiento '+id+' guardado');
     }
     STATE.editingReqId=null;
-    STATE.reqForm=emptyRF();STATE.reqFormStep=1;renderNav();reRender();
+    STATE.reqForm=emptyRF();STATE.reqFormStep=1;
+    STATE.matchCache = {};
+    renderNav();reRender();
   }).catch(function(e){
     showToast('Error: '+e.message+(editing?' (la edición de requerimientos puede no estar soportada todavía por el backend)':''));
   });
@@ -1446,7 +1477,7 @@ function markVendida(id){
   if(!p||p.estadoComercial==='Vendido') return;
   showModal({title:'Marcar como vendida',body:'¿Confirmás que '+id+' fue vendida?',confirmText:'Sí, marcar vendida',onConfirm:function(){
     apiFetch('/properties/'+id, { method:'PUT', body:JSON.stringify({ estado_comercial:'Vendido', publicada:false }) })
-      .then(function(){ p.estadoComercial='Vendido';p.activoMatch=false; showToast('✓ '+id+' vendida'); render(); })
+      .then(function(){ p.estadoComercial='Vendido';p.activoMatch=false; STATE.matchCache={}; showToast('✓ '+id+' vendida'); render(); })
       .catch(function(e){ showToast('Error: '+e.message); });
   }});
 }
@@ -1458,6 +1489,7 @@ function markAlquilada(id){
     apiFetch('/properties/'+id, { method:'PUT', body:JSON.stringify({ estado_comercial:'Alquilado', publicada:false }) })
       .then(function(){
         p.estadoComercial='Alquilado';p.activoMatch=false;p.fechaFinContrato=vals.fecha;
+        STATE.matchCache = {};
         showToast('✓ '+id+' alquilada (la fecha de fin de contrato solo se guarda en este panel — el backend no tiene esa columna todavía)');
         render();
       })
