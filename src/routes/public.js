@@ -7,7 +7,7 @@ const matchEngine = require('../services/matchEngine');
 router.get('/propiedades', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, titulo, tipo, operacion, barrio AS zona, localidad, precio, moneda, ambientes, dormitorios, banos, descripcion, fotos, destacada
+      `SELECT id, titulo, tipo, operacion, barrio AS zona, localidad, precio, moneda, ambientes, dormitorios, banos, descripcion, fotos, destacada, garage, garage_cant, balcon, apto_credito, sup_cubierta_m2, sup_terreno_m2
        FROM properties WHERE publicada = true AND activo_match = true ORDER BY id DESC`
     );
     res.json(result.rows);

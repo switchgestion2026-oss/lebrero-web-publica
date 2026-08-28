@@ -244,6 +244,9 @@ section{ padding-block:var(--sp-8); }
 .carousel-card-img img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 600ms var(--ease); }
 .carousel-card:hover .carousel-card-img img{ transform:scale(1.05); }
 .carousel-card-badge{ position:absolute; top:14px; left:14px; background:var(--navy-dark); color:var(--sand); font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.4rem 0.85rem; border-radius:2px; z-index:1; }
+.carousel-fav-btn{ position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.92); border:none; display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--navy); cursor:pointer; z-index:1; transition:color var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.carousel-fav-btn:hover{ transform:scale(1.08); }
+.carousel-fav-btn.is-fav{ color:var(--magenta); }
 .carousel-card-body{ padding:var(--sp-3) var(--sp-4) var(--sp-4); display:flex; flex-direction:column; gap:6px; flex:1; }
 .carousel-card h4{ font-family:var(--font-display); font-size:1.08rem; color:var(--navy-dark); }
 .carousel-card-loc{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.75rem; color:var(--sage); }
@@ -251,18 +254,24 @@ section{ padding-block:var(--sp-8); }
 .carousel-card-meta{ display:flex; gap:var(--sp-4); color:#8a9aaa; margin-top:2px; }
 .carousel-card-meta span{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:0.75rem; }
 .carousel-card-meta svg{ width:15px; height:15px; }
-.carousel-card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:var(--sp-3); }
-.carousel-card-price{ font-family:var(--font-body); font-weight:700; color:var(--navy-dark); font-size:0.95rem; }
+.carousel-card-attrs{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+.carousel-card-attr{ font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--navy-dark); background:rgba(78,128,125,0.12); border:1px solid rgba(78,128,125,0.25); border-radius:999px; padding:0.25rem 0.65rem; }
+.carousel-card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:var(--sp-3); gap:var(--sp-3); }
+.carousel-card-price{ font-family:var(--font-display); font-weight:700; color:var(--navy-dark); font-size:1.15rem; }
+.carousel-card-cta{ display:inline-flex; align-items:center; gap:6px; background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; padding:0.55rem 0.9rem; border-radius:2px; white-space:nowrap; transition:background var(--dur) var(--ease); }
+.carousel-card-cta:hover{ background:var(--navy-dark); }
 .carousel-btn{ position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; background:var(--white); border:1px solid rgba(49,69,92,0.2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; line-height:1; color:var(--navy); z-index:2; cursor:pointer; }
 .carousel-btn:hover{ background:var(--sand); }
 .carousel-btn.prev{ left:-8px; } .carousel-btn.next{ right:-8px; }
 .carousel-loading, .carousel-empty{ font-family:var(--font-mono); font-size:0.85rem; color:var(--sage); padding:var(--sp-4) 0; }
 .carousel-filters{ display:flex; flex-wrap:wrap; gap:var(--sp-4); margin-bottom:var(--sp-5); }
 .carousel-filter-group{ display:flex; flex-wrap:wrap; gap:8px; }
+.carousel-filter-group + .carousel-filter-group{ padding-left:var(--sp-4); border-left:1px solid rgba(49,69,92,0.15); }
 .carousel-filter-btn{ padding:0.5rem 1rem; border:1px solid rgba(49,69,92,0.25); border-radius:999px; background:var(--white); color:var(--navy-dark); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; cursor:pointer; transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
 .carousel-filter-btn:hover{ border-color:var(--navy); }
 .carousel-filter-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
 @media (max-width:640px){ .carousel-btn{ display:none; } }
+@media (min-width:1024px){ .carousel-card{ flex:0 0 calc((100% - 2*var(--sp-4))/3); } }
 
 /* ---------- Tipologías ---------- */
 .typologies{ background:var(--graphite); color:var(--sand); }
@@ -668,10 +677,13 @@ section{ padding-block:var(--sp-8); }
   <!-- ================= PROPIEDADES DESTACADAS ================= -->
   <section class="amenities" id="propiedades">
     <div class="content">
-      <div class="amenities-head">
-        <span class="eyebrow">— Propiedades destacadas</span>
-        <h2>Propiedades destacadas</h2>
-        <p class="lead" style="margin-top:var(--sp-4);">Una selección de propiedades para vivir, invertir o proyectar tu próximo paso.</p>
+      <div class="amenities-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:var(--sp-5); flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow">— Propiedades destacadas</span>
+          <h2>Propiedades destacadas</h2>
+          <p class="lead" style="margin-top:var(--sp-4);">Una selección de propiedades para vivir, invertir o proyectar tu próximo paso.</p>
+        </div>
+        <a class="btn-ghost-mono" href="#buscar" style="flex-shrink:0;">Ver todas →</a>
       </div>
 
       <div class="carousel-filters" data-reveal="up">
@@ -695,7 +707,7 @@ section{ padding-block:var(--sp-8); }
         <button type="button" class="carousel-btn next" id="destacadas-next" aria-label="Ver siguientes">›</button>
       </div>
 
-      <a class="btn-ghost-mono" href="#buscar" style="display:inline-flex; align-items:center; gap:8px; margin-top:var(--sp-6);">Ver todas →</a>
+
     </div>
   </section>
 
@@ -1438,20 +1450,33 @@ section{ padding-block:var(--sp-8); }
     return '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' + path + '</svg>' + esc(val) + '</span>';
   }
   function cardDestacada(p){
-    var loc = p.zona && p.localidad ? p.zona + ", " + p.localidad : (p.zona || p.localidad || "");
-    var stats = "";
-    if (p.dormitorios) stats += statIcon('<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V8a2 2 0 0 1 2-2h3v4"/>', p.dormitorios);
-    if (p.banos) stats += statIcon('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M9 19v2M17 19v2"/>', p.banos);
-    return '<div class="carousel-card" data-dest-id="' + esc(p.id) + '" role="button" tabindex="0">' +
-      '<div class="carousel-card-img">' + (p.operacion ? '<span class="carousel-card-badge">' + esc(p.operacion) + '</span>' : "") + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
-      '<div class="carousel-card-body">' +
-        '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
-        '<div class="carousel-card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>' + esc(loc) + '</div>' +
-        (stats ? '<div class="carousel-card-meta">' + stats + '</div>' : "") +
-        '<div class="carousel-card-foot"><div class="carousel-card-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-          '<a class="btn-ghost-mono" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver →</a></div>' +
-      '</div></div>';
-  }
+  var loc = p.zona && p.localidad ? p.zona + ", " + p.localidad : (p.zona || p.localidad || "");
+  var stats = "";
+  if (p.dormitorios) stats += statIcon('<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V8a2 2 0 0 1 2-2h3v4"/>', p.dormitorios);
+  if (p.banos) stats += statIcon('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M9 19v2M17 19v2"/>', p.banos);
+  if (p.garage) stats += statIcon('<path d="M3 13l2-5h14l2 5v5H3z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/>', p.garage_cant || 1);
+  var m2 = Number(p.sup_cubierta_m2) || Number(p.sup_terreno_m2) || 0;
+  if (m2) stats += statIcon('<rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/>', m2 + " m²");
+  var attrsList = [];
+  if (p.apto_credito) attrsList.push("Apto crédito");
+  if (p.garage) attrsList.push("Garage");
+  if (p.balcon) attrsList.push("Balcón");
+  var attrs = attrsList.slice(0, 2).map(function(a){ return '<span class="carousel-card-attr">' + a + '</span>'; }).join("");
+  return '<div class="carousel-card" data-dest-id="' + esc(p.id) + '" role="button" tabindex="0">' +
+    '<div class="carousel-card-img">' +
+      (p.operacion ? '<span class="carousel-card-badge">' + esc(p.operacion) + '</span>' : "") +
+      '<button type="button" class="carousel-fav-btn" aria-label="Favorito" onclick="event.stopPropagation(); this.classList.toggle(\'is-fav\'); this.textContent=this.classList.contains(\'is-fav\')?\'♥\':\'♡\';">♡</button>' +
+      imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) +
+    '</div>' +
+    '<div class="carousel-card-body">' +
+      '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
+      '<div class="carousel-card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>' + esc(loc) + '</div>' +
+      (stats ? '<div class="carousel-card-meta">' + stats + '</div>' : "") +
+      (attrs ? '<div class="carousel-card-attrs">' + attrs + '</div>' : "") +
+      '<div class="carousel-card-foot"><div class="carousel-card-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
+        '<a class="carousel-card-cta" target="_blank" rel="noopener" href="' + whatsappHref(p) + '" onclick="event.stopPropagation();">Ver propiedad →</a></div>' +
+    '</div></div>';
+}
   function renderDestacadas(){
     var track = document.getElementById("destacadas-track");
     if (!track) return;
