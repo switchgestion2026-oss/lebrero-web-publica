@@ -315,7 +315,8 @@ function normProps(arr, clientsMap) {
       patio: isSi(o.patio), lavadero: isSi(o.lavadero), pileta: isSi(o.pileta), quincho: isSi(o.quincho),
       supTerreno: Number(o.sup_terreno_m2)||0,
       estadoGeneral: o.estado_general||'', entreCalles: o.entre_calles||'', piso: o.piso||'', depto: o.depto||'',
-      impuesto: isSi(o.impuesto), servicio: isSi(o.servicio), parrilla: isSi(o.parrilla), amoblado: isSi(o.amoblado),
+      impuesto: isSi(o.impuesto), servicio: isSi(o.servicio), servicios: o.servicios||'', parrilla: isSi(o.parrilla), amoblado: isSi(o.amoblado),
+      ocupada: isSi(o.ocupada), disponibleDesde: o.disponible_desde ? String(o.disponible_desde).split('T')[0] : '',
       ascensor: isSi(o.ascensor), balcon: isSi(o.balcon), esquina: isSi(o.esquina), agua: isSi(o.agua), alambrado: isSi(o.alambrado),
       fotoUrl: o.foto_url||'', partida: o.partida||'', aceptaPermutas: isSi(o.acepta_permutas), instagram: o.instagram||''
     };
@@ -338,8 +339,14 @@ function normReqs(arr, clientsMap) {
       soloPorValor: false,
       presupuestoMin: Number(o.presupuesto_min)||0, presupuestoMax: Number(o.presupuesto_max)||Number(o.presupuesto_min)||0,
       moneda: o.moneda||'USD', dormitoriosMin: Number(o.dormitorios_min)||0, banosMin: Number(o.banos_min)||0,
-      garage: false, localidad: o.localidad||'',
-      patio: false, lavadero: false, aptoCredito: false, flexibilidadZona: 'Media', obs: ''
+      garage: isSi(o.garage), localidad: o.localidad||'',
+      patio: isSi(o.patio), lavadero: isSi(o.lavadero), aptoCredito: isSi(o.apto_credito), flexibilidadZona: o.flexibilidad_zona||'Media', obs: o.observaciones||'',
+      todasLocalidades: isSi(o.todas_localidades), soloPorValor: isSi(o.solo_por_valor),
+      pileta: isSi(o.pileta), quincho: isSi(o.quincho), parrilla: isSi(o.parrilla), amoblado: isSi(o.amoblado),
+      escritorio: isSi(o.escritorio), esquina: isSi(o.esquina), ascensor: isSi(o.ascensor), alambrado: isSi(o.alambrado), agua: isSi(o.agua),
+      superficieMin: Number(o.superficie_min)||'', frente: Number(o.frente)||'', fondo: Number(o.fondo)||'',
+      expensas: Number(o.expensas)||'', hectareas: Number(o.hectareas)||'',
+      piso: o.piso||'', aptitud: o.aptitud||''
     };
   });
 }
@@ -579,14 +586,13 @@ function renderPropForm(){
   var fotosH=(f.fotos||[]).map(function(url,i){return '<div style="position:relative;width:74px;height:74px;border-radius:8px;overflow:hidden;border:1.5px solid #E0D9D0;flex-shrink:0;"><img src="'+esc(url)+'" style="width:100%;height:100%;object-fit:cover;"><button type="button" data-action="pf-foto-del" data-idx="'+i+'" style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;border:none;background:rgba(28,43,57,.75);color:#fff;font-size:11px;line-height:1;cursor:pointer;">✕</button></div>';}).join('');
   var blkD='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#6D8A85;">D</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Características</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Ambientes</label>'+inputHtml('ambientes','number',f.ambientes,'0','min="0"')+'<div style="font-size:9.5px;color:#B0B8C1;margin-top:4px;">Living/comedor/cocina + dormitorios, sin contar baños</div></div><div><label class="fl">Dormitorios</label>'+stepperHtml('dormitorios',f.dormitorios,1)+'</div><div><label class="fl">Baños</label>'+stepperHtml('banos',f.banos,1)+'</div><div><label class="fl">Sup. Terreno m²</label>'+inputHtml('supTerreno','number',f.supTerreno,'0','min="0"')+'</div><div><label class="fl">Sup. Cubierta m²</label>'+inputHtml('supCubierta','number',f.supCubierta,'0','min="0"')+'</div><div><label class="fl">Estado General</label>'+selectHtml('estadoGeneral',f.estadoGeneral,['Excelente','Muy bueno','Bueno','Regular','A refaccionar','A construir'])+'</div><div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 0;border-top:1px solid #F0EBE4;border-bottom:1px solid #F0EBE4;"><div>'+toggleHtml('pf_garage',f.garage,'Garage')+'</div><div>'+toggleHtml('pf_patio',f.patio,'Patio')+'</div><div>'+toggleHtml('pf_lavadero',f.lavadero,'Lavadero')+'</div><div>'+toggleHtml('pf_pileta',f.pileta,'Pileta')+'</div><div>'+toggleHtml('pf_quincho',f.quincho,'Quincho')+'</div><div>'+toggleHtml('pf_parrilla',f.parrilla,'Parrilla')+'</div><div>'+toggleHtml('pf_amoblado',f.amoblado,'Amoblado')+'</div><div>'+toggleHtml('pf_ascensor',f.ascensor,'Ascensor')+'</div><div>'+toggleHtml('pf_balcon',f.balcon,'Balcón')+'</div><div>'+toggleHtml('pf_esquina',f.esquina,'Esquina')+'</div><div>'+toggleHtml('pf_agua',f.agua,'Agua')+'</div><div>'+toggleHtml('pf_alambrado',f.alambrado,'Alambrado')+'</div></div>'+condExtra+'<div style="grid-column:1/-1;"><label class="fl">Fotos</label><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">'+fotosH+'<label style="width:74px;height:74px;border-radius:8px;border:1.5px dashed #C9C2B8;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8A9AAA;font-size:22px;flex-shrink:0;">+<input type="file" accept="image/*" multiple id="pf-foto-input" style="display:none;"></label></div><div id="pf-foto-status" style="font-size:10px;color:#8A9AAA;margin-top:6px;"></div></div><div style="grid-column:1/-1;"><label class="fl">Observaciones</label><textarea class="ft" data-field="obs" rows="3" placeholder="Detalles adicionales...">'+esc(f.obs)+'</textarea></div></div></div>';
 
-  var blkCartoarba='<div class="card" style="flex:1;min-width:340px;"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#31455C;">🔗</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Cartoarba</div></div><div style="padding:12px;"><iframe width="100%" height="640" style="border:1.5px solid #E0D9D0;border-radius:7px;" loading="lazy" src="https://carto.arba.gov.ar/cartoArba/"></iframe></div></div>';
-  var step3H='<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;"><div style="flex:1;min-width:340px;">'+blkC+'</div>'+blkCartoarba+'</div>';
+  var step3H=blkC;
   var stepsArrPF=[ blkA, blkB, step3H, blkPrecio, blkD ];
   var navFooterPF='<div style="position:sticky;bottom:0;display:flex;justify-content:space-between;gap:10px;padding:14px 0;background:#F7F8FA;border-top:1px solid #EDE8E0;z-index:5;">'
     +(step>1?'<button class="btn-s" data-action="pf-back">← Atrás</button>':'<button class="btn-s" data-action="reset-propForm">Limpiar</button>')
     +(step<totalSteps?'<button class="btn-p" data-action="pf-next">Siguiente →</button>':'<button class="btn-p" data-action="save-propForm">Guardar Propiedad</button>')
     +'</div>';
-  var maxW = step===3 ? '1280px' : '840px';
+  var maxW = '840px';
   return '<div style="padding:22px 26px;display:flex;flex-direction:column;gap:16px;max-width:'+maxW+';" class="anim">'+progressH+stepsArrPF[step-1]+navFooterPF+'</div>';
 }
 
@@ -1308,6 +1314,7 @@ function savePropForm(){
     operacion: f.operacion==='Ambos' ? 'Venta' : f.operacion,
     estado_comercial: f.estadoComercial,
     publicada: !!f.activoMatch,
+    activo_match: !!f.activoMatch,
     localidad: f.localidad || undefined,
     barrio: f.barrio || undefined,
     direccion: f.direccion || undefined,
@@ -1315,7 +1322,8 @@ function savePropForm(){
     moneda: f.moneda,
     dormitorios: f.dormitorios!=='' ? Number(f.dormitorios) : undefined,
     banos: f.banos!=='' ? Number(f.banos) : undefined,
-    garage: f.garage ? (Number(f.cantGarage)||1) : 0,
+    garage: !!f.garage,
+garage_cant: f.garage ? (Number(f.cantGarage)||1) : undefined,
     descripcion: f.obs || undefined,
     // — estimadas (columnas extendidas de la migración, ver comentario en normProps) —
     propietario: f.propietario || undefined, telefono: f.telefono || undefined,
@@ -1388,7 +1396,25 @@ function saveReqForm(){
     localidad: f.todasLocalidades ? undefined : (f.localidad || undefined),
     zonas: f.zonas.length ? f.zonas : undefined,
     dormitorios_min: f.dormitoriosMin || undefined,
-    banos_min: f.banosMin || undefined
+    banos_min: f.banosMin || undefined,
+    todas_localidades: !!f.todasLocalidades,
+    solo_por_valor: !!f.soloPorValor,
+    garage: !!f.garage,
+    patio: !!f.patio,
+    apto_credito: !!f.aptoCredito,
+    flexibilidad_zona: f.flexibilidadZona || undefined,
+    observaciones: f.obs || undefined,
+    estado: f.estado || undefined,
+    prioridad: f.prioridad || undefined,
+    lavadero: !!f.lavadero, pileta: !!f.pileta, quincho: !!f.quincho, parrilla: !!f.parrilla,
+    amoblado: !!f.amoblado, escritorio: !!f.escritorio, esquina: !!f.esquina, ascensor: !!f.ascensor,
+    alambrado: !!f.alambrado, agua: !!f.agua,
+    superficie_min: f.superficieMin!=='' ? Number(f.superficieMin) : undefined,
+    frente: f.frente!=='' ? Number(f.frente) : undefined,
+    fondo: f.fondo!=='' ? Number(f.fondo) : undefined,
+    expensas: f.expensas!=='' ? Number(f.expensas) : undefined,
+    hectareas: f.hectareas!=='' ? Number(f.hectareas) : undefined,
+    piso: f.piso || undefined, aptitud: f.aptitud || undefined
   };
   var req = editing
     ? apiFetch('/requirements/'+editing, { method:'PUT', body:JSON.stringify(body) })

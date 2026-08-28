@@ -123,13 +123,18 @@ router.post('/requirements', async (req, res) => {
       `INSERT INTO requirements
         (cliente_id, operacion, tipo_propiedad, localidad, todas_localidades, zonas, solo_por_valor,
          presupuesto_min, presupuesto_max, moneda, dormitorios_min, banos_min, garage, patio,
-         apto_credito, flexibilidad_zona, observaciones, estado, prioridad)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
+         apto_credito, flexibilidad_zona, observaciones, estado, prioridad,
+         lavadero, pileta, quincho, parrilla, amoblado, escritorio, esquina, ascensor, alambrado, agua,
+         superficie_min, frente, fondo, expensas, hectareas, piso, aptitud)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,
+               $20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36)
        RETURNING *`,
       [b.cliente_id || null, b.operacion, JSON.stringify(b.tipo_propiedad || []), b.localidad, !!b.todas_localidades,
        JSON.stringify(b.zonas || []), !!b.solo_por_valor, b.presupuesto_min, b.presupuesto_max, b.moneda || 'USD',
        b.dormitorios_min || 0, b.banos_min || 0, !!b.garage, !!b.patio, !!b.apto_credito, b.flexibilidad_zona,
-       b.observaciones, b.estado || 'ACTIVO', b.prioridad]
+       b.observaciones, b.estado || 'ACTIVO', b.prioridad,
+       !!b.lavadero, !!b.pileta, !!b.quincho, !!b.parrilla, !!b.amoblado, !!b.escritorio, !!b.esquina, !!b.ascensor, !!b.alambrado, !!b.agua,
+       b.superficie_min || null, b.frente || null, b.fondo || null, b.expensas || null, b.hectareas || null, b.piso || null, b.aptitud || null]
     );
     res.status(201).json(r.rows[0]);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear requerimiento' }); }
