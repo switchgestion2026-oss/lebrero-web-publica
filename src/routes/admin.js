@@ -18,6 +18,17 @@ router.post('/properties', async (req, res) => {
   const b = req.body;
   const titulo = b.titulo || `${b.tipo || 'Propiedad'} - ${b.direccion || b.localidad || 'S/D'}`;
   try {
+    let barrio_id = b.barrio_id || null;
+    if (!barrio_id && b.barrio) {
+      const bq = await pool.query(
+        `SELECT id FROM barrios WHERE lower(nombre) = lower($1) LIMIT 1`,
+        [b.barrio]
+      );
+      barrio_id = bq.rows[0]?.id || null;
+    }
+    if (!barrio_id) {
+      return res.status(400).json({ error: `Barrio "${b.barrio || ''}" no existe en la tabla barrios. Elegí uno cargado.` });
+    }
     const r = await pool.query(
       `INSERT INTO properties
         (titulo, tipo, operacion, localidad, barrio, direccion, precio, ambientes, dormitorios, banos,
@@ -26,9 +37,9 @@ router.post('/properties', async (req, res) => {
          zona, fotos, moneda, apto_credito, exclusividad, inmobiliaria, contacto_operativo,
          garage_cant, tipo_patio, sup_terreno_m2, sup_cubierta_m2, frente, fondo, estado_general,
          servicios, ocupada, disponible_desde, perfil_ideal, entre_calles, piso, depto,
-         impuesto, servicio, partida, acepta_permutas, instagram, destacada)
+         impuesto, servicio, partida, acepta_permutas, instagram, destacada, barrio_id)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,
-               $28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54)
+               $28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55)
        RETURNING *`,
       [titulo, b.tipo, b.operacion, b.localidad, b.barrio, b.direccion, b.precio, b.ambientes, b.dormitorios, b.banos,
        !!b.garage, !!b.patio, !!b.lavadero, !!b.pileta, !!b.quincho, !!b.parrilla, !!b.amoblado, !!b.ascensor, !!b.balcon, !!b.esquina, !!b.agua, !!b.alambrado,
@@ -36,7 +47,7 @@ router.post('/properties', async (req, res) => {
        b.zona || b.barrio || null, b.fotos || [], b.moneda || 'USD', !!b.apto_credito, !!b.exclusividad, b.inmobiliaria || null, b.contacto_operativo || null,
        b.garage_cant || null, b.tipo_patio || null, b.sup_terreno_m2 || null, b.sup_cubierta_m2 || null, b.frente || null, b.fondo || null, b.estado_general || null,
        b.servicios || null, !!b.ocupada, b.disponible_desde || null, b.perfil_ideal || null, b.entre_calles || null, b.piso || null, b.depto || null,
-       !!b.impuesto, !!b.servicio, b.partida || null, !!b.acepta_permutas, b.instagram || null, !!b.destacada]
+       !!b.impuesto, !!b.servicio, b.partida || null, !!b.acepta_permutas, b.instagram || null, !!b.destacada, barrio_id]
     );
     res.status(201).json(r.rows[0]);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear propiedad' }); }
@@ -222,10 +233,17 @@ router.post('/property-requests/:id/approve', async (req, res) => {
     const pr = (await client.query('SELECT * FROM property_requests WHERE id = $1', [req.params.id])).rows[0];
     if (!pr) { await client.query('ROLLBACK'); return res.status(404).json({ error: 'No encontrada' }); }
 
+    let barrio_id = null;
+    if (pr.barrio) {
+      const bq = await client.query(`SELECT id FROM barrios WHERE lower(nombre) = lower($1) LIMIT 1`, [pr.barrio]);
+      barrio_id = bq.rows[0]?.id || null;
+    }
+    if (!barrio_id) { await client.query('ROLLBACK'); return res.status(400).json({ error: `Barrio "${pr.barrio || ''}" no existe en barrios` }); }
+
     const prop = await client.query(
-      `INSERT INTO properties (titulo, tipo, operacion, localidad, barrio, direccion, precio, dormitorios, banos, activo_match, estado_comercial)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,true,'Disponible') RETURNING id`,
-      [pr.tipo_propiedad + ' - ' + pr.direccion, pr.tipo_propiedad, pr.operacion, pr.localidad, pr.barrio, pr.direccion, pr.precio_estimado, pr.dormitorios, pr.banos]
+      `INSERT INTO properties (titulo, tipo, operacion, localidad, barrio, direccion, precio, dormitorios, banos, activo_match, estado_comercial, barrio_id)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,true,'Disponible',$10) RETURNING id`,
+      [pr.tipo_propiedad + ' - ' + pr.direccion, pr.tipo_propiedad, pr.operacion, pr.localidad, pr.barrio, pr.direccion, pr.precio_estimado, pr.dormitorios, pr.banos, barrio_id]
     );
     await client.query(
       `UPDATE property_requests SET estado = 'ACEPTADA', property_id = $1 WHERE id = $2`,
