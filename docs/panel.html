@@ -1429,7 +1429,7 @@ function saveReqForm(goToMatch, btnEl){
   if(btnEl){btnEl.disabled=true;btnEl.style.opacity='.6';}
   var clientReq = f.clienteId
     ? Promise.resolve({ id: Number(f.clienteId) })
-    : apiFetch('/clients', { method:'POST', body:JSON.stringify({ nombre:f.nombre, whatsapp:f.telefono||undefined, tipo:'comprador' }) });
+    : apiFetch('/clients', { method:'POST', body:JSON.stringify({ nombre:f.nombre, whatsapp:f.telefono||undefined, tipo:'COMPRADOR' }) });
   clientReq.then(function(cliente){
     if(!f.clienteId && STATE.clients.every(function(c){return String(c.id)!==String(cliente.id);})) STATE.clients.unshift(cliente);
     var body={
