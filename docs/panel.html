@@ -663,7 +663,7 @@ var opsH=['Venta','Alquiler','Ambos'].map(function(o){var sel=f.operacion===o;re
 
   var summaryH='<div class="card" style="position:sticky;top:0;"><div style="padding:12px 16px;border-bottom:1px solid #F0EBE4;font-size:12px;font-weight:700;color:#1C2B39;">Resumen</div><div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:11.5px;"><div><span style="color:#8A9AAA;">Cliente:</span> <b>'+esc(f.nombre||'—')+'</b></div><div><span style="color:#8A9AAA;">Busca:</span> <b>'+esc(f.tipoBuscado.join(', ')||'—')+'</b></div><div><span style="color:#8A9AAA;">Operación:</span> <b>'+esc(f.operacion)+'</b></div><div><span style="color:#8A9AAA;">Localidad:</span> <b>'+(f.todasLocalidades?'Todas':esc(f.localidad))+'</b></div><div><span style="color:#8A9AAA;">Zona:</span> <b>'+(f.zonas.length?esc(f.zonas.join(', ')):'—')+'</b></div><div><span style="color:#8A9AAA;">Presupuesto:</span> <b>'+esc(f.moneda)+' '+fmt(f.presupuestoMin)+' - '+fmt(f.presupuestoMax)+'</b></div>'+(showDorm?'<div><span style="color:#8A9AAA;">Dormitorios:</span> <b>'+esc(f.dormitoriosMin)+'</b></div><div><span style="color:#8A9AAA;">Garage:</span> <b>'+(f.garage?'Sí':'No')+'</b></div><div><span style="color:#8A9AAA;">Patio:</span> <b>'+(f.patio?'Sí':'No')+'</b></div>':'')+'</div></div>';
 
-  var blkObligatorio='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#D40A8C;">1</div><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Criterios obligatorios</div><div style="font-size:10px;color:#9AA5B0;">Impactan más en el Match</div></div></div><div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Nombre</label>'+inputHtml('nombre','text',f.nombre,'Nombre completo')+'</div><div><label class="fl">Teléfono</label>'+inputHtml('telefono','tel',f.telefono,'+54 11 XXXX-XXXX')+'</div><div><label class="fl">ID cliente existente</label>'+inputHtml('clienteId','number',f.clienteId,'Ej: 12','min="1"')+'</div></div><div style="font-size:10px;color:#B0B8C1;margin-top:-6px;">El backend todavía no tiene alta de clientes desde el panel (backlog Tier 2 #7) — necesitás el ID numérico de un cliente ya cargado en /clients.</div><div><label class="fl">Tipo de propiedad</label><div style="display:flex;flex-wrap:wrap;gap:8px;">'+tipoIconsH+'</div></div><div><label class="fl">Operación</label><div style="display:flex;gap:8px;">'+opsH+'</div></div>'+locH+'<div><label class="fl">Barrios</label>'+zonaChipsFiltroH+inputHtml('barrioSearch','text',f.barrioSearch,'Buscar barrio...')+'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;opacity:'+(f.todasLocalidades?'.4':'1')+';pointer-events:'+(f.todasLocalidades?'none':'auto')+';">'+barriosChipsH+'</div>'+moreBtn+'</div>'+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Presupuesto desde</label>'+inputHtml('presupuestoMin','number',f.presupuestoMin,'0')+'</div><div><label class="fl">Presupuesto hasta</label>'+inputHtml('presupuestoMax','number',f.presupuestoMax,'0')+'</div><div><label class="fl">Moneda</label>'+selectHtml('moneda',f.moneda,['USD','ARS'])+'</div></div><div style="display:flex;gap:16px;">'+toggleHtml('rf_aceptaFuera10',f.aceptaFuera10,'Acepta propiedades hasta 10% fuera del presupuesto')+toggleHtml('rf_aptoCredito',f.aptoCredito,'Apto crédito')+'</div>'+warnH+'</div></div>';
+  var blkObligatorio='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#D40A8C;">1</div><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Criterios obligatorios</div><div style="font-size:10px;color:#9AA5B0;">Impactan más en el Match</div></div></div><div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Nombre</label>'+inputHtml('nombre','text',f.nombre,'Nombre completo')+'</div><div><label class="fl">Teléfono</label>'+inputHtml('telefono','tel',f.telefono,'+54 11 XXXX-XXXX')+'</div></div><div><label class="fl">Tipo de propiedad</label><div style="display:flex;flex-wrap:wrap;gap:8px;">'+tipoIconsH+'</div></div><div><label class="fl">Operación</label><div style="display:flex;gap:8px;">'+opsH+'</div></div>'+locH+'<div><label class="fl">Barrios</label>'+zonaChipsFiltroH+inputHtml('barrioSearch','text',f.barrioSearch,'Buscar barrio...')+'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;opacity:'+(f.todasLocalidades?'.4':'1')+';pointer-events:'+(f.todasLocalidades?'none':'auto')+';">'+barriosChipsH+'</div>'+moreBtn+'</div>'+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Presupuesto desde</label>'+inputHtml('presupuestoMin','number',f.presupuestoMin,'0')+'</div><div><label class="fl">Presupuesto hasta</label>'+inputHtml('presupuestoMax','number',f.presupuestoMax,'0')+'</div><div><label class="fl">Moneda</label>'+selectHtml('moneda',f.moneda,['USD','ARS'])+'</div></div><div style="display:flex;gap:16px;">'+toggleHtml('rf_aceptaFuera10',f.aceptaFuera10,'Acepta propiedades hasta 10% fuera del presupuesto')+toggleHtml('rf_aptoCredito',f.aptoCredito,'Apto crédito')+'</div>'+warnH+'</div></div>';
 
   var blkImportante='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#4E807D;">2</div><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Criterios importantes</div><div style="font-size:10px;color:#9AA5B0;">Suman puntaje en el Match</div></div></div><div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px;">'+(showDorm?'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div><label class="fl">Dormitorios mín.</label>'+inputHtml('dormitoriosMin','number',f.dormitoriosMin,'','min="0"')+'</div><div><label class="fl">Baños mín.</label>'+inputHtml('banosMin','number',f.banosMin,'','min="0"')+'</div></div>':'')+condH+'<div><label class="fl">Características</label><div style="display:flex;flex-wrap:wrap;gap:6px;">'+caracsH+'</div></div></div></div>';
 
@@ -1271,7 +1271,7 @@ document.addEventListener('click',function(e){
   var navBtn=e.target.closest('.nav-btn[data-section]');
   if(navBtn){if(navBtn.classList.contains('disabled'))return;navigate(navBtn.dataset.section);closeSidebarMobile();return;}
   var el=e.target.closest('[data-action]');
-  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='save-reqForm'){saveReqForm();return;}if(a==='save-reqForm-match'){saveReqForm();navigate('match');return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;BARRIOS_ALL.push({id:null,nombre:_v,localidad_id:null,localidad:_loc,zona_id:null,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" agregado (solo en este panel, no se guarda en la base)');reRender();}});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
+  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='save-reqForm'){saveReqForm(false,el);return;}if(a==='save-reqForm-match'){saveReqForm(true,el);return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;BARRIOS_ALL.push({id:null,nombre:_v,localidad_id:null,localidad:_loc,zona_id:null,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" agregado (solo en este panel, no se guarda en la base)');reRender();}});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
   var tog=e.target.closest('[data-toggle]');
   if(tog){var tid=tog.dataset.toggle;if(PF_TOGGLES[tid]){var field=PF_TOGGLES[tid];STATE.propForm[field]=!STATE.propForm[field];if(field==='garage'||field==='patio'||field==='ocupada'){reRender();}else tog.classList.toggle('on',STATE.propForm[field]);}else if(RF_TOGGLES[tid]){STATE.reqForm[RF_TOGGLES[tid]]=!STATE.reqForm[RF_TOGGLES[tid]];reRender();}return;}
   var zc=e.target.closest('[data-zone]');
@@ -1422,45 +1422,50 @@ function editReq(id){
   STATE.reqFormStep=1;
   navigate('reqForm');
 }
-function saveReqForm(){
+function saveReqForm(goToMatch, btnEl){
   var f=STATE.reqForm;
   if(!f.nombre){showToast('Completá el nombre del cliente');return;}
-  if(!f.clienteId){showToast('Falta el ID de cliente — el backend todavía no crea clientes desde acá (backlog Tier 2 #7)');return;}
   var editing=STATE.editingReqId;
-  var body={
-    cliente_id: Number(f.clienteId),
-    operacion: f.operacion==='Ambos' ? 'Venta' : f.operacion,
-    tipo_propiedad: f.tipoBuscado.filter(function(t){return t!=='Cualquiera';}).map(function(t){return t.toLowerCase();}),
-    presupuesto_min: f.presupuestoMin!=='' ? Number(f.presupuestoMin) : undefined,
-    presupuesto_max: f.presupuestoMax!=='' ? Number(f.presupuestoMax) : undefined,
-    moneda: f.moneda,
-    localidad: f.todasLocalidades ? undefined : (f.localidad || undefined),
-    zonas: f.zonas.length ? f.zonas : undefined,
-    dormitorios_min: f.dormitoriosMin || undefined,
-    banos_min: f.banosMin || undefined,
-    todas_localidades: !!f.todasLocalidades,
-    solo_por_valor: !!f.soloPorValor,
-    garage: !!f.garage,
-    patio: !!f.patio,
-    apto_credito: !!f.aptoCredito,
-    flexibilidad_zona: f.flexibilidadZona || undefined,
-    observaciones: f.obs || undefined,
-    estado: f.estado || undefined,
-    prioridad: f.prioridad || undefined,
-    lavadero: !!f.lavadero, pileta: !!f.pileta, quincho: !!f.quincho, parrilla: !!f.parrilla,
-    amoblado: !!f.amoblado, escritorio: !!f.escritorio, esquina: !!f.esquina, ascensor: !!f.ascensor,
-    alambrado: !!f.alambrado, agua: !!f.agua,
-    superficie_min: f.superficieMin!=='' ? Number(f.superficieMin) : undefined,
-    frente: f.frente!=='' ? Number(f.frente) : undefined,
-    fondo: f.fondo!=='' ? Number(f.fondo) : undefined,
-    expensas: f.expensas!=='' ? Number(f.expensas) : undefined,
-    hectareas: f.hectareas!=='' ? Number(f.hectareas) : undefined,
-    piso: f.piso || undefined, aptitud: f.aptitud || undefined
-  };
-  var req = editing
-    ? apiFetch('/requirements/'+editing, { method:'PUT', body:JSON.stringify(body) })
-    : apiFetch('/requirements', { method:'POST', body:JSON.stringify(body) });
-  req.then(function(saved){
+  if(btnEl){btnEl.disabled=true;btnEl.style.opacity='.6';}
+  var clientReq = f.clienteId
+    ? Promise.resolve({ id: Number(f.clienteId) })
+    : apiFetch('/clients', { method:'POST', body:JSON.stringify({ nombre:f.nombre, whatsapp:f.telefono||undefined, tipo:'comprador' }) });
+  clientReq.then(function(cliente){
+    if(!f.clienteId && STATE.clients.every(function(c){return String(c.id)!==String(cliente.id);})) STATE.clients.unshift(cliente);
+    var body={
+      cliente_id: cliente.id,
+      operacion: f.operacion==='Ambos' ? 'Venta' : f.operacion,
+      tipo_propiedad: f.tipoBuscado.filter(function(t){return t!=='Cualquiera';}).map(function(t){return t.toLowerCase();}),
+      presupuesto_min: f.presupuestoMin!=='' ? Number(f.presupuestoMin) : undefined,
+      presupuesto_max: f.presupuestoMax!=='' ? Number(f.presupuestoMax) : undefined,
+      moneda: f.moneda,
+      localidad: f.todasLocalidades ? undefined : (f.localidad || undefined),
+      zonas: f.zonas.length ? f.zonas : undefined,
+      dormitorios_min: f.dormitoriosMin || undefined,
+      banos_min: f.banosMin || undefined,
+      todas_localidades: !!f.todasLocalidades,
+      solo_por_valor: !!f.soloPorValor,
+      garage: !!f.garage,
+      patio: !!f.patio,
+      apto_credito: !!f.aptoCredito,
+      flexibilidad_zona: f.flexibilidadZona || undefined,
+      observaciones: f.obs || undefined,
+      estado: f.estado || undefined,
+      prioridad: f.prioridad || undefined,
+      lavadero: !!f.lavadero, pileta: !!f.pileta, quincho: !!f.quincho, parrilla: !!f.parrilla,
+      amoblado: !!f.amoblado, escritorio: !!f.escritorio, esquina: !!f.esquina, ascensor: !!f.ascensor,
+      alambrado: !!f.alambrado, agua: !!f.agua,
+      superficie_min: f.superficieMin!=='' ? Number(f.superficieMin) : undefined,
+      frente: f.frente!=='' ? Number(f.frente) : undefined,
+      fondo: f.fondo!=='' ? Number(f.fondo) : undefined,
+      expensas: f.expensas!=='' ? Number(f.expensas) : undefined,
+      hectareas: f.hectareas!=='' ? Number(f.hectareas) : undefined,
+      piso: f.piso || undefined, aptitud: f.aptitud || undefined
+    };
+    return editing
+      ? apiFetch('/requirements/'+editing, { method:'PUT', body:JSON.stringify(body) })
+      : apiFetch('/requirements', { method:'POST', body:JSON.stringify(body) });
+  }).then(function(saved){
     var id = editing || String((saved&&saved.id!=null)?saved.id:'');
     if(editing){
       var idx=STATE.reqs.findIndex(function(x){return x.id===id;});
@@ -1473,8 +1478,10 @@ function saveReqForm(){
     STATE.editingReqId=null;
     STATE.reqForm=emptyRF();STATE.reqFormStep=1;
     STATE.matchCache = {};
-    renderNav();reRender();
+    if(btnEl){btnEl.disabled=false;btnEl.style.opacity='';}
+    if(goToMatch){ STATE.selectedReqId=id; navigate('match'); } else { renderNav();reRender(); }
   }).catch(function(e){
+    if(btnEl){btnEl.disabled=false;btnEl.style.opacity='';}
     showToast('Error: '+e.message+(editing?' (la edición de requerimientos puede no estar soportada todavía por el backend)':''));
   });
 }
