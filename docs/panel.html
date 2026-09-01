@@ -610,7 +610,7 @@ function renderPropForm(){
     +(step<totalSteps?'<button class="btn-p" data-action="pf-next">Siguiente →</button>':'<button class="btn-p" data-action="save-propForm">Guardar Propiedad</button>')
     +'</div>';
   var maxW = '840px';
-  return '<div style="padding:22px 26px;display:flex;flex-direction:column;gap:16px;max-width:'+maxW+';" class="anim">'+progressH+stepsArrPF[step-1]+navFooterPF+'</div>';
+  return '<div style="padding:22px 26px;display:flex;flex-direction:column;gap:16px;max-width:'+maxW+';min-height:760px;" class="anim">'+progressH+stepsArrPF[step-1]+navFooterPF+'</div>';
 }
 
 /* ─── RENDER REQ FORM ────────────────────────────────────────────── */
