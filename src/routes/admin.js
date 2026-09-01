@@ -92,6 +92,20 @@ router.get('/barrios', async (req, res) => {
     res.json(r.rows);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al obtener barrios' }); }
 });
+/* ── BARRIOS ── */
+router.get('/barrios', async (req, res) => {
+  try {
+    const r = await pool.query(
+      `SELECT bar.nombre, loc.nombre AS localidad, z.nombre AS zona
+       FROM barrios bar
+       JOIN localidades loc ON loc.id = bar.localidad_id
+       LEFT JOIN zonas z ON z.id = bar.zona_id
+       ORDER BY bar.nombre`
+    );
+    res.json(r.rows);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al obtener barrios' }); }
+});
+
 /* ── CLIENTS ── */
 router.get('/clients', async (req, res) => {
   try {
