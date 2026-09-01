@@ -16,6 +16,7 @@ router.get('/properties', async (req, res) => {
 
 router.post('/properties', async (req, res) => {
   const b = req.body;
+  const titulo = b.titulo || `${b.tipo || 'Propiedad'} - ${b.direccion || b.localidad || 'S/D'}`;
   try {
     const r = await pool.query(
       `INSERT INTO properties
@@ -29,7 +30,7 @@ router.post('/properties', async (req, res) => {
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,
                $28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54)
        RETURNING *`,
-      [b.titulo, b.tipo, b.operacion, b.localidad, b.barrio, b.direccion, b.precio, b.ambientes, b.dormitorios, b.banos,
+      [titulo, b.tipo, b.operacion, b.localidad, b.barrio, b.direccion, b.precio, b.ambientes, b.dormitorios, b.banos,
        !!b.garage, !!b.patio, !!b.lavadero, !!b.pileta, !!b.quincho, !!b.parrilla, !!b.amoblado, !!b.ascensor, !!b.balcon, !!b.esquina, !!b.agua, !!b.alambrado,
        b.descripcion, !!b.publicada, b.estado_comercial || 'Disponible', b.activo_match !== false, b.propietario_id || null,
        b.zona || b.barrio || null, b.fotos || [], b.moneda || 'USD', !!b.apto_credito, !!b.exclusividad, b.inmobiliaria || null, b.contacto_operativo || null,
