@@ -6,10 +6,17 @@ const matchEngine = require('../services/matchEngine');
 
 router.use(requireAdmin);
 
-// Resuelve el id de un barrio por nombre (case-insensitive). Devuelve null si no existe en `barrios`.
-async function resolveBarrioId(nombre) {
-  if (!nombre) return null;
-  const r = await pool.query(`SELECT id FROM barrios WHERE lower(nombre) = lower($1) LIMIT 1`, [nombre]);
+// Resuelve el id de un barrio por nombre + localidad (case-insensitive), para no confundir
+// barrios con el mismo nombre en localidades distintas (ej: "Centro" existe en varias).
+async function resolveBarrioId(nombre, localidadNombre) {
+  if (!nombre || !localidadNombre) return null;
+  const r = await pool.query(
+    `SELECT b.id FROM barrios b
+     JOIN localidades l ON l.id = b.localidad_id
+     WHERE lower(b.nombre) = lower($1) AND lower(l.nombre) = lower($2)
+     LIMIT 1`,
+    [nombre, localidadNombre]
+  );
   return r.rows[0]?.id || null;
 }
 
@@ -25,9 +32,9 @@ router.post('/properties', async (req, res) => {
   const b = req.body;
   const titulo = b.titulo || `${b.tipo || 'Propiedad'} - ${b.direccion || b.localidad || 'S/D'}`;
   try {
-    const barrio_id = b.barrio_id || await resolveBarrioId(b.barrio);
+    const barrio_id = b.barrio_id || await resolveBarrioId(b.barrio, b.localidad);
     if (!barrio_id) {
-      return res.status(400).json({ error: `Barrio "${b.barrio || ''}" no existe en la tabla barrios. Elegí uno cargado.` });
+      return res.status(400).json({ error: `Barrio "${b.barrio || ''}" no existe en "${b.localidad || ''}". Elegí uno cargado.` });
     }
     const r = await pool.query(
       `INSERT INTO properties
@@ -55,8 +62,13 @@ router.post('/properties', async (req, res) => {
 
 router.put('/properties/:id', async (req, res) => {
   if (req.body.barrio !== undefined) {
-    const barrio_id = await resolveBarrioId(req.body.barrio);
-    if (!barrio_id) return res.status(400).json({ error: `Barrio "${req.body.barrio}" no existe en la tabla barrios. Elegí uno cargado.` });
+    let localidadNombre = req.body.localidad;
+    if (localidadNombre === undefined) {
+      const cur = await pool.query('SELECT localidad FROM properties WHERE id = $1', [req.params.id]);
+      localidadNombre = cur.rows[0]?.localidad;
+    }
+    const barrio_id = await resolveBarrioId(req.body.barrio, localidadNombre);
+    if (!barrio_id) return res.status(400).json({ error: `Barrio "${req.body.barrio}" no existe en "${localidadNombre || ''}". Elegí uno cargado.` });
     req.body.barrio_id = barrio_id;
   }
   const fields = Object.keys(req.body);
@@ -170,7 +182,7 @@ router.post('/requirements', async (req, res) => {
     const nuevo = r.rows[0];
     if (!b.todas_localidades && Array.isArray(b.zonas) && b.zonas.length) {
       for (const zonaNombre of b.zonas) {
-        const barrioId = await resolveBarrioId(zonaNombre);
+        const barrioId = await resolveBarrioId(zonaNombre, b.localidad);
         if (barrioId) {
           await pool.query(
             `INSERT INTO requirement_barrios (requerimiento_id, barrio_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
