@@ -42,6 +42,17 @@ function zoneLevel(barrio, reqZonas) {
   return 'no';
 }
 
+// Localidades del Partido de Olavarría — dan match parcial de localidad.
+// TODO: mover a tabla `localidades` con columna `partido` si se suman más partidos.
+const PARTIDO_OLAVARRIA = ['olavarría','sierras bayas','hinojo','loma negra','sierra chica','espigas','recalde','colonia hinojo'];
+function localidadLevel(propLoc, reqLoc) {
+  const pl = (propLoc || '').trim().toLowerCase();
+  const rl = (reqLoc || '').trim().toLowerCase();
+  if (pl === rl) return 'exact';
+  if (PARTIDO_OLAVARRIA.includes(pl) && PARTIDO_OLAVARRIA.includes(rl)) return 'partido';
+  return 'no';
+}
+
 function calcScore(prop, req, barrioMap = _barrioMap) {
   const c = {}, max = {}, w = MATCH_W;
 

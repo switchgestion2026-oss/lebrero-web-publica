@@ -395,6 +395,13 @@ function zoneLevel(barrio,reqZonas) {
   for(var i=0;i<keys.length;i++){var g=ZONA_GROUPS[keys[i]];if(g.indexOf(barrio)!==-1&&reqZonas.some(function(rz){return g.indexOf(rz)!==-1;}))return 'group';}
   return 'no';
 }
+function localidadLevel(propLoc,reqLoc) {
+  var pl=(propLoc||'').trim().toLowerCase(), rl=(reqLoc||'').trim().toLowerCase();
+  if(pl===rl) return 'exact';
+  var loc=LOCALIDADES.map(function(l){return l.toLowerCase();});
+  if(loc.indexOf(pl)!==-1 && loc.indexOf(rl)!==-1) return 'partido';
+  return 'no';
+}
 
 /* ─── HTML BUILDERS ─────────────────────────────────────────────── */
 function scoreBadgeHtml(score){var cls=score>=80?'sh':score>=50?'sm':'sl';return '<div class="sbadge '+cls+'"><span class="sbadge-pct">'+score+'%</span><span class="sbadge-lbl">match</span></div>';}
@@ -693,8 +700,8 @@ function calcScore(prop, req) {
   } else { c.zona = 0; max.zona = 0; }
 
   if (!req.todasLocalidades && req.localidad) {
-    var pl=(prop.localidad||'').trim().toLowerCase(), rl=req.localidad.trim().toLowerCase();
-    c.localidad = pl===rl ? w.localidad : 0;
+    var ll=localidadLevel(prop.localidad,req.localidad);
+    c.localidad = ll==='exact' ? w.localidad : ll==='partido' ? Math.round(w.localidad*0.5) : 0;
     max.localidad = w.localidad;
   } else { c.localidad = 0; max.localidad = 0; }
 

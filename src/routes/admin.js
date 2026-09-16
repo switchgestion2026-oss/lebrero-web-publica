@@ -6,6 +6,13 @@ const matchEngine = require('../services/matchEngine');
 
 router.use(requireAdmin);
 
+// Resuelve el id de un barrio por nombre (case-insensitive). Devuelve null si no existe en `barrios`.
+async function resolveBarrioId(nombre) {
+  if (!nombre) return null;
+  const r = await pool.query(`SELECT id FROM barrios WHERE lower(nombre) = lower($1) LIMIT 1`, [nombre]);
+  return r.rows[0]?.id || null;
+}
+
 /* ── PROPERTIES ── */
 router.get('/properties', async (req, res) => {
   try {
@@ -18,14 +25,7 @@ router.post('/properties', async (req, res) => {
   const b = req.body;
   const titulo = b.titulo || `${b.tipo || 'Propiedad'} - ${b.direccion || b.localidad || 'S/D'}`;
   try {
-    let barrio_id = b.barrio_id || null;
-    if (!barrio_id && b.barrio) {
-      const bq = await pool.query(
-        `SELECT id FROM barrios WHERE lower(nombre) = lower($1) LIMIT 1`,
-        [b.barrio]
-      );
-      barrio_id = bq.rows[0]?.id || null;
-    }
+    const barrio_id = b.barrio_id || await resolveBarrioId(b.barrio);
     if (!barrio_id) {
       return res.status(400).json({ error: `Barrio "${b.barrio || ''}" no existe en la tabla barrios. Elegí uno cargado.` });
     }
@@ -54,6 +54,11 @@ router.post('/properties', async (req, res) => {
 });
 
 router.put('/properties/:id', async (req, res) => {
+  if (req.body.barrio !== undefined) {
+    const barrio_id = await resolveBarrioId(req.body.barrio);
+    if (!barrio_id) return res.status(400).json({ error: `Barrio "${req.body.barrio}" no existe en la tabla barrios. Elegí uno cargado.` });
+    req.body.barrio_id = barrio_id;
+  }
   const fields = Object.keys(req.body);
   if (!fields.length) return res.status(400).json({ error: 'Sin campos para actualizar' });
   const sets = fields.map((f, i) => `${f} = $${i + 1}`).join(', ');
@@ -162,7 +167,19 @@ router.post('/requirements', async (req, res) => {
        !!b.lavadero, !!b.pileta, !!b.quincho, !!b.parrilla, !!b.amoblado, !!b.escritorio, !!b.esquina, !!b.ascensor, !!b.alambrado, !!b.agua,
        b.superficie_min || null, b.frente || null, b.fondo || null, b.expensas || null, b.hectareas || null, b.piso || null, b.aptitud || null]
     );
-    res.status(201).json(r.rows[0]);
+    const nuevo = r.rows[0];
+    if (!b.todas_localidades && Array.isArray(b.zonas) && b.zonas.length) {
+      for (const zonaNombre of b.zonas) {
+        const barrioId = await resolveBarrioId(zonaNombre);
+        if (barrioId) {
+          await pool.query(
+            `INSERT INTO requirement_barrios (requerimiento_id, barrio_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
+            [nuevo.id, barrioId]
+          );
+        }
+      }
+    }
+    res.status(201).json(nuevo);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear requerimiento' }); }
 });
 
@@ -177,7 +194,22 @@ router.put('/requirements/:id', async (req, res) => {
       [...values, req.params.id]
     );
     if (!r.rows.length) return res.status(404).json({ error: 'No encontrado' });
-    res.json(r.rows[0]);
+    const actualizado = r.rows[0];
+    if (Array.isArray(req.body.zonas)) {
+      await pool.query('DELETE FROM requirement_barrios WHERE requerimiento_id = $1', [req.params.id]);
+      if (!actualizado.todas_localidades && req.body.zonas.length) {
+        for (const zonaNombre of req.body.zonas) {
+          const barrioId = await resolveBarrioId(zonaNombre);
+          if (barrioId) {
+            await pool.query(
+              `INSERT INTO requirement_barrios (requerimiento_id, barrio_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
+              [req.params.id, barrioId]
+            );
+          }
+        }
+      }
+    }
+    res.json(actualizado);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al actualizar requerimiento' }); }
 });
 
