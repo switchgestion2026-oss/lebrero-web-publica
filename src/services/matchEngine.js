@@ -56,8 +56,8 @@ function localidadLevel(propLoc, reqLoc) {
 function calcScore(prop, req, barrioMap = _barrioMap) {
   const c = {}, max = {}, w = MATCH_W;
 
-  const tipoBuscado = req.tipo_propiedad || [];
-  c.tipo = (tipoBuscado.includes('Cualquiera') || tipoBuscado.includes(prop.tipo)) ? w.tipo : 0;
+  const tipoBuscado = (req.tipo_propiedad || []).map(t => (t || '').toLowerCase());
+  c.tipo = (tipoBuscado.includes('cualquiera') || tipoBuscado.includes((prop.tipo || '').toLowerCase())) ? w.tipo : 0;
   max.tipo = w.tipo;
 
   c.op = (req.operacion === 'Ambos' || prop.operacion === req.operacion) ? w.op : 0;

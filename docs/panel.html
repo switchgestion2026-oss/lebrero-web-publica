@@ -679,7 +679,8 @@ var MATCH_W = { tipo:20, op:10, precio:20, zona:15, localidad:10, dormitorios:10
 function calcScore(prop, req) {
   var c = {}, max = {}, w = MATCH_W;
 
-  c.tipo = (req.tipoBuscado.indexOf('Cualquiera')!==-1 || req.tipoBuscado.indexOf(prop.tipo)!==-1) ? w.tipo : 0; max.tipo = w.tipo;
+  var tb=req.tipoBuscado.map(function(t){return (t||'').toLowerCase();});
+  c.tipo = (tb.indexOf('cualquiera')!==-1 || tb.indexOf((prop.tipo||'').toLowerCase())!==-1) ? w.tipo : 0; max.tipo = w.tipo;
   c.op   = (req.operacion==='Ambos' || prop.operacion === req.operacion) ? w.op : 0; max.op = w.op;
 
   var pw  = req.soloPorValor ? 35 : w.precio;
