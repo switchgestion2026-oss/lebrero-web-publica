@@ -199,7 +199,7 @@ router.put('/requirements/:id', async (req, res) => {
       await pool.query('DELETE FROM requirement_barrios WHERE requerimiento_id = $1', [req.params.id]);
       if (!actualizado.todas_localidades && req.body.zonas.length) {
         for (const zonaNombre of req.body.zonas) {
-          const barrioId = await resolveBarrioId(zonaNombre);
+          const barrioId = await resolveBarrioId(zonaNombre, actualizado.localidad);
           if (barrioId) {
             await pool.query(
               `INSERT INTO requirement_barrios (requerimiento_id, barrio_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
