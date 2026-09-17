@@ -13,6 +13,7 @@
 :root{
   --ink:#142938; --ink2:#28414e; --cream:#f3f0e8; --paper:#fbfaf7; --white:#fff;
   --teal:#5c9797; --teal-dark:#315f63; --pink:#d41478; --pink-light:#e9b8d2;
+  --gold:#c9a13c;
   --line:#d9d9d3; --muted:#6c777c; --max:1380px;
   --ease:cubic-bezier(.22,.61,.36,1);
 }
@@ -50,7 +51,7 @@ h2{font-size:clamp(38px,4vw,62px)}
 /* HEADER */
 header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(20,41,56,.1)}
 .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
-.brand img{width:170px;height:auto}
+.brand img{width:auto;height:40px;max-width:170px;object-fit:contain}
 .menu{display:flex;gap:28px;font-size:12px;font-weight:600}
 .menu a{position:relative;padding:8px 0}
 .menu a:after{content:"";position:absolute;left:0;bottom:2px;width:0;height:1px;background:var(--pink);transition:width .3s}
@@ -58,15 +59,18 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .nav-actions{display:flex;align-items:center;gap:10px}
 .nav-actions .btn{min-height:40px;padding:0 15px;font-size:10px}
 .whatsapp{width:38px;height:38px;border:1px solid var(--line);display:grid;place-items:center;transition:.3s}
+.whatsapp svg{width:18px;height:18px}
 .whatsapp:hover{border-color:var(--pink);color:var(--pink);transform:translateY(-2px)}
 .mobile-toggle{display:none;border:0;background:none;color:var(--ink);font-size:23px}
-.wa-float{position:fixed;right:22px;bottom:22px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
-.wa-float:hover{transform:scale(1.08)}
-.wa-float svg{width:28px;height:28px} .scroll-progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0%;z-index:300}
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:200;width:54px;height:54px;border-radius:50%;background:var(--ink);color:#fff;border:1px solid var(--pink);display:grid;place-items:center;box-shadow:0 8px 22px rgba(20,41,56,.25);transition:transform .3s var(--ease),background .3s}
+.wa-float:hover{transform:scale(1.08);background:var(--pink)}
+.wa-float svg{width:24px;height:24px}
+.scroll-progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0%;z-index:300}
 
 /* TRANSVERSAL BRAND CONDUCTOR */
 .page{position:relative}
-.brand-conductor{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.page main{position:relative;z-index:2}
+.brand-conductor{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .conductor{position:absolute;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent 0 7%,var(--teal) 7% 27%,transparent 27% 30%,var(--pink) 30% 51%,transparent 51% 55%,var(--teal) 55% 77%,transparent 77% 82%,var(--pink) 82% 93%,transparent 93%);opacity:.72}
 .conductor.c1{top:660px}.conductor.c2{top:1265px}.conductor.c3{top:2190px}.conductor.c4{top:2990px}
 .conductor:after{content:"";position:absolute;left:27%;top:-5px;width:8px;height:11px;background:var(--teal)}
@@ -79,21 +83,25 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .cb4{left:51%;top:2990px;height:120px;color:var(--pink)}
 
 /* HERO */
-.hero{display:grid;grid-template-columns:42% 58%;min-height:650px;background:var(--cream);border-bottom:1px solid var(--line);position:relative}
-.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:80px max(40px,calc((100vw - var(--max))/2)) 80px max(40px,calc((100vw - var(--max))/2));padding-right:65px}
-.hero h1{font-size:clamp(54px,5.4vw,84px);max-width:650px;margin-bottom:25px}
-.hero-text{max-width:470px;color:var(--ink2);font-size:15px}
-.hero-buttons{display:flex;gap:10px;margin-top:27px}
-.hero-media{min-height:650px;position:relative;overflow:hidden;background:#d8d0c4}
+.hero{position:relative;min-height:650px;border-bottom:1px solid var(--line);overflow:hidden}
+.hero-media{position:absolute;inset:0;z-index:0;overflow:hidden;background:#d8d0c4}
 .hero-media img{height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
 .hero-media:hover img{transform:scale(1.025)}
+.hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,41,56,.82) 0%,rgba(20,41,56,.45) 45%,rgba(20,41,56,.05) 75%)}
+.hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;min-height:650px;padding:80px max(40px,calc((100vw - var(--max))/2)) 80px max(40px,calc((100vw - var(--max))/2));padding-right:65px;color:#fff}
+.hero-copy .btn:not(.btn-primary){border-color:#fff;color:#fff}
+.hero-copy .btn:not(.btn-primary):before{background:#fff}
+.hero-copy .btn:not(.btn-primary):hover{color:var(--ink)}
+.hero h1{font-size:clamp(54px,5.4vw,84px);max-width:650px;margin-bottom:22px;text-shadow:0 4px 22px rgba(0,0,0,.35)}
+.hero-text{max-width:470px;color:rgba(255,255,255,.85);font-size:15px}
+.hero-features{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:8px;max-width:420px}
+.hero-features li{font-size:13px;color:rgba(255,255,255,.92)}
+.hero-features a{font-weight:700;border-bottom:1px solid rgba(255,255,255,.5)}
+.hero-buttons{display:flex;gap:10px;margin-top:27px}
 .hero-signature{position:absolute;right:7%;top:12%;color:#fff;text-align:right;text-shadow:0 2px 16px rgba(0,0,0,.4)}
 .hero-signature strong{font:italic 500 31px "Playfair Display",serif}
 .hero-signature span{display:block;font-size:9px;letter-spacing:.22em;margin-top:4px}
 .hero-label{position:absolute;right:5%;bottom:7%;padding:16px 18px;border-left:2px solid var(--pink);color:#fff;background:rgba(20,41,56,.24);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
-.scroll-cue{display:flex;align-items:center;gap:10px;margin-top:55px;color:var(--muted);font-size:9px;letter-spacing:.2em;text-transform:uppercase}
-.scroll-cue span{display:block;width:45px;height:1px;background:var(--pink);position:relative}
-.scroll-cue span:after{content:"";position:absolute;right:0;top:-2px;width:5px;height:5px;background:var(--pink);transform:rotate(45deg)}
 
 /* WORLDS */
 .split-cards{display:grid;grid-template-columns:1fr 1fr}
@@ -119,10 +127,15 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 
 /* PROPERTIES */
 .properties{padding:25px 0 90px}
-.property-window{overflow:hidden;padding:5px 0 10px}
+.property-window{overflow:hidden;padding:5px 0 10px;position:relative}
 .property-track{display:flex;gap:18px;width:max-content;animation:propertyMove 36s linear infinite}
 .property-track:hover{animation-play-state:paused}
+.property-track.manual{animation:none;transition:transform .5s var(--ease)}
 @keyframes propertyMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px rgba(20,41,56,.1);transition:.3s}
+.carousel-arrow:hover{border-color:var(--pink);color:var(--pink)}
+.carousel-arrow.prev{left:8px}
+.carousel-arrow.next{right:8px}
 .property-card{width:305px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(20,41,56,.055);flex:none;position:relative;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
 .property-card:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--teal);transition:width .45s var(--ease)}
 .property-card:hover{transform:translateY(-7px);box-shadow:0 18px 38px rgba(20,41,56,.12)}
@@ -146,42 +159,43 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .service:last-child{border:0}
 .service:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--pink);transition:width .45s var(--ease)}
 .service:hover{background:#f3f0e9}.service:hover:after{width:100%}
-.service .num{font-size:9px;color:var(--pink);font-weight:700;letter-spacing:.15em} .service:nth-child(even) .num{color:var(--teal-dark)}
+.service .num{font-size:9px;color:var(--pink);font-weight:700;letter-spacing:.15em}
+.service:nth-child(even) .num{color:var(--teal-dark)}
 .icon{width:35px;height:35px;margin:17px 0 12px;color:var(--ink)}
 .service h3{font-family:"DM Sans";font-size:13px;font-weight:700;margin-bottom:6px}
 .service p{font-size:10px;color:var(--muted);max-width:210px;margin:0}
 
-/* FANNY */
-.fanny{display:grid;grid-template-columns:43% 57%;min-height:560px}
-.fanny-photo{overflow:hidden;background:#ddd}
-.fanny-photo img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+/* SOBRE MI */
+.fanny{display:grid;grid-template-columns:36% 64%;min-height:460px}
+.fanny-photo{position:relative;overflow:hidden;background:#ddd;padding:36px}
+.fanny-photo:after{content:"";position:absolute;inset:16px;border:1px solid var(--pink);pointer-events:none}
+.fanny-photo img{height:100%;width:100%;object-fit:cover;transition:transform 1s var(--ease)}
 .fanny:hover .fanny-photo img{transform:scale(1.018)}
 .fanny-copy{padding:75px clamp(40px,6vw,100px);display:flex;flex-direction:column;justify-content:center;position:relative}
 .fanny-copy:before{content:"";position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--pink)}
 .fanny-copy h2{font-size:55px}
-.fanny-role{font-weight:700;font-size:14px;margin:5px 0 23px}
+.fanny-role{font-weight:700;font-size:14px;margin:5px 0 4px}
+.fanny-matricula{font-size:10px;color:var(--muted);margin:0 0 23px}
 .fanny-copy > p:not(.eyebrow):not(.fanny-role){font-size:13px;color:var(--muted);max-width:590px}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1px solid var(--line);padding-top:22px;margin-top:35px}
 .fact strong{display:block;font:500 27px "Playfair Display",serif}
 .fact span{font-size:9px;color:var(--muted)}
 
 /* TERRITORY */
-.territory{display:grid;grid-template-columns:36% 32% 32%;min-height:455px}
-.territory-copy{padding:70px 50px}
-.territory-copy p:not(.eyebrow){font-size:12px;color:var(--muted);max-width:390px}
-.territory-map,.territory-photo{overflow:hidden;background:#e8e4dc;position:relative}
-.territory-photo img{height:100%;object-fit:cover}
-.territory-map iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.05);opacity:.85}
-.territory-map:before{content:"";position:absolute;inset:0;background:var(--cream);mix-blend-mode:color;pointer-events:none;z-index:1}
-.territory-map:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,242,235,.65),transparent 60%);z-index:1}
-.map-labels{position:absolute;z-index:2;inset:0}
-.map-label{position:absolute;font-size:9px;font-weight:700;background:rgba(255,255,255,.75);padding:5px 8px;border-left:2px solid var(--teal)}
-.ml1{left:18%;top:29%}.ml2{left:47%;top:42%}.ml3{left:34%;top:63%}.ml4{left:66%;top:72%}
+.territory{position:relative;min-height:520px;overflow:hidden}
+.territory-bg{position:absolute;inset:0}
+.territory-bg img{height:100%;width:100%;object-fit:cover}
+.territory-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,41,56,.8) 0%,rgba(20,41,56,.45) 50%,rgba(20,41,56,.15) 100%)}
+.territory-copy{position:relative;z-index:2;padding:80px 60px;max-width:540px;color:#fff}
+.territory-copy p:not(.eyebrow){font-size:13px;color:rgba(255,255,255,.85);max-width:420px}
+.territory-map-badge{position:absolute;z-index:2;right:50px;bottom:45px;width:280px;height:190px;border:3px solid #fff;box-shadow:0 15px 40px rgba(0,0,0,.3);overflow:hidden}
+.territory-map-badge iframe{width:100%;height:100%;border:0;filter:grayscale(.35) contrast(1.05)}
+.territory-map-badge span{position:absolute;left:0;top:0;background:var(--pink);color:#fff;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;z-index:2}
 
 /* AUCTION */
 .auction{display:grid;grid-template-columns:37% 38% 25%;min-height:420px}
-.auction-photo{overflow:hidden;background:#ddd}
-.auction-photo img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.auction-photo{overflow:hidden;background:var(--cream)}
+.auction-photo img{height:100%;width:100%;object-fit:contain;transition:transform 1s var(--ease)}
 .auction:hover .auction-photo img{transform:scale(1.025)}
 .auction-copy{padding:65px 55px;background:var(--cream)}
 .auction-copy h2{font-size:45px}
@@ -196,12 +210,18 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 
 /* TESTIMONIALS */
 .testimonials{padding:75px 0;background:#fff}
-.quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.quote{padding:28px;border:1px solid var(--line);border-left:2px solid transparent;min-height:185px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
+.quote-window{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:relative}
+.quote-window::-webkit-scrollbar{display:none}
+.quote-grid{display:flex;gap:18px;padding-bottom:4px}
+.quote{min-width:300px;max-width:300px;scroll-snap-align:start;padding:26px;border:1px solid var(--line);border-left:2px solid transparent;min-height:210px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
 .quote:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(20,41,56,.08);border-left-color:var(--pink)}
+.quote-stars{display:flex;gap:2px;color:var(--gold);margin-bottom:10px;font-size:13px;letter-spacing:2px}
 .quote p{font:500 16px/1.3 "Playfair Display",serif}
-.person{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#ddd}
+.person{display:flex;align-items:center;gap:10px;margin-top:14px}
+.avatar-icon{width:38px;height:38px;border-radius:50%;background:var(--cream);display:grid;place-items:center;color:var(--ink2);flex:none}
+.avatar-icon svg{width:20px;height:20px}
 .person strong{display:block;font-size:10px}.person span{font-size:8px;color:var(--muted)}
+.sample-note{font-size:9px;color:var(--muted);margin-top:6px;font-style:italic}
 
 /* CONTACT */
 .contact{min-height:370px;display:grid;grid-template-columns:1fr 1fr;position:relative;color:#fff;overflow:hidden;background:var(--ink)}
@@ -216,11 +236,11 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 /* FOOTER */
 footer{padding:55px 0 25px;background:var(--paper)}
 .footer-main{display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:45px;padding-bottom:45px;border-bottom:1px solid var(--line)}
-.footer-logo{width:175px;margin-bottom:13px}.footer p{font-size:10px;color:var(--muted)}
+.footer-logo{width:auto;height:38px;max-width:150px;object-fit:contain;margin-bottom:13px}.footer p{font-size:10px;color:var(--muted)}
 .footer-title{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:15px}
 .footer a{display:block;font-size:11px;color:var(--muted);margin:7px 0;transition:color .25s}.footer a:hover{color:var(--pink)}
 .signature{font:italic 500 24px/1.05 "Playfair Display",serif}.signature span{display:block;color:var(--pink);font:700 8px "DM Sans";letter-spacing:.12em;margin-top:8px}
-.footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:20px;color:#8b9193;font-size:8px}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;padding-top:20px;color:#8b9193;font-size:8px}
 .footer-bottom a{display:inline;color:#8b9193;margin:0}
 .footer-bottom a:hover{color:var(--pink)}
 
@@ -240,8 +260,8 @@ footer{padding:55px 0 25px;background:var(--paper)}
 @media(max-width:1100px){
   .container{width:min(calc(100% - 40px),var(--max))}
   .menu{gap:18px}.nav-actions .btn{display:none}
-  .hero{grid-template-columns:1fr}.hero-copy{padding:65px 40px}.hero-media{min-height:560px}
-  .territory{grid-template-columns:1fr 1fr}.territory-copy{grid-column:1/-1;min-height:360px}
+  .territory-copy{max-width:100%}
+  .territory-map-badge{width:220px;height:150px;right:30px;bottom:30px}
   .auction{grid-template-columns:1fr 1fr}.auction-photo{min-height:390px}.auction-card{margin:30px}
   .footer-main{grid-template-columns:1.4fr 1fr 1fr}
   .footer-main>div:last-child{display:none}
@@ -249,21 +269,22 @@ footer{padding:55px 0 25px;background:var(--paper)}
 }
 @media(max-width:760px){
   .container{width:calc(100% - 28px)}
-  header{height:65px}.brand img{width:145px}.menu{display:none}.mobile-toggle{display:block}
+  header{height:65px}.brand img{height:34px;max-width:145px}.menu{display:none}.mobile-toggle{display:block}
   .nav-actions .whatsapp{display:none}
-  .hero-copy{padding:55px 22px}.hero h1{font-size:50px}.hero-text{font-size:14px}.hero-media{min-height:440px}
+  .hero{min-height:440px}.hero-copy{padding:55px 22px;min-height:440px}.hero h1{font-size:50px}.hero-text{font-size:14px}
   .hero-signature strong{font-size:25px}
   .split-cards{grid-template-columns:1fr}.world{height:300px;border:0;border-bottom:1px solid #fff}.world h2{font-size:36px}
   .search-section{padding:55px 0}.search-box{grid-template-columns:1fr}
   .field{border-right:0;border-bottom:1px solid var(--line)}.search-box .btn{min-height:58px}
   .properties{padding-bottom:65px}.section-head{align-items:start;flex-direction:column}
   .property-card{width:270px}.property-photo{height:200px}
+  .carousel-arrow{width:36px;height:36px;font-size:17px}
   .services{grid-template-columns:1fr 1fr}.service{border-bottom:1px solid var(--line)}.service:nth-child(2){border-right:0}.service:nth-child(3){border-right:1px solid var(--line)}
-  .fanny{grid-template-columns:1fr}.fanny-photo{height:430px}.fanny-copy{padding:55px 28px}.fanny-copy:before{display:none}.fanny-copy h2{font-size:45px}
+  .fanny{grid-template-columns:1fr}.fanny-photo{height:320px;padding:20px}.fanny-copy{padding:55px 28px}.fanny-copy:before{display:none}.fanny-copy h2{font-size:45px}
   .facts{grid-template-columns:1fr 1fr}.fact:last-child{grid-column:1/-1}
-  .territory{grid-template-columns:1fr}.territory-copy{grid-column:auto;padding:55px 28px;min-height:auto}.territory-map{height:310px}.territory-photo{height:300px}
+  .territory{min-height:auto}.territory-copy{padding:55px 28px}.territory-map-badge{position:static;width:100%;height:220px;margin:0 28px 40px;border-width:2px}
   .auction{grid-template-columns:1fr}.auction-photo{min-height:330px}.auction-copy{padding:55px 28px}.auction-copy h2{font-size:40px}.auction-card{margin:0;padding:28px;border-left:0;border-right:0}
-  .quote-grid{grid-template-columns:1fr}.testimonials{padding:60px 0}
+  .testimonials{padding:60px 0}
   .contact{grid-template-columns:1fr}.contact-content{padding:60px 28px}.contact h2{font-size:43px}.contact-data{padding:25px 28px;border-left:0;border-top:1px solid rgba(255,255,255,.3)}
   .footer-main{grid-template-columns:1fr 1fr;gap:30px}.footer-main>div:last-child{display:block;grid-column:1/-1}
   .footer-bottom{flex-direction:column}
@@ -289,7 +310,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary" href="#contacto">Publicá tu propiedad <span>→</span></a>
-      <a class="whatsapp" href="https://wa.me/542284615101" target="_blank" rel="noopener" aria-label="WhatsApp">◔</a>
+      <a class="whatsapp" href="https://wa.me/542284611601" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 48 48" fill="none"><path d="M9 39l2.7-8.2A16 16 0 1 1 18 37l-9 2Z" stroke="currentColor" stroke-width="2"/><path d="M17 19c0 6 5 11 11 11" stroke="currentColor" stroke-width="2"/></svg></a>
       <button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">☰</button>
     </div>
   </div>
@@ -305,20 +326,26 @@ footer{padding:55px 0 25px;background:var(--paper)}
 
   <main>
     <section class="hero" id="inicio">
+      <div class="hero-media reveal-scale">
+        <img src="assets/images/fanny-hero.webp" alt="Stefania Lebrero">
+        <div class="hero-signature"><strong>Stefania Lebrero</strong><span>Martillera pública</span></div>
+        <div class="hero-label">Olavarría<br>y la región</div>
+      </div>
       <div class="hero-copy reveal-left">
         <p class="eyebrow">Inmobiliaria · Martillera · Remates</p>
         <h1>Propiedades que impulsan nuevas historias.</h1>
         <p class="hero-text">Acompañamos cada operación con profesionalismo, cercanía y conocimiento del mercado local.</p>
+        <ul class="hero-features">
+          <li>🏡 Compra · Venta · Alquileres</li>
+          <li>📊 Tasaciones profesionales</li>
+          <li>🌾 Campos · Hacienda · Arrendamientos</li>
+          <li>📍 Olavarría · Hinojo · Zona rural</li>
+          <li>📲 <a href="https://wa.me/542284611601" target="_blank" rel="noopener">Escribinos</a></li>
+        </ul>
         <div class="hero-buttons">
           <a class="btn btn-primary" href="#propiedades">Ver propiedades <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
           <a class="btn" href="#nosotros">Conocé más <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         </div>
-        <div class="scroll-cue"><span></span> conoce más</div>
-      </div>
-      <div class="hero-media reveal-scale">
-        <img src="assets/images/fanny-hero.webp" alt="Fanny Lebrero">
-        <div class="hero-signature"><strong>Fanny Lebrero</strong><span>Martillera pública</span></div>
-        <div class="hero-label">Olavarría<br>y la región</div>
       </div>
     </section>
 
@@ -345,8 +372,10 @@ footer{padding:55px 0 25px;background:var(--paper)}
       </div>
 
       <div class="property-window">
-        <div class="property-track">
-          <!-- SET 1 -->
+        <button class="carousel-arrow prev" id="propPrev" aria-label="Anterior">‹</button>
+        <button class="carousel-arrow next" id="propNext" aria-label="Siguiente">›</button>
+        <div class="property-track" id="propertyTrack">
+          <!-- SET 1: placeholder — se reemplaza por datos reales del backend -->
           <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-01.webp" alt="Casa en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Casa en Barrio Sierras Bayas</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 3</span><span>♧ 2</span><span>▱ 180 m²</span></div><div class="price">USD 145.000</div></div></article>
           <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-02.webp" alt="Departamento en alquiler"><span class="tag teal">EN ALQUILER</span><span class="heart">♡</span></div><div class="property-body"><h3>Departamento céntrico</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 2</span><span>♧ 1</span><span>▱ 70 m²</span></div><div class="price">$ 480.000</div></div></article>
           <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-03.webp" alt="Galpón en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Galpón con oficinas</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 420 m²</span><span>⌂ Comercial</span></div><div class="price">USD 220.000</div></div></article>
@@ -380,9 +409,11 @@ footer{padding:55px 0 25px;background:var(--paper)}
     </section>
 
     <section class="fanny section reveal">
-      <div class="fanny-photo"><img src="assets/images/fanny-perfil.webp" alt="Fanny Lebrero trabajando"></div>
+      <div class="fanny-photo"><img src="assets/images/fanny-perfil.webp" alt="Stefania Lebrero trabajando"></div>
       <div class="fanny-copy">
-        <p class="eyebrow">Sobre Lebrero</p><h2>Fanny Lebrero</h2><p class="fanny-role">Martillera pública</p>
+        <p class="eyebrow">Sobre Lebrero</p><h2>Stefania Lebrero</h2>
+        <p class="fanny-role">Martillera pública</p>
+        <p class="fanny-matricula">Mat. 1652 · Tomo VI · Folio 243</p>
         <p>Creo en un trabajo cercano, profesional y transparente. Acompaño cada persona en una de las decisiones más importantes: encontrar, vender o invertir en una propiedad. El mismo compromiso lo llevo al mundo rural, a través de Zona Remates.</p>
         <a class="btn" href="#contacto">Conocé más sobre mí <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         <div class="facts"><div class="fact"><strong>+10</strong><span>años de experiencia</span></div><div class="fact"><strong>Olavarría</strong><span>y la región</span></div><div class="fact"><strong>2 áreas</strong><span>propiedades y remates</span></div></div>
@@ -390,9 +421,10 @@ footer{padding:55px 0 25px;background:var(--paper)}
     </section>
 
     <section class="territory section reveal">
-      <div class="territory-copy"><p class="eyebrow">Nuestra zona</p><h2>Conocemos el territorio.</h2><p>Olavarría y sus alrededores tienen un potencial único. Trabajamos con conocimiento real del mercado local y de cada localidad.</p><a class="btn" href="#propiedades">Ver propiedades en la zona <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a></div>
-      <div class="territory-map"><iframe src="https://www.google.com/maps?q=Olavarr%C3%ADa,+Buenos+Aires&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Olavarría y la región"></iframe><div class="map-labels"><span class="map-label ml1">Hinojo</span><span class="map-label ml2">Olavarría</span><span class="map-label ml3">Sierras Bayas</span><span class="map-label ml4">Loma Negra</span></div></div>
-      <div class="territory-photo"><img src="assets/images/territorio-rural.webp" alt="Paisaje rural de Olavarría"></div>
+      <div class="territory-bg"><img src="assets/images/territorio-rural.webp" alt="Paisaje rural de Olavarría"></div>
+      <div class="territory-overlay"></div>
+      <div class="territory-copy"><p class="eyebrow">Nuestra zona</p><h2>Conocemos el territorio.</h2><p>Olavarría y sus alrededores tienen un potencial único. Trabajamos con conocimiento real del mercado local y de cada localidad: Hinojo, Sierras Bayas, Loma Negra y zona rural.</p><a class="btn" href="#propiedades">Ver propiedades en la zona <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a></div>
+      <div class="territory-map-badge"><span>Ubicación</span><iframe src="https://www.google.com/maps?q=Olavarr%C3%ADa,+Buenos+Aires&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Olavarría y la región"></iframe></div>
     </section>
 
     <section class="auction section reveal" id="remates">
@@ -403,18 +435,46 @@ footer{padding:55px 0 25px;background:var(--paper)}
 
     <section class="testimonials section reveal">
       <div class="container"><div class="section-head"><div><p class="eyebrow">Experiencias</p><h2>La confianza de nuestros clientes.</h2></div></div>
-        <div class="quote-grid">
-          <article class="quote"><p>“Excelente atención y acompañamiento en todo el proceso. Súper profesionales.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-01.webp" alt=""><div><strong>María L.</strong><span>Compra de vivienda</span></div></div></article>
-          <article class="quote"><p>“Vendimos nuestro campo a través de Zona Remates. Seriedad y compromiso.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-02.webp" alt=""><div><strong>Juan P.</strong><span>Productor agropecuario</span></div></div></article>
-          <article class="quote"><p>“Nos ayudaron a encontrar el lugar ideal para nuestra familia. Gracias Fanny.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-03.webp" alt=""><div><strong>Luciana R.</strong><span>Alquiler</span></div></div></article>
+        <div class="quote-window" id="quoteWindow">
+          <div class="quote-grid" id="quoteTrack">
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Excelente atención y acompañamiento en todo el proceso. Súper profesionales."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>María L.</strong><span>Compra de vivienda</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Vendimos nuestro campo a través de Zona Remates. Seriedad y compromiso."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Juan P.</strong><span>Productor agropecuario</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Nos ayudaron a encontrar el lugar ideal para nuestra familia. Gracias Stefania."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Luciana R.</strong><span>Alquiler</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Trato claro desde el primer día. La tasación fue justa y muy bien explicada."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Roberto D.</strong><span>Venta de terreno</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Muy buena predisposición para coordinar visitas y responder dudas."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Carla V.</strong><span>Alquiler de departamento</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Conocen la zona rural como pocos. Nos asesoraron en todo el remate."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Hugo M.</strong><span>Remate de hacienda</span></div></div>
+            </article>
+            <article class="quote">
+              <div><div class="quote-stars">★★★★★</div><p>"Recomiendo totalmente el servicio, sobre todo el seguimiento post-venta."</p></div>
+              <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Ana F.</strong><span>Compra de casa</span></div></div>
+            </article>
+          </div>
         </div>
+        <p class="sample-note">* Testimonios de muestra para maquetar — se reemplazan por los originales que envíe la clienta.</p>
       </div>
     </section>
 
     <section class="contact reveal" id="contacto">
       <div class="contact-bg"><img src="assets/images/contacto-campo.webp" alt=""></div>
-      <div class="contact-content"><p class="eyebrow" style="color:var(--pink-light)">Hablemos</p><h2>Tu próxima operación empieza acá.</h2><p>Estamos para asesorarte. Escribinos o visitanos.</p><a class="btn btn-primary" href="https://wa.me/542284615101" target="_blank" rel="noopener">Escribinos por WhatsApp →</a></div>
-      <div class="contact-data"><div>☎ <span>2284 61-5101</span></div><div>✉ <span>fanny@lebreroprop.com.ar</span></div><div>⌖ <span>Belgrano 2760, Olavarría</span></div><div>◎ <span>@lebrero.prop</span></div></div>
+      <div class="contact-content"><p class="eyebrow" style="color:var(--pink-light)">Hablemos</p><h2>Tu próxima operación empieza acá.</h2><p>Estamos para asesorarte. Escribinos o visitanos.</p><a class="btn btn-primary" href="https://wa.me/542284611601" target="_blank" rel="noopener">Escribinos por WhatsApp →</a></div>
+      <div class="contact-data"><div>☎ <span>2284 61-1601</span></div><div>✉ <span>fanny@lebreroprop.com.ar</span></div><div>⌖ <span>Moreno 3084, Olavarría</span></div><div>◎ <span>@lebrero.prop</span></div></div>
     </section>
   </main>
 
@@ -423,13 +483,13 @@ footer{padding:55px 0 25px;background:var(--paper)}
       <div class="footer-main">
         <div><img class="footer-logo" src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"><p>Inmobiliaria · Martillera · Remates<br>Olavarría y la región.</p></div>
         <div><div class="footer-title">Navegación</div><a href="#inicio">Inicio</a><a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Remates</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></div>
-        <div><div class="footer-title">Contacto</div><a href="tel:+542284615101">2284 61-5101</a><a href="mailto:fanny@lebreroprop.com.ar">fanny@lebreroprop.com.ar</a><a href="#">Belgrano 2760, Olavarría</a><a href="#">Instagram · Facebook</a><a href="legal.html#aviso">Aviso legal</a></div>
+        <div><div class="footer-title">Contacto</div><a href="tel:+542284611601">2284 61-1601</a><a href="mailto:fanny@lebreroprop.com.ar">fanny@lebreroprop.com.ar</a><a href="#">Moreno 3084, Olavarría</a><a href="https://www.facebook.com/profile.php?id=100089380060896" target="_blank" rel="noopener">Facebook</a><a href="#">Instagram</a><a href="legal.html#aviso">Aviso legal</a></div>
         <div class="signature">Propiedades<br>que encuentran<br>su lugar.<span>LEBRERO PROPIEDADES</span></div>
       </div>
       <div class="footer-bottom"><span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span><span><a href="legal.html#terminos">Términos y condiciones</a> · <a href="legal.html#privacidad">Política de privacidad</a></span><a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a></div>
     </div>
   </footer>
-  <a class="wa-float" href="https://wa.me/542284615101" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.02 3C9.37 3 4 8.36 4 15c0 2.37.7 4.58 1.9 6.43L4 29l7.76-1.86A11.9 11.9 0 0 0 16.02 27C22.66 27 28 21.65 28 15S22.66 3 16.02 3Zm6.86 16.68c-.29.82-1.7 1.56-2.36 1.63-.6.07-1.36.1-2.2-.14-.5-.15-1.15-.36-1.98-.7-3.48-1.5-5.75-5-5.93-5.24-.17-.24-1.42-1.9-1.42-3.63 0-1.72.9-2.57 1.22-2.92.32-.34.7-.43.93-.43h.67c.21 0 .5-.08.78.6.29.68.98 2.35 1.06 2.52.09.17.14.37.03.6-.11.24-.17.38-.34.58-.17.2-.36.44-.51.6-.17.17-.34.36-.15.7.19.34.85 1.4 1.83 2.27 1.26 1.12 2.32 1.47 2.66 1.64.34.17.53.14.73-.08.2-.22.85-.99 1.08-1.33.23-.34.46-.28.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.14.09.83-.2 1.65Z"/></svg></a>
+  <a class="wa-float" href="https://wa.me/542284611601" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg viewBox="0 0 48 48" fill="none"><path d="M9 39l2.7-8.2A16 16 0 1 1 18 37l-9 2Z" stroke="currentColor" stroke-width="1.8"/><path d="M17 19c0 6 5 11 11 11" stroke="currentColor" stroke-width="1.8"/></svg></a>
 </div>
 
 <script>
@@ -442,7 +502,29 @@ const observer = new IntersectionObserver((entries)=>{
   });
 },{threshold:.12, rootMargin:"0px 0px -5% 0px"});
 
-document.querySelectorAll(".reveal,.reveal-left,.reveal-scale").forEach(el=>observer.observe(el));  const scrollBar=document.getElementById("scrollProgress"); window.addEventListener("scroll",()=>{   const h=document.documentElement;   const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;   scrollBar.style.width=pct+"%"; });
+document.querySelectorAll(".reveal,.reveal-left,.reveal-scale").forEach(el=>observer.observe(el));
+
+/* Barra de progreso de scroll */
+const scrollBar=document.getElementById("scrollProgress");
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  scrollBar.style.width=pct+"%";
+});
+
+/* Carrusel de propiedades: flechas pausan el autoplay y desplazan manualmente */
+const track=document.getElementById("propertyTrack");
+const prevBtn=document.getElementById("propPrev");
+const nextBtn=document.getElementById("propNext");
+let manualOffset=0;
+const cardStep=305+18;
+function goManual(dir){
+  track.classList.add("manual");
+  manualOffset+=dir*-cardStep;
+  track.style.transform=`translateX(${manualOffset}px)`;
+}
+prevBtn?.addEventListener("click",()=>goManual(-1));
+nextBtn?.addEventListener("click",()=>goManual(1));
 
 /* El buscador queda listo para conectar al sistema real. */
 document.getElementById("propertySearch").addEventListener("submit",(e)=>{
