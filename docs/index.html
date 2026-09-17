@@ -199,8 +199,8 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .zona-conductor .l1{top:22%;left:0;width:38%;background:linear-gradient(90deg,transparent,var(--teal))}
 .zona-conductor .l2{top:48%;left:30%;width:45%;background:linear-gradient(90deg,var(--teal),var(--pink))}
 .zona-conductor .l3{top:78%;left:55%;width:40%;background:linear-gradient(90deg,var(--pink),transparent)}
-.zona-inner{position:relative;z-index:2;display:grid;gap:16px 46px;grid-template-columns:400px 1.3fr 1.3fr .85fr 1.15fr;grid-template-areas:"head main main main main" "head img2 img3 img4 side"}
-.zona-head{grid-area:head;padding-top:6px}
+.zona-inner{position:relative;z-index:2;display:grid;grid-template-columns:400px 1fr;gap:0 46px}
+.zona-head{padding-top:6px}
 .zona-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:14px;margin:0 0 26px}
 .zona-eyebrow:after{content:"";flex:1;height:1px;background:var(--line)}
 .zona-title{font-family:"Playfair Display",serif;font-weight:500;font-size:clamp(44px,4.6vw,68px);line-height:.96;color:var(--ink);margin:0}
@@ -211,19 +211,17 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .zona-btn svg{width:14px;height:14px;transition:transform .3s var(--ease)}
 .zona-btn:hover{background:var(--teal-dark);border-color:var(--teal-dark);transform:translateY(-2px)}
 .zona-btn:hover svg{transform:translateX(3px)}
-.zona-main{grid-area:main;margin:0;overflow:hidden;position:relative;aspect-ratio:16/7.6;background:#ddd}
+.zona-visual{position:relative;min-height:660px}
+.zona-main{position:absolute;top:0;left:0;right:0;height:330px;margin:0;overflow:hidden;z-index:1;background:#ddd}
 .zona-main img{height:100%;width:100%;object-fit:cover;transition:transform 1s var(--ease)}
 .zona-main:hover img{transform:scale(1.02)}
-.zona-img2{grid-area:img2}
-.zona-img3{grid-area:img3}
-.zona-img4{grid-area:img4}
-.zona-img2,.zona-img3,.zona-img4{margin:0;overflow:hidden;position:relative;background:#ddd}
+.zona-img2,.zona-img3,.zona-img4{margin:0;overflow:hidden;background:#ddd}
 .zona-img2 img,.zona-img3 img,.zona-img4 img{height:100%;width:100%;object-fit:cover;transition:transform .8s var(--ease)}
-.zona-img2:hover img,.zona-img3:hover img,.zona-img4:hover img{transform:scale(1.035)}
-.zona-img2{aspect-ratio:1/.82}
-.zona-img3{aspect-ratio:1/.82}
-.zona-img4{aspect-ratio:.62/1}
-.zona-side{grid-area:side;display:flex;flex-direction:column;justify-content:space-between;padding:4px 2px}
+.zona-img2:hover img,.zona-img3:hover img,.zona-img4:hover img{transform:scale(1.04)}
+.zona-img2{position:absolute;top:288px;left:0;width:36%;height:240px;z-index:2;box-shadow:0 14px 32px rgba(20,41,56,.16)}
+.zona-img3{position:absolute;top:262px;left:30%;width:38%;height:270px;z-index:3;box-shadow:0 16px 36px rgba(20,41,56,.18)}
+.zona-img4{position:absolute;top:225px;left:65%;width:25%;height:345px;z-index:4;box-shadow:0 18px 40px rgba(20,41,56,.2)}
+.zona-side{position:absolute;top:305px;right:0;width:220px;background:var(--cream);padding:28px 24px;z-index:5;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 22px 48px rgba(20,41,56,.16)}
 .zona-side-label{font-size:10px;letter-spacing:.15em;font-weight:700;text-transform:uppercase;color:var(--ink2);line-height:1.7;margin:0}
 .zona-side-quote{position:relative;margin:20px 0 0;padding-left:16px;font-family:"Playfair Display",serif;font-style:italic;font-size:17px;line-height:1.35;color:var(--ink)}
 .zona-side-quote:before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:2px;background:linear-gradient(var(--teal),var(--pink))}
@@ -289,7 +287,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
   .menu{gap:18px}.nav-actions .btn{display:none}
   .territory-copy{max-width:100%}
   .territory-map-badge{width:220px;height:150px;right:30px;bottom:30px}
-  .zona-inner{grid-template-columns:1fr 1fr;grid-template-areas:"head head" "main main" "img2 img3" "img4 side"} .zona-main{aspect-ratio:16/8} .zona-img4{aspect-ratio:1/1}
+  .zona-inner{grid-template-columns:1fr} .zona-visual{position:static;min-height:auto;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"main main" "img2 img3" "img4 side";gap:14px} .zona-main,.zona-img2,.zona-img3,.zona-img4,.zona-side{position:static;top:auto;left:auto;right:auto;width:auto;height:auto;box-shadow:none} .zona-main{grid-area:main;aspect-ratio:16/8} .zona-img2{grid-area:img2;aspect-ratio:1/.9} .zona-img3{grid-area:img3;aspect-ratio:1/.9} .zona-img4{grid-area:img4;aspect-ratio:1/1} .zona-side{grid-area:side;padding:20px}
   .footer-main{grid-template-columns:1.4fr 1fr 1fr}
   .footer-main>div:last-child{display:none}
   .conductor.c1{top:700px}.conductor.c2{top:1380px}.conductor.c3{top:2440px}.conductor.c4{top:3320px}
@@ -310,7 +308,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
   .fanny{grid-template-columns:1fr}.fanny-photo{height:320px;padding:20px}.fanny-copy{padding:55px 28px}.fanny-copy:before{display:none}.fanny-copy h2{font-size:45px}
   .facts{grid-template-columns:1fr 1fr}.fact:last-child{grid-column:1/-1}
   .territory{min-height:auto}.territory-copy{padding:55px 28px}.territory-map-badge{position:static;transform:none;width:100%;height:220px;margin:0 28px 40px}
-  .zona-remates{padding:60px 0} .zona-inner{grid-template-columns:1fr 1fr;gap:14px;grid-template-areas:"head head" "main main" "img2 img3" "img4 img4" "side side"} .zona-title{font-size:42px} .zona-text{max-width:100%} .zona-main{aspect-ratio:4/3} .zona-img4{aspect-ratio:1/1} .zona-tags{gap:10px;margin-top:30px;padding-top:20px} .zona-tags span:not(:first-child):before{width:20px;margin-right:4px}
+  .zona-remates{padding:60px 0} .zona-visual{grid-template-columns:1fr 1fr;grid-template-areas:"main main" "img2 img3" "img4 img4" "side side"} .zona-title{font-size:42px} .zona-text{max-width:100%} .zona-main{aspect-ratio:4/3} .zona-img4{aspect-ratio:1/1} .zona-tags{gap:10px;margin-top:30px;padding-top:20px} .zona-tags span:not(:first-child):before{width:20px;margin-right:4px}
   .testimonials{padding:60px 0} .quote-carousel{padding:0 40px}
   .contact{grid-template-columns:1fr}.contact-content{padding:60px 28px}.contact h2{font-size:43px}.contact-data{padding:25px 28px;border-left:0;border-top:1px solid rgba(255,255,255,.3)}
   .footer-main{grid-template-columns:1fr 1fr;gap:30px}.footer-main>div:last-child{display:block;grid-column:1/-1}
@@ -463,15 +461,15 @@ footer{padding:55px 0 25px;background:var(--paper)}
           <a class="zona-btn" href="#contacto">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         </div>
 
-        <figure class="zona-main reveal-scale"><img src="assets/images/zona1.webp" alt="Remate de hacienda en Olavarría"></figure>
-
-        <figure class="zona-img2 reveal reveal-d1"><img src="assets/images/zona2.webp" alt="Hacienda en el remate"></figure>
-        <figure class="zona-img3 reveal reveal-d2"><img src="assets/images/zona3.webp" alt="Animales en el remate"></figure>
-        <figure class="zona-img4 reveal reveal-d3"><img src="assets/images/zona4.webp" alt="Martillero en el remate"></figure>
-
-        <div class="zona-side reveal reveal-d4">
-          <p class="zona-side-label">Tradición<br>que genera<br>oportunidades</p>
-          <p class="zona-side-quote">El campo también es parte de la historia de nuestra región.</p>
+<div class="zona-visual">
+          <figure class="zona-main reveal-scale"><img src="assets/images/zona1.webp" alt="Remate de hacienda en Olavarría"></figure>
+          <figure class="zona-img2 reveal reveal-d1"><img src="assets/images/zona2.webp" alt="Hacienda en el remate"></figure>
+          <figure class="zona-img3 reveal reveal-d2"><img src="assets/images/zona3.webp" alt="Animales en el remate"></figure>
+          <figure class="zona-img4 reveal reveal-d3"><img src="assets/images/zona4.webp" alt="Martillero en el remate"></figure>
+          <div class="zona-side reveal reveal-d4">
+            <p class="zona-side-label">Tradición<br>que genera<br>oportunidades</p>
+            <p class="zona-side-quote">El campo también es parte de la historia de nuestra región.</p>
+          </div>
         </div>
 
         <div class="zona-tags">
