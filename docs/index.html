@@ -65,10 +65,10 @@ h2{font-size:clamp(38px,4vw,62px)}
 .btn:hover svg{transform:translateX(3px)}
 
 /* HEADER */
-header{height:76px;position:sticky;top:0;z-index:100;background:transparent;backdrop-filter:blur(4px);color:#fff;transition:color .3s}
+header{height:92px;position:sticky;top:0;z-index:100;background:transparent;backdrop-filter:blur(4px);color:#fff;transition:color .3s}
 header.scrolled{color:var(--ink)}
 .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
-.brand img{width:auto;height:70px;max-width:230px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,255,255,.55))}
+.brand img{width:auto;height:84px;max-width:260px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,255,255,.55))}
 .menu{display:flex;gap:28px;font-size:15px;font-weight:700}
 .menu a{position:relative;padding:8px 0;color:inherit;text-shadow:0 1px 4px rgba(20,41,56,.35)}
 .menu a:after{content:"";position:absolute;left:0;bottom:2px;width:0;height:1px;background:var(--pink);transition:width .3s}
@@ -101,7 +101,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .cb4{left:51%;top:2990px;height:120px;color:var(--pink)}
 
 /* HERO */
-.hero{position:relative;min-height:650px;margin-top:-76px;border-bottom:1px solid var(--line);overflow:hidden}
+.hero{position:relative;min-height:650px;margin-top:-92px;border-bottom:1px solid var(--line);overflow:hidden}
 .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden;background:#d8d0c4}
 .hero-media img{height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
 .hero-media:hover img{transform:scale(1.025)}
@@ -173,7 +173,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 
 /* SERVICES */
 .services-band{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:var(--paper);position:relative;z-index:3;overflow:hidden}
-.services-band:before{content:"";position:absolute;inset:0;background:url("assets/images/fanny-hero.webp") center/cover;opacity:.1;z-index:0}
+.services-band:before{content:"";position:absolute;inset:0;background:url("assets/images/fanny-hero.webp") center/cover;opacity:.05;z-index:0}
 .service-item{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;min-height:64px;padding:12px 18px;border-right:1px solid var(--line);font-size:12px;font-weight:700;letter-spacing:.02em;transition:background .3s,color .3s}
 .service-item:last-child{border-right:0}
 .service-item .icon{width:20px;height:20px;flex:none;color:var(--pink);transition:color .3s}
@@ -217,7 +217,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .zona-conductor .l3{top:78%;left:55%;width:40%;background:linear-gradient(90deg,var(--zr-navy),transparent)}
 .zona-inner{position:relative;z-index:2;display:grid;grid-template-columns:400px 1fr;gap:0 46px}
 .zona-head{padding-top:6px;position:relative}
-.zona-head:before{content:"";position:absolute;top:-20px;left:-20px;width:260px;height:260px;background:url("assets/images/logocampo.webp") center/contain no-repeat;filter:grayscale(1);opacity:.08;pointer-events:none;z-index:0}
+.zona-head:before{content:"";position:absolute;top:160px;left:-30px;width:440px;height:440px;background:url("assets/images/logocampo.webp") center/contain no-repeat;filter:grayscale(1);opacity:.16;pointer-events:none;z-index:0}
 .zona-head>*{position:relative;z-index:1}
 .zona-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:14px;margin:0 0 26px}
 .zona-eyebrow:after{content:"";flex:1;height:1px;background:var(--line)}
@@ -235,6 +235,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .zona-main:hover img{transform:scale(1.02)}
 .zona-img2,.zona-img3,.zona-img4{margin:0;overflow:hidden;background:#ddd}
 .zona-img2 img,.zona-img3 img,.zona-img4 img{height:100%;width:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.zona-img3 img{object-fit:contain;background:#ddd}
 .zona-img2:hover img,.zona-img3:hover img,.zona-img4:hover img{transform:scale(1.04)}
 .zona-img2{position:absolute;top:288px;left:0;width:36%;height:240px;z-index:2;box-shadow:0 14px 32px rgba(20,41,56,.16)}
 .zona-img3{position:absolute;top:262px;left:30%;width:38%;height:270px;z-index:3;box-shadow:0 16px 36px rgba(20,41,56,.18)}
@@ -243,7 +244,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .zona-side-label{font-size:10px;letter-spacing:.15em;font-weight:700;text-transform:uppercase;color:var(--ink2);line-height:1.7;margin:0}
 .zona-side-quote{position:relative;margin:20px 0 0;padding-left:16px;font-family:"Playfair Display",serif;font-style:italic;font-size:17px;line-height:1.35;color:var(--ink)}
 .zona-side-quote:before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:2px;background:linear-gradient(var(--zr-green),var(--zr-navy))}
-.zona-tags{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2)}
+.zona-tags{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
 .zona-tags span{display:flex;align-items:center;gap:10px}
 .zona-tags span:not(:first-child):before{content:"";width:34px;height:1px;background:var(--line);margin-right:6px}
 
@@ -271,11 +272,12 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .contact h2{font-size:53px;margin-bottom:10px}.contact p:not(.eyebrow){font-size:13px}
 .contact-data{display:flex;flex-direction:column;justify-content:center;padding:50px 60px;border-left:1px solid rgba(255,255,255,.3)}
 .contact-data a{display:flex;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.2);font-size:14px;color:#fff;transition:color .25s}
+.contact-data a svg{width:18px;height:18px;flex:none}
 .contact-data a:hover{color:var(--pink-light)}
 
 /* FOOTER */
 footer{padding:55px 0 25px;background:var(--paper)}
-.footer-main{display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:45px;padding-bottom:45px;border-bottom:1px solid var(--line)}
+.footer-main{display:grid;grid-template-columns:1.6fr 1fr;gap:45px;padding-bottom:45px;border-bottom:1px solid var(--line)}
 .footer-logo{width:auto;height:52px;max-width:190px;object-fit:contain;margin-bottom:13px;filter:drop-shadow(0 0 10px rgba(255,255,255,.6))}.footer p{font-size:10px;color:var(--muted)}
 .footer-title{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:15px}
 .footer a{display:block;font-size:12px;color:var(--muted);margin:11px 0;transition:color .25s}.footer a:hover{color:var(--pink)} .footer-link{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin:11px 0;transition:color .25s} .footer-link svg{width:14px;height:14px;flex:none} .footer-link:hover{color:var(--pink)}
@@ -307,15 +309,14 @@ footer{padding:55px 0 25px;background:var(--paper)}
   .territory-copy{max-width:100%}
   .territory-map-badge{width:220px;height:150px;right:30px;bottom:30px}
   .zona-inner{grid-template-columns:1fr} .zona-visual{position:static;min-height:auto;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"main main" "img2 img3" "img4 side";gap:14px} .zona-main,.zona-img2,.zona-img3,.zona-img4,.zona-side{position:static;top:auto;left:auto;right:auto;width:auto;height:auto;box-shadow:none} .zona-main{grid-area:main;aspect-ratio:16/8} .zona-img2{grid-area:img2;aspect-ratio:1/.9} .zona-img3{grid-area:img3;aspect-ratio:1/.9} .zona-img4{grid-area:img4;aspect-ratio:1/1} .zona-side{grid-area:side;padding:20px}
-  .footer-main{grid-template-columns:1.4fr 1fr 1fr}
   .footer-main>div:last-child{display:none}
   .conductor.c1{top:700px}.conductor.c2{top:1380px}.conductor.c3{top:2440px}.conductor.c4{top:3320px}
 }
 @media(max-width:760px){
   .container{width:calc(100% - 28px)}
-  header{height:65px}.brand{margin-left:6px}.brand img{height:56px;max-width:190px}.menu{display:none}.mobile-toggle{display:block}
+  header{height:74px}.brand{margin-left:6px}.brand img{height:64px;max-width:210px}.menu{display:none}.mobile-toggle{display:block}
   .nav-actions .whatsapp{display:none}
-  .hero{min-height:440px;margin-top:-65px}.hero-copy{padding:75px 22px 55px;min-height:440px}.hero h1{font-size:50px}.hero-text{font-size:14px}
+  .hero{min-height:440px;margin-top:-74px}.hero-copy{padding:84px 22px 55px;min-height:440px}.hero h1{font-size:50px}.hero-text{font-size:14px}
   .hero-media img{object-position:78% 22%}
   .hero-label{display:none}
   .hero-signature{display:none}
@@ -333,7 +334,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
   .zona-remates{padding:60px 0} .zona-visual{grid-template-columns:1fr 1fr;grid-template-areas:"main main" "img2 img3" "img4 img4" "side side"} .zona-title{font-size:42px} .zona-text{max-width:100%} .zona-main{aspect-ratio:4/3} .zona-img4{aspect-ratio:1/1} .zona-tags{gap:10px;margin-top:30px;padding-top:20px} .zona-tags span:not(:first-child):before{width:20px;margin-right:4px}
   .testimonials{padding:60px 0} .quote-carousel{padding:0 40px}
   .contact{grid-template-columns:1fr}.contact-content{padding:60px 28px}.contact h2{font-size:43px}.contact-data{padding:25px 28px;border-left:0;border-top:1px solid rgba(255,255,255,.3)}
-  .footer-main{grid-template-columns:1fr 1fr;gap:30px}.footer-main>div:last-child{display:block;grid-column:1/-1}
+  .footer-main{grid-template-columns:1fr}.footer-main>div:last-child{display:block}
   .footer-bottom{flex-direction:column}
   .brand-conductor{display:none}
   .wa-float{width:58px;height:58px;right:20px;bottom:20px}
@@ -537,11 +538,11 @@ footer{padding:55px 0 25px;background:var(--paper)}
       <div class="contact-bg"><img src="assets/images/contacto-campo.webp" alt=""></div>
       <div class="contact-content"><p class="eyebrow" style="color:var(--pink-light)">Hablemos</p><h2>Tu próxima operación empieza acá.</h2><p>Estamos para asesorarte. Escribinos o visitanos.</p><a class="btn btn-primary" href="https://wa.me/542284611601" target="_blank" rel="noopener">Escribinos por WhatsApp →</a></div>
       <div class="contact-data">
-        <a href="tel:+542284611601">☎ <span>2284 61-1601</span></a>
-        <a href="mailto:lebreropropiedades@gmail.com">✉ <span>lebreropropiedades@gmail.com</span></a>
-        <a href="https://www.google.com/maps?q=Moreno+3084,+Olavarr%C3%ADa" target="_blank" rel="noopener">⌖ <span>Moreno 3084, Olavarría</span></a>
-        <a href="https://www.instagram.com/lebrero.prop/" target="_blank" rel="noopener">◎ <span>@lebrero.prop</span></a>
-        <a href="https://www.facebook.com/profile.php?id=100089380060896" target="_blank" rel="noopener">📘 <span>Facebook</span></a>
+        <a href="https://www.instagram.com/lebrero.prop/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg><span>@lebrero.prop</span></a>
+        <a href="https://www.facebook.com/profile.php?id=100089380060896" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M14 21v-7h2.5l.5-3H14V9c0-.9.3-1.5 1.7-1.5H17V4.8c-.3 0-1.3-.1-2.4-.1-2.3 0-3.9 1.4-3.9 4v2.3H8v3h2.7v7h3.3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span>Facebook</span></a>
+        <a href="tel:+542284611601"><svg viewBox="0 0 24 24" fill="none"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3c0 1-1 2-2 2C11 19.5 4.5 13 4.5 5c0-1 1-2 2-2Z" stroke="currentColor" stroke-width="1.5"/></svg><span>2284 61-1601</span></a>
+        <a href="mailto:lebreropropiedades@gmail.com"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="m4 6.5 8 6 8-6" stroke="currentColor" stroke-width="1.5"/></svg><span>lebreropropiedades@gmail.com</span></a>
+        <a href="https://www.google.com/maps?q=Moreno+3084,+Olavarr%C3%ADa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.5"/></svg><span>Moreno 3084, Olavarría</span></a>
       </div>
     </section>
   </main>
@@ -550,11 +551,9 @@ footer{padding:55px 0 25px;background:var(--paper)}
     <div class="container">
       <div class="footer-main">
         <div><img class="footer-logo" src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"><p>Inmobiliaria · Martillera · Remates<br>Olavarría y zona.</p></div>
-        <div><div class="footer-title">Navegación</div><a href="#inicio">Inicio</a><a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Campo</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></div>
-        <div><div class="footer-title">Redes</div><a class="footer-link" href="https://www.facebook.com/profile.php?id=100089380060896" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M14 21v-7h2.5l.5-3H14V9c0-.9.3-1.5 1.7-1.5H17V4.8c-.3 0-1.3-.1-2.4-.1-2.3 0-3.9 1.4-3.9 4v2.3H8v3h2.7v7h3.3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Facebook</a><a class="footer-link" href="https://www.instagram.com/lebrero.prop/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>Instagram</a><a class="footer-link" href="legal.html#aviso"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 3.5V8h4" stroke="currentColor" stroke-width="1.5"/></svg>Aviso legal</a></div>
         <div class="signature">Propiedades<br>que encuentran<br>su lugar.<span>LEBRERO PROPIEDADES</span></div>
       </div>
-      <div class="footer-bottom"><span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span><span><a href="legal.html#terminos">Términos y condiciones</a> · <a href="legal.html#privacidad">Política de privacidad</a></span><a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a></div>
+      <div class="footer-bottom"><span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span><span><a href="legal.html#aviso">Aviso legal</a> · <a href="legal.html#terminos">Términos y condiciones</a> · <a href="legal.html#privacidad">Política de privacidad</a></span><a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a></div>
     </div>
   </footer>
   <a class="wa-float" href="https://wa.me/542284611601" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg viewBox="0 0 48 48" fill="none"><path d="M9 39l2.7-8.2A16 16 0 1 1 18 37l-9 2Z" stroke="currentColor" stroke-width="1.8"/><path d="M17 19c0 6 5 11 11 11" stroke="currentColor" stroke-width="1.8"/></svg></a>
