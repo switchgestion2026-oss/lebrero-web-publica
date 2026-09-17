@@ -62,7 +62,7 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .mobile-toggle{display:none;border:0;background:none;color:var(--ink);font-size:23px}
 .wa-float{position:fixed;right:22px;bottom:22px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
 .wa-float:hover{transform:scale(1.08)}
-.wa-float svg{width:28px;height:28px}
+.wa-float svg{width:28px;height:28px} .scroll-progress{position:fixed;top:0;left:0;height:2px;background:var(--teal);width:0%;z-index:300}
 
 /* TRANSVERSAL BRAND CONDUCTOR */
 .page{position:relative}
@@ -123,8 +123,10 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .property-track{display:flex;gap:18px;width:max-content;animation:propertyMove 36s linear infinite}
 .property-track:hover{animation-play-state:paused}
 @keyframes propertyMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.property-card{width:305px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(20,41,56,.055);flex:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.property-card{width:305px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(20,41,56,.055);flex:none;position:relative;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.property-card:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--teal);transition:width .45s var(--ease)}
 .property-card:hover{transform:translateY(-7px);box-shadow:0 18px 38px rgba(20,41,56,.12)}
+.property-card:hover:after{width:100%}
 .property-photo{height:225px;position:relative;overflow:hidden;background:#ddd}
 .property-photo img{height:100%;object-fit:cover;transition:transform .7s var(--ease)}
 .property-card:hover .property-photo img{transform:scale(1.04)}
@@ -144,7 +146,7 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .service:last-child{border:0}
 .service:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--pink);transition:width .45s var(--ease)}
 .service:hover{background:#f3f0e9}.service:hover:after{width:100%}
-.service .num{font-size:9px;color:var(--pink);font-weight:700;letter-spacing:.15em}
+.service .num{font-size:9px;color:var(--pink);font-weight:700;letter-spacing:.15em} .service:nth-child(even) .num{color:var(--teal-dark)}
 .icon{width:35px;height:35px;margin:17px 0 12px;color:var(--ink)}
 .service h3{font-family:"DM Sans";font-size:13px;font-weight:700;margin-bottom:6px}
 .service p{font-size:10px;color:var(--muted);max-width:210px;margin:0}
@@ -168,9 +170,10 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .territory-copy{padding:70px 50px}
 .territory-copy p:not(.eyebrow){font-size:12px;color:var(--muted);max-width:390px}
 .territory-map,.territory-photo{overflow:hidden;background:#e8e4dc;position:relative}
-.territory-map img,.territory-photo img{height:100%;object-fit:cover}
-.territory-map img{opacity:.72;filter:saturate(.65)}
-.territory-map:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,242,235,.65),transparent 60%)}
+.territory-photo img{height:100%;object-fit:cover}
+.territory-map iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.05);opacity:.85}
+.territory-map:before{content:"";position:absolute;inset:0;background:var(--cream);mix-blend-mode:color;pointer-events:none;z-index:1}
+.territory-map:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,242,235,.65),transparent 60%);z-index:1}
 .map-labels{position:absolute;z-index:2;inset:0}
 .map-label{position:absolute;font-size:9px;font-weight:700;background:rgba(255,255,255,.75);padding:5px 8px;border-left:2px solid var(--teal)}
 .ml1{left:18%;top:29%}.ml2{left:47%;top:42%}.ml3{left:34%;top:63%}.ml4{left:66%;top:72%}
@@ -194,8 +197,8 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 /* TESTIMONIALS */
 .testimonials{padding:75px 0;background:#fff}
 .quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.quote{padding:28px;border:1px solid var(--line);min-height:185px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ease),box-shadow .35s}
-.quote:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(20,41,56,.08)}
+.quote{padding:28px;border:1px solid var(--line);border-left:2px solid transparent;min-height:185px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
+.quote:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(20,41,56,.08);border-left-color:var(--pink)}
 .quote p{font:500 16px/1.3 "Playfair Display",serif}
 .person{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#ddd}
 .person strong{display:block;font-size:10px}.person span{font-size:8px;color:var(--muted)}
@@ -277,6 +280,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
 </head>
 
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
 <header>
   <div class="container nav">
     <a class="brand" href="#inicio"><img src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"></a>
@@ -309,7 +313,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
           <a class="btn btn-primary" href="#propiedades">Ver propiedades <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
           <a class="btn" href="#nosotros">Conocé más <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         </div>
-        <div class="scroll-cue"><span></span> Scroll para conocer Lebrero</div>
+        <div class="scroll-cue"><span></span> conoce más</div>
       </div>
       <div class="hero-media reveal-scale">
         <img src="assets/images/fanny-hero.webp" alt="Fanny Lebrero">
@@ -387,7 +391,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
 
     <section class="territory section reveal">
       <div class="territory-copy"><p class="eyebrow">Nuestra zona</p><h2>Conocemos el territorio.</h2><p>Olavarría y sus alrededores tienen un potencial único. Trabajamos con conocimiento real del mercado local y de cada localidad.</p><a class="btn" href="#propiedades">Ver propiedades en la zona <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a></div>
-      <div class="territory-map"><img src="assets/images/mapa-olavarria.webp" alt="Mapa de Olavarría y la región"><div class="map-labels"><span class="map-label ml1">Hinojo</span><span class="map-label ml2">Olavarría</span><span class="map-label ml3">Sierras Bayas</span><span class="map-label ml4">Loma Negra</span></div></div>
+      <div class="territory-map"><iframe src="https://www.google.com/maps?q=Olavarr%C3%ADa,+Buenos+Aires&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Olavarría y la región"></iframe><div class="map-labels"><span class="map-label ml1">Hinojo</span><span class="map-label ml2">Olavarría</span><span class="map-label ml3">Sierras Bayas</span><span class="map-label ml4">Loma Negra</span></div></div>
       <div class="territory-photo"><img src="assets/images/territorio-rural.webp" alt="Paisaje rural de Olavarría"></div>
     </section>
 
@@ -438,7 +442,7 @@ const observer = new IntersectionObserver((entries)=>{
   });
 },{threshold:.12, rootMargin:"0px 0px -5% 0px"});
 
-document.querySelectorAll(".reveal,.reveal-left,.reveal-scale").forEach(el=>observer.observe(el));
+document.querySelectorAll(".reveal,.reveal-left,.reveal-scale").forEach(el=>observer.observe(el));  const scrollBar=document.getElementById("scrollProgress"); window.addEventListener("scroll",()=>{   const h=document.documentElement;   const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;   scrollBar.style.width=pct+"%"; });
 
 /* El buscador queda listo para conectar al sistema real. */
 document.getElementById("propertySearch").addEventListener("submit",(e)=>{
