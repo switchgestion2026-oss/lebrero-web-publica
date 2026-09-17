@@ -68,7 +68,8 @@ h2{font-size:clamp(38px,4vw,62px)}
 header{height:92px;position:sticky;top:0;z-index:100;background:transparent;backdrop-filter:blur(4px);color:#fff;transition:color .3s}
 header.scrolled{color:var(--ink)}
 .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
-.brand img{width:auto;height:84px;max-width:260px;object-fit:contain;filter:drop-shadow(0 0 2px rgba(255,255,255,.9))}
+.brand img{width:auto;height:84px;max-width:260px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .3s}
+header.scrolled .brand img{filter:none}
 .menu{display:flex;gap:28px;font-size:15px;font-weight:700}
 .menu a{position:relative;padding:8px 0;color:inherit;text-shadow:0 1px 4px rgba(20,41,56,.35)}
 .menu a:after{content:"";position:absolute;left:0;bottom:2px;width:0;height:1px;background:var(--pink);transition:width .3s}
