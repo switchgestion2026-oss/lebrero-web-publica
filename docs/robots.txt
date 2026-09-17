@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /panel.html
+
+Sitemap: https://lebreropropiedades.com.ar/sitemap.xml
