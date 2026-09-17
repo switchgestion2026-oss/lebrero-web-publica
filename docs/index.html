@@ -213,7 +213,9 @@ header{height:76px;position:sticky;top:0;z-index:100;background:transparent;back
 .zona-conductor .l2{top:48%;left:30%;width:45%;background:linear-gradient(90deg,var(--zr-green),var(--zr-navy))}
 .zona-conductor .l3{top:78%;left:55%;width:40%;background:linear-gradient(90deg,var(--zr-navy),transparent)}
 .zona-inner{position:relative;z-index:2;display:grid;grid-template-columns:400px 1fr;gap:0 46px}
-.zona-head{padding-top:6px}
+.zona-head{padding-top:6px;position:relative}
+.zona-head:before{content:"";position:absolute;top:-20px;left:-20px;width:260px;height:260px;background:url("assets/images/logocampo.webp") center/contain no-repeat;filter:grayscale(1);opacity:.08;pointer-events:none;z-index:0}
+.zona-head>*{position:relative;z-index:1}
 .zona-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:14px;margin:0 0 26px}
 .zona-eyebrow:after{content:"";flex:1;height:1px;background:var(--line)}
 .zona-title{font-family:"Playfair Display",serif;font-weight:500;font-size:clamp(44px,4.6vw,68px);line-height:.96;color:var(--ink);margin:0}
