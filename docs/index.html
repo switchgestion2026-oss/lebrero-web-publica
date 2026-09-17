@@ -68,17 +68,18 @@ h2{font-size:clamp(38px,4vw,62px)}
 header{height:92px;position:sticky;top:0;z-index:100;background:transparent;backdrop-filter:blur(4px);color:#fff;transition:color .3s}
 header.scrolled{color:var(--ink)}
 .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
-.brand img{width:auto;height:84px;max-width:260px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,255,255,.55))}
+.brand img{width:auto;height:84px;max-width:260px;object-fit:contain;filter:drop-shadow(0 0 2px rgba(255,255,255,.9))}
 .menu{display:flex;gap:28px;font-size:15px;font-weight:700}
 .menu a{position:relative;padding:8px 0;color:inherit;text-shadow:0 1px 4px rgba(20,41,56,.35)}
 .menu a:after{content:"";position:absolute;left:0;bottom:2px;width:0;height:1px;background:var(--pink);transition:width .3s}
 .menu a:hover:after{width:100%}
 .nav-actions{display:flex;align-items:center;gap:10px}
 .nav-actions .btn{min-height:40px;padding:0 15px;font-size:11px}
-.whatsapp{width:38px;height:38px;border:1px solid rgba(255,255,255,.6);color:var(--pink);display:grid;place-items:center;transition:.3s}
-header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
+.whatsapp{width:38px;height:38px;border:1px solid var(--pink);background:var(--pink);color:#fff;display:grid;place-items:center;transition:.3s}
+header.scrolled .whatsapp{background:transparent;border-color:var(--line);color:var(--ink)}
 .whatsapp svg{width:18px;height:18px}
-.whatsapp:hover{border-color:var(--pink);color:var(--pink);transform:translateY(-2px)}
+.whatsapp:hover{transform:translateY(-2px)}
+header.scrolled .whatsapp:hover{border-color:var(--pink);color:var(--pink)}
 .mobile-toggle{display:none;border:0;background:none;color:inherit;font-size:23px}
 .wa-float{position:fixed;right:30px;bottom:30px;z-index:200;width:62px;height:62px;border-radius:50%;background:var(--ink);color:#fff;border:2px solid var(--pink);display:grid;place-items:center;box-shadow:0 10px 26px rgba(20,41,56,.3);transition:transform .3s var(--ease),background .3s}
 .wa-float:hover{transform:scale(1.08);background:var(--pink)}
@@ -172,8 +173,8 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .price{font-size:17px;font-weight:700;margin-top:12px}
 
 /* SERVICES */
-.services-band{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:var(--paper);position:relative;z-index:3;overflow:hidden}
-.services-band:before{content:"";position:absolute;inset:0;background:url("assets/images/fanny-hero.webp") center/cover;opacity:.05;z-index:0}
+.services-band{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(217,217,211,.5);background:transparent;position:relative;z-index:3;overflow:hidden}
+.services-band:before{content:"";position:absolute;inset:0;background:url("assets/images/fanny-hero.webp") center/cover;opacity:.025;z-index:0}
 .service-item{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;min-height:64px;padding:12px 18px;border-right:1px solid var(--line);font-size:12px;font-weight:700;letter-spacing:.02em;transition:background .3s,color .3s}
 .service-item:last-child{border-right:0}
 .service-item .icon{width:20px;height:20px;flex:none;color:var(--pink);transition:color .3s}
@@ -208,7 +209,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .territory-map-badge iframe{width:100%;height:100%;border:0;filter:grayscale(1) contrast(1.6) brightness(1.3) invert(1);opacity:.9;pointer-events:auto}
 
 /* ZONA REMATES */
-.zona-remates{position:relative;overflow:hidden;padding:100px 0 70px;background:var(--paper)}
+.zona-remates{position:relative;overflow:hidden;padding:60px 0 40px;background:var(--paper)}
 .zona-conductor{position:absolute;inset:0;pointer-events:none;z-index:0}
 .zona-conductor .line{position:absolute;height:1px;transform-origin:left center;transform:scaleX(0);transition:transform 1.1s var(--ease) .2s;opacity:.6}
 .zona-conductor.visible .line{transform:scaleX(1)}
@@ -217,7 +218,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 .zona-conductor .l3{top:78%;left:55%;width:40%;background:linear-gradient(90deg,var(--zr-navy),transparent)}
 .zona-inner{position:relative;z-index:2;display:grid;grid-template-columns:400px 1fr;gap:0 46px}
 .zona-head{padding-top:6px;position:relative}
-.zona-head:before{content:"";position:absolute;top:160px;left:-30px;width:440px;height:440px;background:url("assets/images/logocampo.webp") center/contain no-repeat;filter:grayscale(1);opacity:.16;pointer-events:none;z-index:0}
+.zona-head:before{content:"";position:absolute;top:260px;left:-30px;width:440px;height:440px;background:url("assets/images/logocampo.webp") center/contain no-repeat;filter:grayscale(1);opacity:.16;pointer-events:none;z-index:0}
 .zona-head>*{position:relative;z-index:1}
 .zona-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:14px;margin:0 0 26px}
 .zona-eyebrow:after{content:"";flex:1;height:1px;background:var(--line)}
@@ -278,7 +279,7 @@ header.scrolled .whatsapp{border-color:var(--line);color:var(--ink)}
 /* FOOTER */
 footer{padding:55px 0 25px;background:var(--paper)}
 .footer-main{display:grid;grid-template-columns:1.6fr 1fr;gap:45px;padding-bottom:45px;border-bottom:1px solid var(--line)}
-.footer-logo{width:auto;height:52px;max-width:190px;object-fit:contain;margin-bottom:13px;filter:drop-shadow(0 0 10px rgba(255,255,255,.6))}.footer p{font-size:10px;color:var(--muted)}
+.footer-logo{width:auto;height:76px;max-width:260px;object-fit:contain;margin-bottom:13px;filter:drop-shadow(0 0 2px rgba(255,255,255,.9))}.footer p{font-size:10px;color:var(--muted)}
 .footer-title{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:15px}
 .footer a{display:block;font-size:12px;color:var(--muted);margin:11px 0;transition:color .25s}.footer a:hover{color:var(--pink)} .footer-link{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin:11px 0;transition:color .25s} .footer-link svg{width:14px;height:14px;flex:none} .footer-link:hover{color:var(--pink)}
 .signature{font:italic 500 24px/1.05 "Playfair Display",serif}.signature span{display:block;color:var(--pink);font:700 8px "DM Sans";letter-spacing:.12em;margin-top:8px}
@@ -470,7 +471,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
           <p class="zona-subtitle">Campo, hacienda y negocios rurales</p>
           <span class="zona-rule"></span>
           <p class="zona-text">Acompañamos cada remate con experiencia, seriedad y un profundo conocimiento del mercado rural.</p>
-          <a class="zona-btn" href="#contacto">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
+          <a class="zona-btn" href="https://www.instagram.com/zonacampo" target="_blank" rel="noopener">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         </div>
 
 <div class="zona-visual">
@@ -551,7 +552,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
     <div class="container">
       <div class="footer-main">
         <div><img class="footer-logo" src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"><p>Inmobiliaria · Martillera · Remates<br>Olavarría y zona.</p></div>
-        <div class="signature">Propiedades<br>que encuentran<br>su lugar.<span>LEBRERO PROPIEDADES</span></div>
+        <div class="signature">Propiedades que encuentran su lugar.<span>LEBRERO PROPIEDADES</span></div>
       </div>
       <div class="footer-bottom"><span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span><span><a href="legal.html#aviso">Aviso legal</a> · <a href="legal.html#terminos">Términos y condiciones</a> · <a href="legal.html#privacidad">Política de privacidad</a></span><a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a></div>
     </div>
