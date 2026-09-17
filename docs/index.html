@@ -2,1602 +2,471 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lebrero Propiedades — Donde comienzan tus mejores historias</title>
-<meta name="description" content="Venta y alquiler de propiedades en Olavarría. Casas, departamentos, locales y terrenos. Atención personalizada y tasaciones.">
-<link rel="canonical" href="index.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lebrero Propiedades — Donde comienzan tus mejores historias">
-<meta property="og:description" content="Venta y alquiler de propiedades en Olavarría. Atención personalizada y tasaciones.">
-<!-- TODO: agregar og:image cuando haya fotografía real de propiedades -->
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23151A1E'/><path d='M8 44 L8 32 L18 32 L18 20 L30 20 L30 38 L40 38 L40 14 L52 14 L52 44' fill='none' stroke='%23B8946A' stroke-width='2'/></svg>" type="image/svg+xml">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lebrero Propiedades — Inmobiliaria, martillera y remates en Olavarría y la región.">
+<title>Lebrero Propiedades | Olavarría</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   LEBRERO PROPIEDADES — Sistema de diseño
-   ============================================================ */
 :root{
-  --navy:        #31455C;
-  --navy-dark:   #263B50;
-  --navy-light:  #3D5470;
-  --teal:        #4E807D;
-  --sage:        #6D8A85;
-  --sand:        #E7D7B8;
-  --sand-bg:     #F5EEDF;
-  --magenta:     #D40A8C;
-  --white:       #FFFFFF;
-  --graphite:    #151A1E;
-  --bronze:      #B8946A;
-
-  --font-display: "Fraunces", "Cormorant Garamond", serif;
-  --font-body: "Inter", -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
-
-  --sidebar-w: 168px;
-  --topbar-h: 72px;
-
-  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem;
-  --sp-5: 1.5rem; --sp-6: 2.5rem; --sp-7: 5rem; --sp-8: 8rem; --sp-9: 12rem;
-
-  --max-content: 1360px;
-  --ease: cubic-bezier(.4,0,.2,1);
-  --dur: 300ms;
+  --ink:#142938; --ink2:#28414e; --cream:#f3f0e8; --paper:#fbfaf7; --white:#fff;
+  --teal:#5c9797; --teal-dark:#315f63; --pink:#d41478; --pink-light:#e9b8d2;
+  --line:#d9d9d3; --muted:#6c777c; --max:1380px;
+  --ease:cubic-bezier(.22,.61,.36,1);
 }
-
-*,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-body{
-  margin:0; font-family:var(--font-body); color:var(--navy-dark); background:var(--white);
-  -webkit-font-smoothing:antialiased; overflow-x:clip;
-}
-img{ max-width:100%; display:block; }
-a{ color:inherit; text-decoration:none; }
-button{ font:inherit; cursor:pointer; }
-ul{ margin:0; padding:0; list-style:none; }
-h1,h2,h3,p,figure{ margin:0; }
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
-}
-
-.skip-link{
-  position:absolute; left:var(--sp-4); top:-60px; background:var(--graphite); color:var(--white);
-  padding:var(--sp-3) var(--sp-5); z-index:300; transition:top var(--dur) var(--ease);
-}
-.skip-link:focus{ top:var(--sp-4); }
-:focus-visible{ outline:2px solid var(--magenta); outline-offset:2px; }
-
-.content{ max-width:var(--max-content); margin-inline:auto; padding-inline:clamp(1.5rem,5vw,5rem); }
-
-/* ---------- Tipografía ---------- */
-.eyebrow{
-  font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase;
-  color:var(--bronze); display:inline-flex; align-items:center; gap:var(--sp-2);
-}
-h1,.h1{ font-family:var(--font-display); font-weight:500; letter-spacing:-0.01em; }
-h2,.h2{ font-family:var(--font-display); font-weight:500; font-size:clamp(2rem,1.5rem+2vw,3.25rem); line-height:1.1; }
-h3,.h3{ font-family:var(--font-display); font-weight:500; font-size:clamp(1.2rem,1rem+0.6vw,1.5rem); }
-.mono{ font-family:var(--font-mono); }
-.lead{ font-size:clamp(1rem,0.95rem+0.2vw,1.15rem); line-height:1.6; color:#4a5a6b; }
-
-section{ padding-block:var(--sp-8); }
-
-/* ---------- Botones ---------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif;line-height:1.45;overflow-x:clip}
+img{display:block;width:100%;max-width:100%}
+a{text-decoration:none;color:inherit}
+button,select{font:inherit}
+.container{width:min(calc(100% - 80px),var(--max));margin:auto}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;font-weight:500;line-height:1.03;margin:0}
+h2{font-size:clamp(38px,4vw,62px)}
+.eyebrow{font-size:10px;letter-spacing:.19em;text-transform:uppercase;font-weight:700;color:var(--pink);margin:0 0 13px}
+.muted{color:var(--muted)}
+.section{position:relative;border-bottom:1px solid var(--line)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:30px}
+.section-link{font-size:12px;font-weight:700;border-bottom:1px solid var(--pink);padding-bottom:5px}
+.arrow{color:var(--pink)}
 .btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:var(--sp-2);
-  padding:1rem 1.8rem; font-family:var(--font-body); font-size:0.85rem; font-weight:600;
-  letter-spacing:0.04em; text-transform:uppercase; border-radius:3px; border:1px solid transparent;
-  cursor:pointer; transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
-  min-height:50px;
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:0 21px;border:1px solid var(--ink);background:transparent;color:var(--ink);
+  font-size:12px;font-weight:700;overflow:hidden;isolation:isolate;transition:color .35s var(--ease),transform .35s var(--ease),border-color .35s var(--ease);
 }
-.btn:hover{ transform:scale(1.03); }
-.btn:active{ transform:scale(0.98); }
-.btn-magenta{ background:var(--magenta); color:var(--white); }
-.btn-magenta:hover{ background:#b5087a; }
-.btn-outline-light{ background:transparent; color:var(--white); border-color:rgba(255,255,255,0.5); }
-.btn-outline-light:hover{ border-color:var(--white); }
-.btn-outline-dark{ background:transparent; color:var(--graphite); border-color:var(--graphite); }
-.btn-outline-dark:hover{ background:var(--graphite); color:var(--white); }
+.btn:before{content:"";position:absolute;inset:0;background:var(--ink);transform:translateX(-101%);transition:transform .4s var(--ease);z-index:-1}
+.btn:hover{color:#fff;transform:translateY(-2px);border-color:var(--ink)}
+.btn:hover:before{transform:translateX(0)}
+.btn-primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn-primary:before{background:var(--teal-dark)}
+.btn-primary:hover{border-color:var(--teal-dark)}
+.btn-dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-dark:before{background:var(--pink)}
+.btn svg{width:14px;height:14px;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
 
-/* ---------- Línea de horizonte (signature) ---------- */
-.skyline{ width:100%; height:auto; display:block; }
-.skyline path{ fill:none; stroke:var(--bronze); stroke-width:1; opacity:0.7; vector-effect:non-scaling-stroke; }
-.skyline.animated path{
-  stroke-dasharray:3400; stroke-dashoffset:3400;
-  transition: stroke-dashoffset 1.8s var(--ease) 0.2s;
-}
-.skyline.animated.drawn path{ stroke-dashoffset:0; }
+/* HEADER */
+header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(20,41,56,.1)}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.brand img{width:170px;height:auto}
+.menu{display:flex;gap:28px;font-size:12px;font-weight:600}
+.menu a{position:relative;padding:8px 0}
+.menu a:after{content:"";position:absolute;left:0;bottom:2px;width:0;height:1px;background:var(--pink);transition:width .3s}
+.menu a:hover:after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-actions .btn{min-height:40px;padding:0 15px;font-size:10px}
+.whatsapp{width:38px;height:38px;border:1px solid var(--line);display:grid;place-items:center;transition:.3s}
+.whatsapp:hover{border-color:var(--pink);color:var(--pink);transform:translateY(-2px)}
+.mobile-toggle{display:none;border:0;background:none;color:var(--ink);font-size:23px}
+.wa-float{position:fixed;right:22px;bottom:22px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:28px;height:28px}
 
-/* ---------- Sidebar / navegación ---------- */
-.sidebar{
-  position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w); z-index:200;
-  background:linear-gradient(180deg, var(--navy-light), var(--navy), var(--navy-dark));
-  display:flex; flex-direction:column; align-items:center;
-  padding-block:var(--sp-6) var(--sp-5);
-}
-.sidebar-logo{ display:flex; flex-direction:column; align-items:center; gap:6px; }
-.sidebar-logo .mark{ width:100px; height:100px; }
-.sidebar-logo .mark path{ fill:none; stroke:var(--bronze); stroke-width:1.6; }
-.sidebar-logo .wordmark{
-  font-family:var(--font-display); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--sand); text-align:center; line-height:1.4; margin-top:4px;
-}
-.sidebar-nav{ margin-top:var(--sp-8); display:flex; flex-direction:column; gap:var(--sp-1); width:100%; }
-.sidebar-nav a{
-  display:block; padding:0.7rem var(--sp-4); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
-  color:rgba(231,215,184,0.6); border-left:3px solid transparent; text-align:center;
-  transition:color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
-.sidebar-nav a:hover{ color:var(--sand); }
-.sidebar-nav a[aria-current="true"]{ color:var(--magenta); border-left-color:var(--magenta); }
-.sidebar-cta{
-  margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:var(--sp-3);
-  padding-top:var(--sp-6); text-align:center;
-}
-.sidebar-cta a{
-  font-family:var(--font-body); font-size:0.65rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
-  color:var(--sand); display:flex; flex-direction:column; align-items:center; gap:var(--sp-2);
-}
-.sidebar-cta svg{ width:20px; height:20px; }
-.sidebar-cta a:hover{ color:var(--white); }
+/* TRANSVERSAL BRAND CONDUCTOR */
+.page{position:relative}
+.brand-conductor{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.conductor{position:absolute;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent 0 7%,var(--teal) 7% 27%,transparent 27% 30%,var(--pink) 30% 51%,transparent 51% 55%,var(--teal) 55% 77%,transparent 77% 82%,var(--pink) 82% 93%,transparent 93%);opacity:.72}
+.conductor.c1{top:660px}.conductor.c2{top:1265px}.conductor.c3{top:2190px}.conductor.c4{top:2990px}
+.conductor:after{content:"";position:absolute;left:27%;top:-5px;width:8px;height:11px;background:var(--teal)}
+.conductor.c2:after,.conductor.c4:after{left:51%;background:var(--pink)}
+.conductor.c3:after{left:77%;background:var(--teal)}
+.conductor-block{position:absolute;width:1px;background:currentColor;opacity:.45}
+.cb1{left:27%;top:660px;height:160px;color:var(--teal)}
+.cb2{left:51%;top:1265px;height:180px;color:var(--pink)}
+.cb3{left:77%;top:2190px;height:155px;color:var(--teal)}
+.cb4{left:51%;top:2990px;height:120px;color:var(--pink)}
 
-.topbar{ display:none; }
+/* HERO */
+.hero{display:grid;grid-template-columns:42% 58%;min-height:650px;background:var(--cream);border-bottom:1px solid var(--line);position:relative}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:80px max(40px,calc((100vw - var(--max))/2)) 80px max(40px,calc((100vw - var(--max))/2));padding-right:65px}
+.hero h1{font-size:clamp(54px,5.4vw,84px);max-width:650px;margin-bottom:25px}
+.hero-text{max-width:470px;color:var(--ink2);font-size:15px}
+.hero-buttons{display:flex;gap:10px;margin-top:27px}
+.hero-media{min-height:650px;position:relative;overflow:hidden;background:#d8d0c4}
+.hero-media img{height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.hero-media:hover img{transform:scale(1.025)}
+.hero-signature{position:absolute;right:7%;top:12%;color:#fff;text-align:right;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.hero-signature strong{font:italic 500 31px "Playfair Display",serif}
+.hero-signature span{display:block;font-size:9px;letter-spacing:.22em;margin-top:4px}
+.hero-label{position:absolute;right:5%;bottom:7%;padding:16px 18px;border-left:2px solid var(--pink);color:#fff;background:rgba(20,41,56,.24);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.scroll-cue{display:flex;align-items:center;gap:10px;margin-top:55px;color:var(--muted);font-size:9px;letter-spacing:.2em;text-transform:uppercase}
+.scroll-cue span{display:block;width:45px;height:1px;background:var(--pink);position:relative}
+.scroll-cue span:after{content:"";position:absolute;right:0;top:-2px;width:5px;height:5px;background:var(--pink);transform:rotate(45deg)}
 
-/* ---------- Layout general ---------- */
-.main{ margin-left:var(--sidebar-w); }
+/* WORLDS */
+.split-cards{display:grid;grid-template-columns:1fr 1fr}
+.world{height:335px;position:relative;overflow:hidden;color:#fff;border-right:1px solid #fff}
+.world:last-child{border:0}
+.world img{height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.world:hover img{transform:scale(1.045)}
+.world:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,rgba(8,23,31,.84))}
+.world:before{content:"";position:absolute;left:0;bottom:0;width:0;height:3px;background:var(--pink);z-index:3;transition:width .6s var(--ease)}
+.world:hover:before{width:100%}
+.world-copy{position:absolute;z-index:3;left:42px;right:42px;bottom:30px}
+.world h2{font-size:42px;margin-bottom:8px}
+.world p{font-size:12px;max-width:430px;margin:0 0 14px}
+.world-link{font-size:11px;font-weight:700}
 
-/* ---------- Hero ---------- */
-.hero{
-  position:relative; min-height:100vh; display:flex; align-items:flex-end; overflow:hidden;
-  padding-block:var(--sp-8) var(--sp-7);
-}
-.hero-bg{ position:absolute; inset:0; z-index:0; }
-.hero-bg img{ width:100%; height:100%; object-fit:cover; }
-.hero-bg .ph{
-  width:100%; height:100%;
-  background:
-    linear-gradient(180deg, rgba(21,26,30,0.15) 0%, rgba(21,26,30,0.55) 100%),
-    linear-gradient(120deg, var(--navy-dark), var(--navy) 45%, var(--bronze) 130%);
-}
-.hero-overlay{ position:absolute; inset:0; z-index:1; background:linear-gradient(0deg, rgba(21,26,30,0.55) 0%, rgba(21,26,30,0.1) 55%, rgba(21,26,30,0.25) 100%); }
-.hero .content{ position:relative; z-index:2; width:100%; }
-.hero-skyline{ position:absolute; left:0; right:0; bottom:0; z-index:1; opacity:0.9; }
-.hero h1{
-  font-size:clamp(2.75rem,2rem+4vw,5.5rem); line-height:1.02; letter-spacing:0.01em;
-  text-transform:uppercase; color:var(--sand);
-}
-.hero-ctas{ margin-top:var(--sp-6); display:flex; flex-direction:column; align-items:flex-start; gap:var(--sp-4); }
-.hero-meta{ font-size:0.72rem; letter-spacing:0.12em; color:rgba(231,215,184,0.85); }
-.hero-benefits{
-  display:flex; flex-wrap:wrap; justify-content:space-between;
-  gap:var(--sp-5, 24px) var(--sp-6, 32px);
-  list-style:none; margin:var(--sp-6, 32px) 0 0; padding:0;
-  width:100%; max-width:640px;
-  font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
-  color:rgba(231,215,184,0.9);
-}
-.hero-benefits li{ display:flex; align-items:center; gap:10px; }
-.hero-benefits svg{ width:20px; height:20px; flex-shrink:0; opacity:.9; }
+/* SEARCH */
+.search-section{padding:70px 0 65px}
+.search-title{font-size:clamp(35px,3.4vw,53px);margin-bottom:28px}
+.search-box{display:grid;grid-template-columns:1.1fr 1.1fr 1fr 180px;background:#fff;border:1px solid var(--line);box-shadow:0 14px 38px rgba(20,41,56,.07)}
+.field{padding:15px 18px;border-right:1px solid var(--line)}
+.field label{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
+.field select{width:100%;border:0;outline:0;background:#fff;color:var(--ink);font-size:12px;font-weight:600}
 
-/* ---------- Barra de confianza ---------- */
-.trust{ background:var(--sand-bg); padding-block:var(--sp-7); }
-.trust-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); }
-.trust-item{ display:flex; flex-direction:column; gap:var(--sp-3); }
-.trust-item svg{ width:30px; height:30px; color:var(--navy); }
-.trust-item h3{ font-family:var(--font-body); font-size:0.92rem; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--navy-dark); margin:0; }
-.trust-item p{ font-size:0.88rem; line-height:1.5; color:#5a6a7a; max-width:32ch; margin:0; }
-.trust-item a{ font-family:var(--font-mono); font-size:1rem; color:var(--magenta); transition:transform var(--dur) var(--ease); width:fit-content; }
-.trust-item a:hover{ transform:translateX(4px); }
-@media (min-width:768px){
-  .trust-grid{ grid-template-columns:repeat(3,1fr); }
-  .trust-item{ padding-right:var(--sp-6); border-right:1px solid rgba(49,69,92,0.15); }
-  .trust-item:last-child{ border-right:none; padding-right:0; }
-}
+/* PROPERTIES */
+.properties{padding:25px 0 90px}
+.property-window{overflow:hidden;padding:5px 0 10px}
+.property-track{display:flex;gap:18px;width:max-content;animation:propertyMove 36s linear infinite}
+.property-track:hover{animation-play-state:paused}
+@keyframes propertyMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.property-card{width:305px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(20,41,56,.055);flex:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.property-card:hover{transform:translateY(-7px);box-shadow:0 18px 38px rgba(20,41,56,.12)}
+.property-photo{height:225px;position:relative;overflow:hidden;background:#ddd}
+.property-photo img{height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.property-card:hover .property-photo img{transform:scale(1.04)}
+.tag{position:absolute;left:0;bottom:0;padding:7px 12px;color:#fff;background:var(--pink);font-size:8px;font-weight:700;letter-spacing:.1em}
+.tag.teal{background:var(--teal-dark)}
+.heart{position:absolute;right:12px;top:12px;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#fff;font-size:16px;transition:.3s}
+.heart:hover{color:var(--pink);transform:scale(1.08)}
+.property-body{padding:18px}
+.property-body h3{font-family:"DM Sans";font-size:16px;font-weight:700;line-height:1.2;margin-bottom:5px}
+.location{font-size:10px;color:var(--muted);margin-bottom:14px}
+.meta{display:flex;gap:12px;color:var(--muted);font-size:9px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.price{font-size:17px;font-weight:700;margin-top:12px}
 
-/* ---------- Sección genérica con línea ---------- */
-.line-divider{ display:block; margin-block:var(--sp-7); opacity:0.5; }
+/* SERVICES */
+.services{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.service{min-height:190px;padding:35px 30px;border-right:1px solid var(--line);position:relative;overflow:hidden;transition:background .4s}
+.service:last-child{border:0}
+.service:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--pink);transition:width .45s var(--ease)}
+.service:hover{background:#f3f0e9}.service:hover:after{width:100%}
+.service .num{font-size:9px;color:var(--pink);font-weight:700;letter-spacing:.15em}
+.icon{width:35px;height:35px;margin:17px 0 12px;color:var(--ink)}
+.service h3{font-family:"DM Sans";font-size:13px;font-weight:700;margin-bottom:6px}
+.service p{font-size:10px;color:var(--muted);max-width:210px;margin:0}
 
-/* ---------- El proyecto ---------- */
-.intro{ padding-block:var(--sp-9); }
-.intro .content{ max-width:820px; }
-.intro h2{ margin-top:var(--sp-4); }
-.intro p{ margin-top:var(--sp-5); }
+/* FANNY */
+.fanny{display:grid;grid-template-columns:43% 57%;min-height:560px}
+.fanny-photo{overflow:hidden;background:#ddd}
+.fanny-photo img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.fanny:hover .fanny-photo img{transform:scale(1.018)}
+.fanny-copy{padding:75px clamp(40px,6vw,100px);display:flex;flex-direction:column;justify-content:center;position:relative}
+.fanny-copy:before{content:"";position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--pink)}
+.fanny-copy h2{font-size:55px}
+.fanny-role{font-weight:700;font-size:14px;margin:5px 0 23px}
+.fanny-copy > p:not(.eyebrow):not(.fanny-role){font-size:13px;color:var(--muted);max-width:590px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1px solid var(--line);padding-top:22px;margin-top:35px}
+.fact strong{display:block;font:500 27px "Playfair Display",serif}
+.fact span{font-size:9px;color:var(--muted)}
 
-/* ---------- Amenities ---------- */
-.amenities{ background:var(--sand-bg); }
-#propiedades{ padding-block:var(--sp-6); }
-.amenities-head{ max-width:640px; margin-bottom:var(--sp-5); }
-.amenities-head h2{ margin-top:var(--sp-3); }
-.amenities-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-.amenity-photo{ position:relative; overflow:hidden; border-radius:2px; background:linear-gradient(150deg, var(--teal), var(--sage)); }
-.amenity-photo.main{ aspect-ratio:4/3; }
-.amenity-photo.sub{ aspect-ratio:16/9; }
-.amenity-sub-stack{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-.amenity-labels{ margin-top:var(--sp-6); display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-5); }
-.amenity-label{ display:flex; align-items:flex-start; gap:var(--sp-3); }
-.amenity-label svg{ width:26px; height:26px; flex-shrink:0; color:var(--bronze); transition:transform var(--dur) var(--ease); }
-.amenity-label:hover svg{ transform:scale(1.12); }
-.amenity-label:hover .txt{ color:var(--magenta); }
-.amenity-label .txt{ font-family:var(--font-body); font-size:0.85rem; font-weight:600; letter-spacing:0.02em; color:var(--navy-dark); text-transform:uppercase; line-height:1.4; }
-.amenity-label .txt span{ display:block; font-weight:400; text-transform:none; color:var(--sage); font-size:0.8rem; }
+/* TERRITORY */
+.territory{display:grid;grid-template-columns:36% 32% 32%;min-height:455px}
+.territory-copy{padding:70px 50px}
+.territory-copy p:not(.eyebrow){font-size:12px;color:var(--muted);max-width:390px}
+.territory-map,.territory-photo{overflow:hidden;background:#e8e4dc;position:relative}
+.territory-map img,.territory-photo img{height:100%;object-fit:cover}
+.territory-map img{opacity:.72;filter:saturate(.65)}
+.territory-map:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,242,235,.65),transparent 60%)}
+.map-labels{position:absolute;z-index:2;inset:0}
+.map-label{position:absolute;font-size:9px;font-weight:700;background:rgba(255,255,255,.75);padding:5px 8px;border-left:2px solid var(--teal)}
+.ml1{left:18%;top:29%}.ml2{left:47%;top:42%}.ml3{left:34%;top:63%}.ml4{left:66%;top:72%}
 
-.featured-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-5); }
-.property-card{ display:flex; flex-direction:column; gap:var(--sp-4); }
-.property-caption{ display:flex; align-items:flex-start; gap:var(--sp-3); }
-.property-caption svg{ width:24px; height:24px; flex-shrink:0; color:var(--bronze); }
-.property-caption .txt{ font-family:var(--font-body); font-size:0.95rem; font-weight:600; color:var(--navy-dark); }
-.property-caption .txt span{ display:block; font-weight:400; color:var(--sage); font-size:0.82rem; margin-top:2px; }
-.btn-ghost-mono{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.06em; color:var(--navy); text-transform:uppercase; transition:color var(--dur) var(--ease), transform var(--dur) var(--ease); }
-.btn-ghost-mono:hover{ color:var(--magenta); transform:translateX(3px); }
-@media (min-width:768px){ .featured-grid{ grid-template-columns:repeat(3,1fr); } }
+/* AUCTION */
+.auction{display:grid;grid-template-columns:37% 38% 25%;min-height:420px}
+.auction-photo{overflow:hidden;background:#ddd}
+.auction-photo img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.auction:hover .auction-photo img{transform:scale(1.025)}
+.auction-copy{padding:65px 55px;background:var(--cream)}
+.auction-copy h2{font-size:45px}
+.auction-copy p:not(.eyebrow){font-size:12px;color:var(--muted);max-width:450px}
+.auction-card{align-self:center;margin:35px 35px 35px 0;padding:28px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px rgba(20,41,56,.07)}
+.calendar{width:35px;height:35px;color:var(--pink);margin-bottom:15px}
+.calendar svg{width:100%;height:100%}
+.auction-card .small{font-size:8px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.auction-card h3{font-family:"DM Sans";font-size:17px;font-weight:700;margin:7px 0 15px}
+.auction-card ul{padding:0;margin:0}
+.auction-card li{list-style:none;font-size:10px;color:var(--muted);margin:8px 0}
 
-.carousel-wrap{ position:relative; }
-.carousel-track{ display:flex; gap:var(--sp-4); overflow-x:auto; padding-bottom:var(--sp-2); -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-.carousel-track::-webkit-scrollbar{ display:none; }
-.carousel-card{ flex:0 0 320px; background:var(--white); border-radius:3px; overflow:hidden; display:flex; flex-direction:column; cursor:pointer; transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
-.carousel-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(21,26,30,0.12); }
-.carousel-card-img{ position:relative; aspect-ratio:16/11; background:linear-gradient(150deg, var(--teal), var(--sage)); overflow:hidden; }
-.carousel-card-img img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform 600ms var(--ease); }
-.carousel-card:hover .carousel-card-img img{ transform:scale(1.05); }
-.carousel-card-badge{ position:absolute; top:14px; left:14px; background:var(--navy-dark); color:var(--sand); font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.4rem 0.85rem; border-radius:2px; z-index:1; }
-.carousel-fav-btn{ position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.92); border:none; display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--navy); cursor:pointer; z-index:1; transition:color var(--dur) var(--ease), transform var(--dur) var(--ease); }
-.carousel-fav-btn:hover{ transform:scale(1.08); }
-.carousel-fav-btn.is-fav{ color:var(--magenta); }
-.carousel-card-body{ padding:var(--sp-3) var(--sp-4) var(--sp-4); display:flex; flex-direction:column; gap:6px; flex:1; }
-.carousel-card h4{ font-family:var(--font-display); font-size:1.08rem; color:var(--navy-dark); }
-.carousel-card-loc{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.75rem; color:var(--sage); }
-.carousel-card-loc svg{ width:14px; height:14px; flex-shrink:0; }
-.carousel-card-meta{ display:flex; gap:var(--sp-4); color:#8a9aaa; margin-top:2px; }
-.carousel-card-meta span{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:0.75rem; }
-.carousel-card-meta svg{ width:15px; height:15px; }
-.carousel-card-attrs{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
-.carousel-card-attr{ font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--navy-dark); background:rgba(78,128,125,0.12); border:1px solid rgba(78,128,125,0.25); border-radius:999px; padding:0.25rem 0.65rem; }
-.carousel-card-foot{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:var(--sp-3); gap:var(--sp-3); }
-.carousel-card-price{ font-family:var(--font-display); font-weight:700; color:var(--navy-dark); font-size:1.15rem; }
-.carousel-card-cta{ display:inline-flex; align-items:center; gap:6px; background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; padding:0.55rem 0.9rem; border-radius:2px; white-space:nowrap; transition:background var(--dur) var(--ease); }
-.carousel-card-cta:hover{ background:var(--navy-dark); }
-.carousel-btn{ position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%; background:var(--white); border:1px solid rgba(49,69,92,0.2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; line-height:1; color:var(--navy); z-index:2; cursor:pointer; }
-.carousel-btn:hover{ background:var(--sand); }
-.carousel-btn.prev{ left:-8px; } .carousel-btn.next{ right:-8px; }
-.carousel-loading, .carousel-empty{ font-family:var(--font-mono); font-size:0.85rem; color:var(--sage); padding:var(--sp-4) 0; }
-.carousel-filters{ display:flex; flex-wrap:wrap; gap:var(--sp-4); margin-bottom:var(--sp-4); }
-.carousel-filter-group{ display:flex; flex-wrap:wrap; gap:8px; }
-.carousel-filter-group + .carousel-filter-group{ padding-left:var(--sp-4); border-left:1px solid rgba(49,69,92,0.15); }
-.carousel-filter-btn{ padding:0.5rem 1rem; border:1px solid rgba(49,69,92,0.25); border-radius:999px; background:var(--white); color:var(--navy-dark); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.05em; text-transform:uppercase; cursor:pointer; transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
-.carousel-filter-btn:hover{ border-color:var(--navy); }
-.carousel-filter-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
-@media (max-width:640px){ .carousel-btn{ display:none; } }
-@media (min-width:1024px){ .carousel-card{ flex:0 0 calc((100% - 2*var(--sp-4))/3); } }
+/* TESTIMONIALS */
+.testimonials{padding:75px 0;background:#fff}
+.quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.quote{padding:28px;border:1px solid var(--line);min-height:185px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ease),box-shadow .35s}
+.quote:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(20,41,56,.08)}
+.quote p{font:500 16px/1.3 "Playfair Display",serif}
+.person{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#ddd}
+.person strong{display:block;font-size:10px}.person span{font-size:8px;color:var(--muted)}
 
-/* ---------- Tipologías ---------- */
-.typologies{ background:var(--graphite); color:var(--sand); }
-.typologies-head{ margin-bottom:var(--sp-7); }
-.typologies-head .eyebrow{ color:var(--bronze); }
-.typologies-head h2{ color:var(--white); margin-top:var(--sp-3); }
-.typologies-head p{ color:rgba(231,215,184,0.7); margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; }
-.typ-grid{ display:grid; gap:var(--sp-7); align-items:center; }
+/* CONTACT */
+.contact{min-height:370px;display:grid;grid-template-columns:1fr 1fr;position:relative;color:#fff;overflow:hidden;background:var(--ink)}
+.contact-bg{position:absolute;inset:0}.contact-bg img{height:100%;object-fit:cover;opacity:.42}
+.contact:after{content:"";position:absolute;inset:0;background:rgba(20,41,56,.48)}
+.contact-content,.contact-data{position:relative;z-index:2}
+.contact-content{padding:75px max(40px,calc((100vw - var(--max))/2))}
+.contact h2{font-size:53px;margin-bottom:10px}.contact p:not(.eyebrow){font-size:13px}
+.contact-data{display:flex;flex-direction:column;justify-content:center;padding:50px 60px;border-left:1px solid rgba(255,255,255,.3)}
+.contact-data div{display:flex;gap:15px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.2);font-size:12px}
 
-.filter-type-group{ display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-bottom:var(--sp-4); max-width:640px; }
-.filter-type-btn{
-  display:flex; flex-direction:row; align-items:center; gap:var(--sp-2);
-  padding:0.6rem 1.2rem; background:transparent; border:1px solid var(--bronze); border-radius:999px;
-  color:rgba(231,215,184,0.8); font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase;
-  transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
-}
-.filter-type-btn:hover{ transform:translateY(-2px); }
-.filter-type-btn svg{ width:16px; height:16px; }
-.filter-type-btn:hover{ border-color:var(--sand); color:var(--sand); }
-.filter-type-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
-.filter-op-group{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); max-width:640px; }
-.search-group-label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--bronze); display:block; margin-bottom:var(--sp-3); }
-.search-panel{
-  margin-top:var(--sp-6); max-width:640px; padding:var(--sp-6);
-  border:1px solid rgba(231,215,184,0.15); border-radius:4px; background:rgba(231,215,184,0.03);
-  display:flex; flex-direction:column; gap:var(--sp-5);
-}
-.search-panel .search-fields{ margin-top:0; }
-.search-panel .filter-dorm-group{ margin-top:0; max-width:none; }
-.search-panel .more-filters{ margin-top:0; }
-.search-panel .search-actions{ margin-top:0; flex-direction:column; align-items:stretch; gap:var(--sp-3); }
-.search-panel .search-actions #search-btn{ width:100%; justify-content:center; }
-.search-panel .search-actions .search-status{ text-align:center; }
-.filter-op-btn, .filter-dorm-btn{
-  padding:0.9rem 1.4rem; border:1px solid var(--bronze); border-radius:2px; background:transparent;
-  color:rgba(231,215,184,0.8); font-family:var(--font-body); font-size:0.85rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
-  transition:background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
-.filter-op-btn[aria-pressed="true"], .filter-dorm-btn[aria-pressed="true"]{ background:var(--magenta); border-color:var(--magenta); color:var(--white); }
-.filter-dorm-group{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-3); max-width:420px; margin-top:var(--sp-5); }
-.more-filters{ margin-top:var(--sp-5); }
-.more-filters summary{ cursor:pointer; font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--bronze); list-style:none; }
-.more-filters summary::-webkit-details-marker{ display:none; }
-.more-filters summary:hover{ color:var(--sand); }
+/* FOOTER */
+footer{padding:55px 0 25px;background:var(--paper)}
+.footer-main{display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:45px;padding-bottom:45px;border-bottom:1px solid var(--line)}
+.footer-logo{width:175px;margin-bottom:13px}.footer p{font-size:10px;color:var(--muted)}
+.footer-title{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:15px}
+.footer a{display:block;font-size:11px;color:var(--muted);margin:7px 0;transition:color .25s}.footer a:hover{color:var(--pink)}
+.signature{font:italic 500 24px/1.05 "Playfair Display",serif}.signature span{display:block;color:var(--pink);font:700 8px "DM Sans";letter-spacing:.12em;margin-top:8px}
+.footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:20px;color:#8b9193;font-size:8px}
+.footer-bottom a{display:inline;color:#8b9193;margin:0}
+.footer-bottom a:hover{color:var(--pink)}
 
-
-/* ---------- Ubicación ---------- */
-.location{ background:var(--sand-bg); }
-.location-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-7); align-items:center; }
-.location-map{ position:relative; aspect-ratio:5/4; background:#f1e8d4; border:1px solid rgba(49,69,92,0.15); border-radius:2px; overflow:hidden; }
-.location-copy h2{ margin-top:var(--sp-3); text-transform:uppercase; }
-.location-copy p{ margin-top:var(--sp-4); max-width:42ch; }
-.location-list{ margin-top:var(--sp-6); display:grid; gap:var(--sp-3); }
-.location-list li{ display:flex; justify-content:space-between; max-width:360px; padding-block:var(--sp-2); border-bottom:1px solid rgba(49,69,92,0.15); font-size:0.9rem; }
-.location-list .time{ font-family:var(--font-mono); color:var(--navy); }
-
-/* ---------- Testimonio ---------- */
-.testimonial{ background:var(--sand-bg); }
-.testimonial-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); align-items:center; max-width:900px; margin-inline:auto; text-align:center; }
-.testimonial-photo{ width:104px; height:104px; border-radius:50%; margin-inline:auto; background:linear-gradient(150deg, var(--navy-light), var(--teal)); }
-.testimonial blockquote{ font-family:var(--font-display); font-size:clamp(1.4rem,1.1rem+1.2vw,2rem); line-height:1.4; color:var(--navy-dark); margin:0; }
-.testimonial cite{ display:block; margin-top:var(--sp-5); font-style:normal; font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--bronze); }
-
-/* ---------- CTA final ---------- */
-.cta-final{ background:var(--graphite); color:var(--sand); }
-.cta-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-8); }
-.cta-copy h2{ color:var(--white); text-transform:uppercase; margin-top:var(--sp-3); }
-.cta-form{ display:flex; flex-direction:column; gap:var(--sp-5); }
-.cta-form .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
-.cta-form label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
-.cta-form input, .cta-form select{
-  font:inherit; font-family:var(--font-body); padding:0.9rem 1rem; background:#1c2329; border:1px solid #333d45;
-  color:var(--white); border-radius:2px;
-}
-.cta-form input:focus, .cta-form select:focus{ outline:none; border-color:var(--magenta); }
-.cta-form select{ appearance:none; }
-.form-status{ font-family:var(--font-mono); font-size:0.8rem; color:var(--bronze); min-height:1.2em; }
-
-/* ---------- Footer ---------- */
-.site-footer{ background:var(--graphite); color:rgba(231,215,184,0.75); padding-block:var(--sp-8) var(--sp-6); }
-.site-footer .content{ max-width:none; }
-.footer-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-6); }
-.footer-col h3{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--bronze); }
-.footer-col p, .footer-col a{ margin-top:var(--sp-3); display:block; font-size:0.85rem; transition:color var(--dur) var(--ease), transform var(--dur) var(--ease); }
-.footer-col a:hover{ color:var(--sand); transform:translateX(3px); }
-.footer-brand{ font-family:var(--font-display); font-size:1.3rem; color:var(--white); text-transform:uppercase; letter-spacing:0.04em; }
-.footer-skyline{ margin-top:var(--sp-7); opacity:0.55; }
-.footer-bottom{ margin-top:var(--sp-6); padding-top:var(--sp-5); border-top:1px solid #2a323a; display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--sp-3); font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.04em; color:rgba(231,215,184,0.5); }
-.footer-bottom a{ color:rgba(231,215,184,0.5); text-decoration:underline; text-underline-offset:2px; }
-.footer-bottom a:hover{ color:var(--sand); }
-
-/* ---------- Mobile nav overlay ---------- */
-.mobile-nav{
-  position:fixed; inset:var(--topbar-h) 0 0 0; background:var(--navy-dark); z-index:190;
-  transform:translateY(-8px); opacity:0; visibility:hidden; pointer-events:none;
-  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility var(--dur);
-  padding:var(--sp-6) var(--sp-5); overflow-y:auto;
-}
-.mobile-nav.is-open{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
-.mobile-nav ul{ display:flex; flex-direction:column; }
-.mobile-nav a{
-  display:block; padding:var(--sp-4) 0; font-family:var(--font-display); font-size:1.5rem; color:var(--sand);
-  border-bottom:1px solid rgba(231,215,184,0.15); text-transform:uppercase; letter-spacing:0.02em;
-}
-.mobile-nav .btn{ margin-top:var(--sp-6); width:100%; }
-
-/* ============================================================
-   TABLET / MOBILE — hasta 1023px
-   ============================================================ */
-@media (max-width:1023px){
-  .sidebar{ display:none; }
-  .main{ margin-left:0; }
-  .topbar{
-    display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:150;
-    height:var(--topbar-h); padding-inline:var(--sp-5);
-    background:linear-gradient(180deg, var(--navy-light), var(--navy));
-  }
-  .topbar .mark{ width:26px; height:26px; }
-  .topbar .mark path{ fill:none; stroke:var(--bronze); stroke-width:1.6; }
-  .topbar-wordmark{ font-family:var(--font-display); font-size:0.85rem; letter-spacing:0.1em; color:var(--sand); text-transform:uppercase; }
-  .topbar-right{ display:flex; align-items:center; gap:var(--sp-4); }
-  .menu-toggle{
-    width:40px; height:40px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
-    background:transparent; border:0;
-  }
-  .menu-toggle span{ width:20px; height:1.5px; background:var(--sand); transition:transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
-  .menu-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
-  .menu-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
-  .menu-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
-
-  .hero{ min-height:92vh; }
-  .amenity-labels{ grid-template-columns:1fr; }
-  .typ-grid{ grid-template-columns:1fr; }
-  .typ-data{ grid-template-columns:1fr 1fr; }
-  .location-grid{ grid-template-columns:1fr; }
-  .cta-grid{ grid-template-columns:1fr; }
+/* SCROLL ANIMATION */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-left{opacity:0;transform:translateX(-35px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal-left.visible{opacity:1;transform:none}
+.reveal-scale{opacity:0;transform:scale(.97);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+  .reveal,.reveal-left,.reveal-scale{opacity:1;transform:none}
 }
 
-@media (min-width:768px) and (max-width:1023px){
-  .amenities-grid{ grid-template-columns:1.4fr 1fr; }
-  .footer-grid{ grid-template-columns:repeat(2,1fr); }
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .container{width:min(calc(100% - 40px),var(--max))}
+  .menu{gap:18px}.nav-actions .btn{display:none}
+  .hero{grid-template-columns:1fr}.hero-copy{padding:65px 40px}.hero-media{min-height:560px}
+  .territory{grid-template-columns:1fr 1fr}.territory-copy{grid-column:1/-1;min-height:360px}
+  .auction{grid-template-columns:1fr 1fr}.auction-photo{min-height:390px}.auction-card{margin:30px}
+  .footer-main{grid-template-columns:1.4fr 1fr 1fr}
+  .footer-main>div:last-child{display:none}
+  .conductor.c1{top:700px}.conductor.c2{top:1380px}.conductor.c3{top:2440px}.conductor.c4{top:3320px}
 }
-
-/* ============================================================
-   DESKTOP — 1024px+
-   ============================================================ */
-@media (min-width:1024px){
-  .amenities-grid{ grid-template-columns:1.5fr 1fr; }
-  .amenity-photo.main{ aspect-ratio:auto; height:100%; }
-  .typ-grid{ grid-template-columns:1.1fr 0.9fr; }
-  .location-grid{ grid-template-columns:1fr 1fr; }
-  .cta-grid{ grid-template-columns:1.1fr 0.9fr; }
-  .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1fr; }
-  .site-footer{ margin-left:var(--sidebar-w); padding-block:var(--sp-6) var(--sp-5); }
-  .footer-skyline{ margin-top:var(--sp-5); }
-  .footer-bottom{ margin-top:var(--sp-4); }
+@media(max-width:760px){
+  .container{width:calc(100% - 28px)}
+  header{height:65px}.brand img{width:145px}.menu{display:none}.mobile-toggle{display:block}
+  .nav-actions .whatsapp{display:none}
+  .hero-copy{padding:55px 22px}.hero h1{font-size:50px}.hero-text{font-size:14px}.hero-media{min-height:440px}
+  .hero-signature strong{font-size:25px}
+  .split-cards{grid-template-columns:1fr}.world{height:300px;border:0;border-bottom:1px solid #fff}.world h2{font-size:36px}
+  .search-section{padding:55px 0}.search-box{grid-template-columns:1fr}
+  .field{border-right:0;border-bottom:1px solid var(--line)}.search-box .btn{min-height:58px}
+  .properties{padding-bottom:65px}.section-head{align-items:start;flex-direction:column}
+  .property-card{width:270px}.property-photo{height:200px}
+  .services{grid-template-columns:1fr 1fr}.service{border-bottom:1px solid var(--line)}.service:nth-child(2){border-right:0}.service:nth-child(3){border-right:1px solid var(--line)}
+  .fanny{grid-template-columns:1fr}.fanny-photo{height:430px}.fanny-copy{padding:55px 28px}.fanny-copy:before{display:none}.fanny-copy h2{font-size:45px}
+  .facts{grid-template-columns:1fr 1fr}.fact:last-child{grid-column:1/-1}
+  .territory{grid-template-columns:1fr}.territory-copy{grid-column:auto;padding:55px 28px;min-height:auto}.territory-map{height:310px}.territory-photo{height:300px}
+  .auction{grid-template-columns:1fr}.auction-photo{min-height:330px}.auction-copy{padding:55px 28px}.auction-copy h2{font-size:40px}.auction-card{margin:0;padding:28px;border-left:0;border-right:0}
+  .quote-grid{grid-template-columns:1fr}.testimonials{padding:60px 0}
+  .contact{grid-template-columns:1fr}.contact-content{padding:60px 28px}.contact h2{font-size:43px}.contact-data{padding:25px 28px;border-left:0;border-top:1px solid rgba(255,255,255,.3)}
+  .footer-main{grid-template-columns:1fr 1fr;gap:30px}.footer-main>div:last-child{display:block;grid-column:1/-1}
+  .footer-bottom{flex-direction:column}
+  .brand-conductor{display:none}
+  .wa-float{width:50px;height:50px;right:16px;bottom:16px}
 }
-
-/* ---------- Buscador: campos de match + resultados ---------- */
-.search-fields{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); max-width:640px; margin-top:var(--sp-5); }
-@media (min-width:640px){ .search-fields{ grid-template-columns:1fr 1fr; } }
-.search-fields .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
-.search-fields label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
-.search-fields input, .search-fields select{
-  font:inherit; font-family:var(--font-body); padding:0.8rem 1rem; background:#1c2329; border:1px solid #333d45;
-  color:var(--white); border-radius:2px;
+@media(max-width:480px){
+  .hero h1{font-size:44px}.hero-buttons{flex-direction:column;align-items:stretch}.hero-buttons .btn{width:100%}
+  .services{grid-template-columns:1fr}.service,.service:nth-child(3){border-right:0}.service:last-child{border-bottom:0}
+  .facts{grid-template-columns:1fr}.fact:last-child{grid-column:auto}
+  .footer-main{grid-template-columns:1fr}.footer-main>div:last-child{grid-column:auto}
 }
-.search-fields input:focus, .search-fields select:focus{ outline:none; border-color:var(--magenta); }
-.search-actions{ margin-top:var(--sp-5); display:flex; align-items:center; gap:var(--sp-4); flex-wrap:wrap; }
-.search-status{ font-family:var(--font-mono); font-size:0.8rem; color:var(--bronze); }
-.results-grid{ margin-top:var(--sp-6); display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-@media (min-width:640px){ .results-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (min-width:1024px){ .results-grid{ grid-template-columns:repeat(3,1fr); } }
-.result-card{ background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:2px; padding:var(--sp-4); display:flex; flex-direction:column; gap:var(--sp-2); }
-.result-match{ display:inline-flex; align-self:flex-start; padding:0.2rem 0.6rem; border-radius:20px; background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.06em; }
-.result-title{ font-family:var(--font-display); font-size:1.1rem; color:var(--sand); margin-top:var(--sp-2); }
-.result-meta{ font-family:var(--font-mono); font-size:0.75rem; color:rgba(231,215,184,0.7); }
-.result-price{ font-family:var(--font-body); font-weight:700; color:var(--white); }
-/* ---------- Match: jerarquía visual de resultados ---------- */
-.match-results-head{ margin:var(--sp-7) 0 var(--sp-5); }
-.match-results-head h3{ font-family:var(--font-display); font-size:1.5rem; color:var(--white); }
-.match-results-head p{ font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase; color:rgba(231,215,184,0.6); margin-top:var(--sp-2); }
-
-.match-ring{ --pct:0; width:110px; height:110px; border-radius:50%; background:conic-gradient(var(--magenta) calc(var(--pct)*1%), rgba(231,215,184,0.15) 0); display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0; }
-.match-ring::before{ content:""; position:absolute; inset:8px; border-radius:50%; background:var(--navy-dark); }
-.match-ring-value{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; }
-.match-ring-value strong{ font-family:var(--font-display); font-size:1.6rem; line-height:1; color:var(--white); }
-.match-ring-value span{ font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-top:2px; }
-.match-ring--sm{ width:64px; height:64px; }
-.match-ring--sm::before{ inset:5px; }
-.match-ring--sm .match-ring-value strong{ font-size:0.95rem; }
-.match-ring--sm .match-ring-value span{ font-size:0.5rem; }
-
-.match-badge-best{ position:absolute; top:var(--sp-3); left:var(--sp-3); background:var(--magenta); color:var(--white); font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.3rem 0.7rem; border-radius:20px; z-index:2; }
-.match-badge-pct{ position:absolute; top:var(--sp-3); left:var(--sp-3); background:var(--magenta); color:var(--white); font-family:var(--font-display); font-size:0.8rem; font-weight:700; padding:0.3rem 0.6rem; border-radius:10px; text-align:center; line-height:1.1; z-index:2; }
-.match-badge-pct small{ display:block; font-family:var(--font-mono); font-size:0.5rem; font-weight:400; letter-spacing:0.06em; text-transform:uppercase; }
-
-.match-row{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-@media (min-width:1024px){ .match-row{ grid-template-columns:1.3fr 1fr; } }
-
-.match-featured{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:grid; grid-template-columns:1fr; }
-@media (min-width:640px){ .match-featured{ grid-template-columns:1fr 1fr; } }
-.match-featured-img{ position:relative; aspect-ratio:4/3; }
-.match-featured-img img{ width:100%; height:100%; object-fit:cover; display:block; }
-.match-featured-body{ padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3); }
-.match-featured-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-3); }
-.match-kicker{ font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--magenta); }
-.match-featured-body h4{ font-family:var(--font-display); font-size:1.3rem; color:var(--white); margin-top:var(--sp-1); }
-.match-loc{ font-family:var(--font-mono); font-size:0.75rem; color:rgba(231,215,184,0.7); }
-.match-specs{ display:flex; gap:var(--sp-5); font-family:var(--font-mono); font-size:0.75rem; color:var(--sand); border-top:1px solid rgba(231,215,184,0.15); border-bottom:1px solid rgba(231,215,184,0.15); padding:var(--sp-3) 0; }
-.match-specs strong{ display:block; font-family:var(--font-display); font-size:1rem; color:var(--white); }
-.match-price-row{ display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); margin-top:auto; }
-.match-price{ font-family:var(--font-body); font-weight:700; font-size:1.1rem; color:var(--white); }
-.match-actions{ display:flex; align-items:center; gap:var(--sp-2); }
-.match-fav-btn{ width:40px; height:40px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(231,215,184,0.3); border-radius:2px; background:transparent; color:var(--sand); }
-
-.match-secondary-col{ display:flex; flex-direction:column; gap:var(--sp-4); }
-.match-secondary{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:flex; gap:var(--sp-4); padding:var(--sp-3); }
-.match-secondary-img{ width:110px; flex-shrink:0; border-radius:2px; overflow:hidden; aspect-ratio:1/1; }
-.match-secondary-img img{ width:100%; height:100%; object-fit:cover; display:block; }
-.match-secondary-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
-.match-secondary-body h5{ font-family:var(--font-display); font-size:1rem; color:var(--white); }
-.match-secondary-meta{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.7); display:flex; gap:var(--sp-3); flex-wrap:wrap; }
-.match-secondary-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
-.match-secondary-foot .match-price{ font-size:0.9rem; }
-
-.match-also-title{ font-family:var(--font-display); font-size:1.1rem; color:var(--white); margin:var(--sp-7) 0 var(--sp-4); display:flex; align-items:baseline; justify-content:space-between; }
-.match-also-title span{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.6); }
-
-.match-grid{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-@media (min-width:640px){ .match-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (min-width:1024px){ .match-grid{ grid-template-columns:repeat(3,1fr); } }
-.match-card{ position:relative; background:rgba(231,215,184,0.05); border:1px solid rgba(231,215,184,0.15); border-radius:4px; overflow:hidden; display:flex; flex-direction:column; }
-.match-card-img{ position:relative; aspect-ratio:4/3; }
-.match-card-img img{ width:100%; height:100%; object-fit:cover; display:block; }
-.match-card-body{ padding:var(--sp-4); display:flex; flex-direction:column; gap:6px; flex:1; }
-.match-card-body h5{ font-family:var(--font-display); font-size:1rem; color:var(--white); }
-.match-card-meta{ font-family:var(--font-mono); font-size:0.7rem; color:rgba(231,215,184,0.7); display:flex; gap:var(--sp-3); flex-wrap:wrap; }
-.match-card-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:var(--sp-2); }
-
-.match-cta-bar{ margin-top:var(--sp-7); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap; background:rgba(212,10,140,0.08); border:1px solid rgba(212,10,140,0.3); border-radius:4px; padding:var(--sp-4) var(--sp-5); }
-.match-cta-bar p{ font-family:var(--font-body); font-size:0.9rem; color:var(--sand); margin:0; }
-.match-cta-bar strong{ display:block; color:var(--white); font-size:0.95rem; }
-
-.match-empty{ font-family:var(--font-mono); font-size:0.85rem; color:rgba(231,215,184,0.6); padding:var(--sp-5) 0; }
-   
-/* ---------- Form propietarios (captación) ---------- */
-.owner-form{ margin-top:var(--sp-6); display:none; flex-direction:column; gap:var(--sp-4); max-width:520px; }
-.owner-form.is-open{ display:flex; }
-.owner-form .field{ display:flex; flex-direction:column; gap:var(--sp-2); }
-.owner-form label{ font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(231,215,184,0.7); }
-.owner-form input, .owner-form select, .owner-form textarea{
-  font:inherit; font-family:var(--font-body); padding:0.8rem 1rem; background:#1c2329; border:1px solid #333d45;
-  color:var(--white); border-radius:2px; width:100%;
-}
-.owner-form input:focus, .owner-form select:focus, .owner-form textarea:focus{ outline:none; border-color:var(--magenta); }
-.owner-form-row{ display:grid; grid-template-columns:1fr; gap:var(--sp-4); }
-@media (min-width:640px){ .owner-form-row{ grid-template-columns:1fr 1fr; } }
-
-/* ---------- Login (placeholder, sin funcionalidad) ---------- */
-.login-link{ margin-top:var(--sp-3); }
-.login-modal-overlay{ display:none; position:fixed; inset:0; background:rgba(21,26,30,0.7); z-index:400; align-items:center; justify-content:center; }
-.login-modal-overlay.is-open{ display:flex; }
-.login-modal{ background:var(--graphite); border:1px solid var(--bronze); border-radius:2px; padding:var(--sp-6); max-width:340px; text-align:center; }
-.login-modal p{ color:var(--sand); margin-top:var(--sp-3); font-size:0.9rem; }
-.login-modal button{ margin-top:var(--sp-5); }
-
-.property-modal-overlay{ display:none; position:fixed; inset:0; background:rgba(21,26,30,0.72); z-index:400; align-items:center; justify-content:center; padding:var(--sp-5); }
-.property-modal-overlay.is-open{ display:flex; }
-.property-modal{ background:var(--white); border-radius:4px; max-width:760px; width:100%; max-height:88vh; overflow-y:auto; display:grid; grid-template-columns:1fr; opacity:0; transform:scale(0.96) translateY(8px); transition:opacity 300ms var(--ease), transform 300ms var(--ease); }
-.property-modal-overlay.is-open .property-modal{ opacity:1; transform:scale(1) translateY(0); }
-@media (min-width:640px){ .property-modal{ grid-template-columns:1.1fr 1fr; } }
-.property-modal-img{ aspect-ratio:4/3; }
-@media (min-width:640px){ .property-modal-img{ aspect-ratio:auto; height:100%; } }
-.property-modal-img img{ width:100%; height:100%; object-fit:cover; display:block; }
-.property-modal-body{ padding:var(--sp-6); display:flex; flex-direction:column; gap:var(--sp-3); position:relative; }
-.property-modal-close{ position:absolute; top:var(--sp-4); right:var(--sp-4); width:34px; height:34px; border-radius:50%; border:1px solid rgba(49,69,92,0.2); background:var(--white); font-size:1.1rem; color:var(--navy); cursor:pointer; }
-.property-modal-kicker{ font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--magenta); }
-.property-modal-body h3{ font-family:var(--font-display); font-size:1.5rem; color:var(--navy-dark); }
-.property-modal-loc{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.82rem; color:var(--sage); }
-.property-modal-stats{ display:flex; gap:var(--sp-5); padding:var(--sp-3) 0; border-top:1px solid rgba(49,69,92,0.1); border-bottom:1px solid rgba(49,69,92,0.1); flex-wrap:wrap; }
-.property-modal-stats span{ display:flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.82rem; color:var(--navy); }
-.property-modal-price{ font-family:var(--font-body); font-weight:700; font-size:1.3rem; color:var(--navy-dark); }
-
-/* ---------- Scroll reveal (IntersectionObserver, dispara una vez) ---------- */
-[data-reveal]{ opacity:0; transition:opacity 700ms cubic-bezier(.16,1,.3,1), transform 700ms cubic-bezier(.16,1,.3,1), clip-path 700ms cubic-bezier(.16,1,.3,1); }
-[data-reveal="up"]{ transform:translateY(32px); }
-[data-reveal="scale"]{ transform:scale(0.96); }
-[data-reveal="clip"]{ clip-path:inset(100% 0 0 0); }
-[data-reveal="left"]{ transform:translateX(-32px); }
-[data-reveal="right"]{ transform:translateX(32px); }
-[data-reveal].is-revealed{ opacity:1; transform:none; clip-path:inset(0 0 0 0); }
-@media (prefers-reduced-motion: reduce){
-  [data-reveal]{ transition:none !important; opacity:1 !important; transform:none !important; clip-path:none !important; }
-}
-
-/* ---------- WhatsApp flotante ---------- */
-.whatsapp-float{
-  position:fixed; right:var(--sp-5); bottom:var(--sp-5); z-index:250;
-  width:56px; height:56px; border-radius:50%; background:#25D366;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 4px 14px rgba(0,0,0,0.25);
-  transition:transform var(--dur) var(--ease);
-}
-.whatsapp-float:hover{ transform:scale(1.08); }
-.whatsapp-float svg{ width:30px; height:30px; }
 </style>
 </head>
+
 <body>
-<a class="skip-link" href="#main">Saltar al contenido</a>
-
-<!-- ================= SIDEBAR DESKTOP ================= -->
-<aside class="sidebar">
-  <a class="sidebar-logo" href="#inicio" aria-label="Lebrero Propiedades — inicio">
-    <img class="mark" src="https://i.ibb.co/7dZB4BFx/Chat-GPT-Image-17-ago-2026-09-56-43-p-m.png" alt="Lebrero Propiedades" style="border-radius:4px;object-fit:cover;">
-  </a>
-  <nav class="sidebar-nav" aria-label="Navegación principal">
-    <a href="#inicio" aria-current="true">Inicio</a>
-    <a href="#propiedades">Propiedades</a>
-    <a href="#buscar">Venta</a>
-    <a href="#buscar">Alquiler</a>
-    <a href="#propietarios">Tasaciones</a>
-    <a href="#sobre-mi">Sobre mí</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-  <div class="sidebar-cta">
-    <a href="#contacto">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.9-.4-1.7-.9-2.5-1.7-.6-.7-1-1.3-1.2-1.5-.2-.3 0-.4.1-.5l.4-.5c.1-.1.1-.2.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.3 0 1.3 1 2.6 1.1 2.8.1.2 2 3 4.7 4.2.7.3 1.2.4 1.6.6.7.2 1.3.2 1.7.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.3Z"/><circle cx="12" cy="12" r="10"/></svg>
-      Quiero<br>asesoramiento
-    </a>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#inicio"><img src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"></a>
+    <nav class="menu" id="menu-principal">
+      <a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Remates</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="#contacto">Publicá tu propiedad <span>→</span></a>
+      <a class="whatsapp" href="https://wa.me/542284615101" target="_blank" rel="noopener" aria-label="WhatsApp">◔</a>
+      <button class="mobile-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">☰</button>
+    </div>
   </div>
-  <div class="login-link">
-    <a href="#" id="open-login">Ingresar</a>
+</header>
+
+<div class="page">
+
+  <!-- CONDUCTOR VISUAL: líneas rectas superpuestas que reaparecen a lo largo del recorrido -->
+  <div class="brand-conductor" aria-hidden="true">
+    <div class="conductor c1"></div><div class="conductor c2"></div><div class="conductor c3"></div><div class="conductor c4"></div>
+    <div class="conductor-block cb1"></div><div class="conductor-block cb2"></div><div class="conductor-block cb3"></div><div class="conductor-block cb4"></div>
   </div>
-</aside>
 
-<!-- ================= TOPBAR MOBILE/TABLET ================= -->
-<div class="topbar">
-  <a href="#inicio" style="display:flex;align-items:center;gap:10px;" aria-label="Lebrero Propiedades — inicio">
-    <img class="mark" src="https://i.ibb.co/7dZB4BFx/Chat-GPT-Image-17-ago-2026-09-56-43-p-m.png" alt="Lebrero Propiedades" style="border-radius:4px;object-fit:cover;">
-  </a>
-  <div class="topbar-right">
-    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</div>
-<nav class="mobile-nav" id="mobile-nav" aria-label="Navegación mobile">
-  <ul>
-    <li><a href="#inicio">Inicio</a></li>
-    <li><a href="#propiedades">Propiedades</a></li>
-    <li><a href="#buscar">Venta</a></li>
-    <li><a href="#buscar">Alquiler</a></li>
-    <li><a href="#propietarios">Tasaciones</a></li>
-    <li><a href="#sobre-mi">Sobre mí</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <a class="btn btn-magenta" href="#contacto">Quiero asesoramiento</a>
-  <div class="login-link">
-    <a href="#" id="open-login-mobile">Ingresar</a>
-  </div>
-</nav>
-
-<!-- ================= LOGIN (decorativo, sin backend) ================= -->
-<div class="login-modal-overlay" id="login-modal-overlay">
-  <div class="login-modal">
-    <strong>Ingresar</strong>
-    <p>Esta sección está en construcción. Muy pronto vas a poder acceder a tu cuenta desde acá.</p>
-    <button type="button" class="btn btn-magenta" id="close-login">Cerrar</button>
-  </div>
-</div>
-
-<div class="property-modal-overlay" id="property-modal-overlay">
-  <div class="property-modal" id="property-modal-content"></div>
-</div>
-
-<div class="main">
-<main id="main">
-
-  <!-- ================= HERO ================= -->
-  <section class="hero" id="inicio">
-      <div class="hero-bg">
-      <img src="Hero.png" alt="" role="presentation">
-    </div>
-    <div class="hero-overlay"></div>
-    <svg class="skyline hero-skyline animated" id="hero-skyline" viewBox="0 0 1440 140" preserveAspectRatio="none">
-      <path d="M0,120 L0,80 L60,80 L60,40 L140,40 L140,90 L220,90 L220,20 L300,20 L300,70 L380,70 L380,110 L460,110 L460,50 L540,50 L540,95 L620,95 L620,30 L700,30 L700,75 L780,75 L780,15 L860,15 L860,60 L940,60 L940,100 L1020,100 L1020,45 L1100,45 L1100,85 L1180,85 L1180,25 L1260,25 L1260,65 L1340,65 L1340,105 L1440,105"/>
-    </svg>
-        <div class="content">
-      <h1 data-reveal="up">DONDE COMIENZAN<br>TUS MEJORES<br><span style="color:var(--magenta);">HISTORIAS</span></h1>
-      <div class="hero-ctas" data-reveal="up">
-        <p class="lead" style="color:#f1efe8; max-width:36ch;">Propiedades seleccionadas para comprar o alquilar en Olavarría.</p>
-        <a class="btn btn-magenta" href="#buscar">Ver propiedades</a>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy reveal-left">
+        <p class="eyebrow">Inmobiliaria · Martillera · Remates</p>
+        <h1>Propiedades que impulsan nuevas historias.</h1>
+        <p class="hero-text">Acompañamos cada operación con profesionalismo, cercanía y conocimiento del mercado local.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#propiedades">Ver propiedades <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
+          <a class="btn" href="#nosotros">Conocé más <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
+        </div>
+        <div class="scroll-cue"><span></span> Scroll para conocer Lebrero</div>
       </div>
-      <ul class="hero-benefits" data-reveal="up">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>Venta y alquiler</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>Atención personalizada</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Olavarría y zona</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ================= PROPIEDADES DESTACADAS ================= -->
-  <section class="amenities" id="propiedades">
-    <div class="content">
-      <div class="amenities-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:var(--sp-5); flex-wrap:wrap;">
-        <div>
-          <span class="eyebrow">— Propiedades destacadas</span>
-          <h2>Propiedades destacadas</h2>
-          <p class="lead" style="margin-top:var(--sp-4);">Una selección de propiedades para vivir, invertir o proyectar tu próximo paso.</p>
-        </div>
-        <a class="btn-ghost-mono" href="#buscar" style="flex-shrink:0;">Ver todas →</a>
+      <div class="hero-media reveal-scale">
+        <img src="assets/images/fanny-hero.webp" alt="Fanny Lebrero">
+        <div class="hero-signature"><strong>Fanny Lebrero</strong><span>Martillera pública</span></div>
+        <div class="hero-label">Olavarría<br>y la región</div>
       </div>
+    </section>
 
-      <div class="carousel-filters" data-reveal="up">
-        <div class="carousel-filter-group" role="group" aria-label="Tipo de propiedad">
-          <button type="button" class="carousel-filter-btn" data-dest-tipo="todas" aria-pressed="true">Todas</button>
-          <button type="button" class="carousel-filter-btn" data-dest-tipo="Casa" aria-pressed="false">Casas</button>
-          <button type="button" class="carousel-filter-btn" data-dest-tipo="Departamento" aria-pressed="false">Deptos</button>
-          <button type="button" class="carousel-filter-btn" data-dest-tipo="Local" aria-pressed="false">Locales</button>
-        </div>
-        <div class="carousel-filter-group" role="group" aria-label="Operación">
-          <button type="button" class="carousel-filter-btn" data-dest-op="todas" aria-pressed="true">Comprar y Alquilar</button>
-          <button type="button" class="carousel-filter-btn" data-dest-op="Venta" aria-pressed="false">Comprar</button>
-          <button type="button" class="carousel-filter-btn" data-dest-op="Alquiler" aria-pressed="false">Alquilar</button>
-        </div>
-      </div>
-      <div class="carousel-wrap" data-reveal="up">
-        <button type="button" class="carousel-btn prev" id="destacadas-prev" aria-label="Ver anteriores">‹</button>
-        <div class="carousel-track" id="destacadas-track">
-          <p class="carousel-loading">Cargando propiedades destacadas…</p>
-        </div>
-        <button type="button" class="carousel-btn next" id="destacadas-next" aria-label="Ver siguientes">›</button>
-      </div>
+    <section class="split-cards reveal">
+      <a class="world" href="#propiedades"><img src="assets/images/urban-property.webp" alt="Propiedades urbanas"><div class="world-copy"><h2>Propiedades<br>urbanas</h2><p>Casas, departamentos, terrenos, locales, galpones y más.</p><span class="world-link">Explorar propiedades →</span></div></a>
+      <a class="world" href="#remates"><img src="assets/images/zona-remates.webp" alt="Zona Remates"><div class="world-copy"><h2>Zona Remates</h2><p>Hacienda, campo y remates rurales.</p><span class="world-link">Ver próximos remates →</span></div></a>
+    </section>
 
-
-    </div>
-  </section>
-
-  <!-- ================= TIPOLOGÍAS ================= -->
-  <section class="typologies" id="buscar">
-    <div class="content">
-      <div class="typologies-head" data-reveal="up">
-        <span class="eyebrow">— Buscador</span>
-        <h2>Encontrá tu lugar</h2>
-        <p>Elegí qué estás buscando.</p>
-      </div>
-
-      <div class="filter-op-group" role="group" aria-label="Tipo de operación" data-reveal="up">
-        <button class="filter-op-btn" data-op="venta" aria-pressed="true">Venta</button>
-        <button class="filter-op-btn" data-op="alquiler" aria-pressed="false">Alquiler</button>
-      </div>
-
-      <span class="search-group-label">Tipo de propiedad</span>
-      <div class="filter-type-group" role="group" aria-label="Tipo de propiedad" data-reveal="up">
-        <button class="filter-type-btn" data-filter="todas" aria-pressed="true">
-          <span>Todas</span>
-        </button>
-        <button class="filter-type-btn" data-filter="casas" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
-          <span>Casas</span>
-        </button>
-        <button class="filter-type-btn" data-filter="departamentos" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/></svg>
-          <span>Departamentos</span>
-        </button>
-        <button class="filter-type-btn" data-filter="locales" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10 5 4h14l1 6M4 10v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-9M4 10h16"/></svg>
-          <span>Locales</span>
-        </button>
-        <button class="filter-type-btn" data-filter="terrenos" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 19h18M4 19l4-9 3 5 2-4 4 8"/></svg>
-          <span>Terrenos</span>
-        </button>
-      </div>
-
-      <div class="search-panel" data-reveal="up">
-        <div class="search-fields">
-          <div class="field">
-            <label for="f-localidad">Localidad</label>
-            <select id="f-localidad" name="localidad">
-              <option value="">Todas</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-moneda">Moneda</label>
-            <select id="f-moneda" name="moneda">
-              <option value="USD">USD</option>
-              <option value="ARS">ARS</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <span class="search-group-label">Precio</span>
-          <div class="search-fields">
-            <div class="field">
-              <label for="f-presupuesto-min">Desde</label>
-              <input type="number" id="f-presupuesto-min" name="presupuesto_min" min="0" placeholder="Ej: 20000">
-            </div>
-            <div class="field">
-              <label for="f-presupuesto">Hasta</label>
-              <input type="number" id="f-presupuesto" name="presupuesto" min="0" placeholder="Ej: 80000">
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <span class="search-group-label">Dormitorios</span>
-          <div class="filter-dorm-group" role="group" aria-label="Dormitorios mínimos">
-            <button class="filter-dorm-btn" data-dorm="1" aria-pressed="false">1</button>
-            <button class="filter-dorm-btn" data-dorm="2" aria-pressed="false">2</button>
-            <button class="filter-dorm-btn" data-dorm="3" aria-pressed="false">3</button>
-            <button class="filter-dorm-btn" data-dorm="4" aria-pressed="false">4+</button>
-          </div>
-        </div>
-
-        <details class="more-filters">
-          <summary>+ Más filtros</summary>
-          <div class="search-fields" style="margin-top:var(--sp-4);">
-            <div class="field">
-              <label for="f-zona">Barrio / zona</label>
-              <select id="f-zona" name="zona" multiple size="6">
-                <option value="" selected>Todos</option>
-              </select>
-              <span style="font-family:var(--font-mono); font-size:0.65rem; color:rgba(231,215,184,0.5);">Mantené Ctrl (Cmd en Mac) para elegir varios</span>
-            </div>
-          </div>
-        </details>
-
-        <div class="search-actions">
-          <button type="button" class="btn btn-magenta" id="search-btn">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Buscar propiedades
-          </button>
-          <span class="search-status" id="search-status"></span>
-        </div>
-      </div>
-
-      <div id="search-results"></div>
-    </div>
-  </section>
-  <!-- ================= SOBRE MÍ ================= -->
-  <section class="location" id="sobre-mi">
-    <div class="content">
-      <div class="location-grid">
-        <div class="location-map" data-reveal="left" style="aspect-ratio:4/5;">
-          <img src="https://i.ibb.co/rK75DpTP/stefania-lebrero-jpg.png" alt="Stefanía Lebrero" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="location-copy" data-reveal="right">
-          <span class="eyebrow">— Sobre mí</span>
-          <h2>STEFANÍA<br>LEBRERO.</h2>
-          <p class="mono" style="font-size:0.75rem;letter-spacing:0.08em;color:var(--bronze);margin-top:var(--sp-2);">Martillera Pública N° 1652 · T° VI F° 243</p>
-          <p class="lead">Martillera y corredora pública de Olavarría, muy activa en el sector agropecuario regional. Gestiona Lebrero Propiedades y lidera la cobertura de remates de hacienda junto a ZonaRemates y ZonaCampo.</p>
-
-          <div class="amenity-labels" style="grid-template-columns:1fr;margin-top:var(--sp-6);">
-            <a class="amenity-label" href="https://www.instagram.com/zonaremates_/" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 10v4h3l6 4V6L6 10H3Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg>
-              <span class="txt">ZonaRemates<span>Cobertura de remates de hacienda</span></span>
-            </a>
-            <a class="amenity-label" href="https://zonacampo.com.ar/" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M8 4v5M8 13h9M8 17h6"/></svg>
-              <span class="txt">ZonaCampo<span>Medio ganadero regional</span></span>
-            </a>
-            <a class="amenity-label" href="https://www.instagram.com/lebrero.prop/" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20V9.5L12 3l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"/></svg>
-              <span class="txt">Lebrero Propiedades<span>Inmobiliaria en Olavarría</span></span>
-            </a>
-          </div>
-
-          <ul class="location-list" style="margin-top:var(--sp-6);">
-            <li><span>WhatsApp</span><span class="time">2284-611601</span></li>
-            <li><span>Dirección</span><span class="time">Moreno 3084</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= UBICACIÓN ================= -->
-  <section class="location" id="ubicacion">
-    <div class="content">
-      <div class="location-grid">
-        <div class="location-map" data-reveal="left">
-          <iframe src="https://www.google.com/maps/d/embed?mid=1dz9YbUhICdlSFq14WvmoTas36xw__88&ehbc=2E312F" width="100%" height="100%" style="border:0;" loading="lazy" title="Mapa de propiedades en venta"></iframe>
-        </div>
-        <div class="location-copy" data-reveal="right">
-          <span class="eyebrow">— Ubicación</span>
-          <h2>PROPIEDADES EN<br>LUGARES QUE IMPORTAN.</h2>
-          <p class="lead">Conocemos Olavarría y sus barrios. Te ayudamos a encontrar una propiedad que tenga sentido para tu forma de vivir, invertir o proyectar.</p>
-          <ul class="location-list">
-            <li><span>Centro</span></li>
-            <li><span>Barrio Mariano Moreno</span></li>
-            <li><span>Barrio Ceco</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PARA PROPIETARIOS ================= -->
-  <section class="typologies" id="propietarios">
-    <div class="content">
-      <div class="typ-grid" style="align-items:center;">
-        <div data-reveal="left">
-          <span class="eyebrow">— Propietarios</span>
-          <h2 style="color:var(--white); margin-top:var(--sp-3); text-transform:uppercase;">LA VENTA EMPIEZA<br>MUCHO ANTES<br>DE PUBLICAR.</h2>
-          <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:44ch;">Presentamos y comercializamos tu propiedad con una estrategia pensada para llegar a las personas indicadas: valoración, presentación, difusión, búsqueda de interesados y acompañamiento durante toda la operación.</p>
-          <button type="button" class="btn btn-magenta" style="margin-top:var(--sp-6);" id="open-owner-form">Quiero vender mi propiedad</button>
-        </div>
-        <div aria-hidden="true" style="display:flex; align-items:center; justify-content:center;" data-reveal="scale">
-          <svg viewBox="0 0 200 240" width="70%" style="max-width:280px;">
-            <rect x="30" y="20" width="140" height="200" fill="none" stroke="#B8946A" stroke-width="1"/>
-            <rect x="55" y="60" width="90" height="160" fill="none" stroke="#B8946A" stroke-width="1"/>
-            <circle cx="130" cy="140" r="3" fill="#B8946A"/>
-            <path d="M55 60 L100 30 L145 60" fill="none" stroke="#B8946A" stroke-width="1"/>
-            <line x1="40" y1="220" x2="160" y2="220" stroke="#B8946A" stroke-width="1"/>
-          </svg>
-        </div>
-      </div>
-
-      <form class="owner-form" id="owner-form" novalidate>
-        <div class="owner-form-row">
-          <div class="field">
-            <label for="ow-nombre">Nombre</label>
-            <input type="text" id="ow-nombre" name="nombre" required autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="ow-whatsapp">WhatsApp</label>
-            <input type="tel" id="ow-whatsapp" name="whatsapp" required autocomplete="tel">
-          </div>
-        </div>
-        <div class="owner-form-row">
-          <div class="field">
-            <label for="ow-tipo">Tipo de propiedad</label>
-            <select id="ow-tipo" name="tipo_propiedad" required>
-              <option value="">Seleccioná una opción</option>
-              <option value="casa">Casa</option>
-              <option value="departamento">Departamento</option>
-              <option value="local">Local</option>
-              <option value="terreno">Terreno</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="ow-operacion">Operación</label>
-            <select id="ow-operacion" name="operacion" required>
-              <option value="">Seleccioná una opción</option>
-              <option value="Venta">Venta</option>
-              <option value="Alquiler">Alquiler</option>
-            </select>
-          </div>
-        </div>
-        <div class="owner-form-row">
-          <div class="field">
-            <label for="ow-localidad">Localidad</label>
-            <input type="text" id="ow-localidad" name="localidad" autocomplete="off">
-          </div>
-          <div class="field">
-            <label for="ow-barrio">Barrio</label>
-            <input type="text" id="ow-barrio" name="barrio" autocomplete="off">
-          </div>
-        </div>
-        <div class="field">
-          <label for="ow-direccion">Dirección</label>
-          <input type="text" id="ow-direccion" name="direccion" autocomplete="off">
-        </div>
-        <div class="owner-form-row">
-          <div class="field">
-            <label for="ow-dormitorios">Dormitorios</label>
-            <input type="number" id="ow-dormitorios" name="dormitorios" min="0">
-          </div>
-          <div class="field">
-            <label for="ow-banos">Baños</label>
-            <input type="number" id="ow-banos" name="banos" min="0">
-          </div>
-        </div>
-        <div class="owner-form-row">
-          <div class="field">
-            <label for="ow-superficie">Superficie (m²)</label>
-            <input type="number" id="ow-superficie" name="superficie" min="0">
-          </div>
-          <div class="field">
-            <label for="ow-precio">Precio estimado</label>
-            <input type="number" id="ow-precio" name="precio_estimado" min="0">
-          </div>
-        </div>
-        <div class="field">
-          <label for="ow-observaciones">Observaciones</label>
-          <textarea id="ow-observaciones" name="observaciones" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-magenta">Enviar solicitud</button>
-        <p class="form-status" id="owner-form-status" role="status" aria-live="polite"></p>
-      </form>
-    </div>
-  </section>
-
-  <!-- ================= TESTIMONIO ================= -->
-  <section class="testimonial" id="testimonios">
-    <div class="content">
-      <div class="testimonial-grid" data-reveal="scale">
-        <figure class="testimonial-photo" aria-hidden="true">
-          <img src="https://i.ibb.co/79PpH0S/Chat-GPT-Image-18-ago-2026-09-44-31-a-m.png" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
-        </figure>
-        <blockquote>&ldquo;Nos acompañaron en todo el proceso de venta de nuestra casa. La comunicación fue siempre clara y el trato excelente. Se nota que conocen el mercado y se involucran.&rdquo;</blockquote>
-        <cite>Nadia — Compradora, barrio Luján</cite>
-      </div>
-    </div>
-    <svg class="skyline line-divider content" viewBox="0 0 1440 90" preserveAspectRatio="none" style="max-width:var(--max-content);margin-inline:auto;display:block;padding-inline:clamp(1.5rem,5vw,5rem);margin-top:var(--sp-7);">
-      <path d="M0,75 L0,50 L80,50 L80,25 L170,25 L170,65 L260,65 L260,15 L350,15 L350,55 L440,55 L440,80 L530,80 L530,35 L620,35 L620,70 L710,70 L710,20 L800,20 L800,60 L890,60 L890,90 L980,90 L980,45 L1070,45 L1070,75 L1160,75 L1160,30 L1250,30 L1250,65 L1340,65 L1340,85 L1440,85"/>
-    </svg>
-  </section>
-
-  <!-- ================= CTA FINAL ================= -->
-  <section class="cta-final" id="contacto">
-    <div class="content">
-      <div class="cta-grid">
-        <div class="cta-copy" data-reveal="left">
-          <span class="eyebrow">— Contacto</span>
-          <h2>DONDE COMIENZAN<br>TUS MEJORES<br>HISTORIAS.</h2>
-          <p class="lead" style="color:rgba(231,215,184,0.75); margin-top:var(--sp-5); max-width:40ch;">Contanos qué estás buscando y te ayudamos a encontrar una propiedad para tu próximo capítulo.</p>
-        </div>
-        <form class="cta-form" id="lead-form" novalidate data-reveal="right">
-          <div class="field">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" required autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="whatsapp">WhatsApp</label>
-            <input type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel">
-          </div>
-          <div class="field">
-            <label for="intencion-form">¿Qué estás buscando?</label>
-            <select id="intencion-form" name="intencion" required>
-              <option value="">Seleccioná una opción</option>
-              <option value="comprar">Comprar</option>
-              <option value="alquilar">Alquilar</option>
-              <option value="vender">Vender mi propiedad</option>
-              <option value="alquilar-mi-propiedad">Alquilar mi propiedad</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-magenta">Quiero asesoramiento</button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-          <!-- NOTA: formulario sin backend ni número de WhatsApp de destino conectado -->
+    <section class="search-section section reveal" id="alquileres">
+      <div class="container">
+        <p class="eyebrow">Encontrá</p><h2 class="search-title">¿Qué estás buscando?</h2>
+        <form class="search-box" id="propertySearch">
+          <div class="field"><label for="operation">Operación</label><select id="operation"><option>Todos</option><option>Venta</option><option>Alquiler</option></select></div>
+          <div class="field"><label for="type">Tipo de propiedad</label><select id="type"><option>Todos</option><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local</option><option>Galpón</option></select></div>
+          <div class="field"><label for="location">Localidad</label><select id="location"><option>Todas</option><option>Olavarría</option><option>Sierras Bayas</option><option>Hinojo</option><option>Loma Negra</option></select></div>
+          <button class="btn btn-primary" type="submit">Buscar <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.7"/></svg></button>
         </form>
       </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+    <section class="properties section reveal" id="propiedades">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Propiedades destacadas</p><h2>Oportunidades seleccionadas</h2></div><a class="section-link" href="#">Ver todas las propiedades <span class="arrow">→</span></a></div>
+      </div>
+
+      <div class="property-window">
+        <div class="property-track">
+          <!-- SET 1 -->
+          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-01.webp" alt="Casa en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Casa en Barrio Sierras Bayas</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 3</span><span>♧ 2</span><span>▱ 180 m²</span></div><div class="price">USD 145.000</div></div></article>
+          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-02.webp" alt="Departamento en alquiler"><span class="tag teal">EN ALQUILER</span><span class="heart">♡</span></div><div class="property-body"><h3>Departamento céntrico</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 2</span><span>♧ 1</span><span>▱ 70 m²</span></div><div class="price">$ 480.000</div></div></article>
+          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-03.webp" alt="Galpón en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Galpón con oficinas</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 420 m²</span><span>⌂ Comercial</span></div><div class="price">USD 220.000</div></div></article>
+          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-04.webp" alt="Lote en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Lote en Barrio Residencial</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 600 m²</span><span>⌂ Residencial</span></div><div class="price">USD 48.000</div></div></article>
+          <!-- SET 2: duplicado para loop continuo -->
+          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-01.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Casa en Barrio Sierras Bayas</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 3</span><span>♧ 2</span><span>▱ 180 m²</span></div><div class="price">USD 145.000</div></div></article>
+          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-02.webp" alt=""><span class="tag teal">EN ALQUILER</span></div><div class="property-body"><h3>Departamento céntrico</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 2</span><span>♧ 1</span><span>▱ 70 m²</span></div><div class="price">$ 480.000</div></div></article>
+          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-03.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Galpón con oficinas</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 420 m²</span><span>⌂ Comercial</span></div><div class="price">USD 220.000</div></div></article>
+          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-04.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Lote en Barrio Residencial</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 600 m²</span><span>⌂ Residencial</span></div><div class="price">USD 48.000</div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="services reveal">
+      <a class="service" href="#propiedades"><span class="num">01</span>
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M7 23.5 24 9l17 14.5V40H29V28H19v12H7V23.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M24 9v-4" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>QUIERO COMPRAR</h3><p>Te ayudamos a encontrar lo que necesitás.</p>
+      </a>
+      <a class="service" href="#contacto"><span class="num">02</span>
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="m8 24 16-16 16 16-16 16L8 24Z" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="21" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>QUIERO VENDER</h3><p>Valoramos tu propiedad y gestionamos la operación.</p>
+      </a>
+      <a class="service" href="#alquileres"><span class="num">03</span>
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><circle cx="21" cy="21" r="10" stroke="currentColor" stroke-width="1.8"/><path d="m28.5 28.5 11 11M20 16v10M15 21h10" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>QUIERO ALQUILAR</h3><p>Encontrá tu próximo hogar o publicá tu propiedad.</p>
+      </a>
+      <a class="service" href="#remates"><span class="num">04</span>
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="m14 9 25 25M9 14l25 25M8 40l8-8M27 5l5-5M38 16l5-5" stroke="currentColor" stroke-width="1.8"/><path d="M5 43h16" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>REMATES</h3><p>Próximos remates, condiciones y toda la información.</p>
+      </a>
+    </section>
+
+    <section class="fanny section reveal">
+      <div class="fanny-photo"><img src="assets/images/fanny-perfil.webp" alt="Fanny Lebrero trabajando"></div>
+      <div class="fanny-copy">
+        <p class="eyebrow">Sobre Lebrero</p><h2>Fanny Lebrero</h2><p class="fanny-role">Martillera pública</p>
+        <p>Creo en un trabajo cercano, profesional y transparente. Acompaño cada persona en una de las decisiones más importantes: encontrar, vender o invertir en una propiedad. El mismo compromiso lo llevo al mundo rural, a través de Zona Remates.</p>
+        <a class="btn" href="#contacto">Conocé más sobre mí <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
+        <div class="facts"><div class="fact"><strong>+10</strong><span>años de experiencia</span></div><div class="fact"><strong>Olavarría</strong><span>y la región</span></div><div class="fact"><strong>2 áreas</strong><span>propiedades y remates</span></div></div>
+      </div>
+    </section>
+
+    <section class="territory section reveal">
+      <div class="territory-copy"><p class="eyebrow">Nuestra zona</p><h2>Conocemos el territorio.</h2><p>Olavarría y sus alrededores tienen un potencial único. Trabajamos con conocimiento real del mercado local y de cada localidad.</p><a class="btn" href="#propiedades">Ver propiedades en la zona <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a></div>
+      <div class="territory-map"><img src="assets/images/mapa-olavarria.webp" alt="Mapa de Olavarría y la región"><div class="map-labels"><span class="map-label ml1">Hinojo</span><span class="map-label ml2">Olavarría</span><span class="map-label ml3">Sierras Bayas</span><span class="map-label ml4">Loma Negra</span></div></div>
+      <div class="territory-photo"><img src="assets/images/territorio-rural.webp" alt="Paisaje rural de Olavarría"></div>
+    </section>
+
+    <section class="auction section reveal" id="remates">
+      <div class="auction-photo"><img src="assets/images/remate-hacienda.webp" alt="Remate de hacienda"></div>
+      <div class="auction-copy"><p class="eyebrow">Zona Remates</p><h2>El campo también es parte de nuestro territorio.</h2><p>Remates de hacienda, campos y negocios rurales. Un servicio de confianza, con la seriedad de siempre.</p><a class="btn btn-dark" href="#contacto">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a></div>
+      <aside class="auction-card"><div class="calendar"><svg viewBox="0 0 48 48" fill="none"><rect x="7" y="10" width="34" height="31" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M14 6v8M34 6v8M7 19h34" stroke="currentColor" stroke-width="1.8"/><path d="M15 25h5M24 25h5M33 25h0M15 33h5M24 33h5" stroke="currentColor" stroke-width="1.8"/></svg></div><div class="small">Próximo remate</div><h3>Remate de Hacienda</h3><ul><li>◷ Miércoles 15 de octubre</li><li>⌖ Sociedad Rural de Olavarría</li><li>↗ Más información</li></ul></aside>
+    </section>
+
+    <section class="testimonials section reveal">
+      <div class="container"><div class="section-head"><div><p class="eyebrow">Experiencias</p><h2>La confianza de nuestros clientes.</h2></div></div>
+        <div class="quote-grid">
+          <article class="quote"><p>“Excelente atención y acompañamiento en todo el proceso. Súper profesionales.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-01.webp" alt=""><div><strong>María L.</strong><span>Compra de vivienda</span></div></div></article>
+          <article class="quote"><p>“Vendimos nuestro campo a través de Zona Remates. Seriedad y compromiso.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-02.webp" alt=""><div><strong>Juan P.</strong><span>Productor agropecuario</span></div></div></article>
+          <article class="quote"><p>“Nos ayudaron a encontrar el lugar ideal para nuestra familia. Gracias Fanny.”</p><div class="person"><img class="avatar" src="assets/images/testimonio-03.webp" alt=""><div><strong>Luciana R.</strong><span>Alquiler</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact reveal" id="contacto">
+      <div class="contact-bg"><img src="assets/images/contacto-campo.webp" alt=""></div>
+      <div class="contact-content"><p class="eyebrow" style="color:var(--pink-light)">Hablemos</p><h2>Tu próxima operación empieza acá.</h2><p>Estamos para asesorarte. Escribinos o visitanos.</p><a class="btn btn-primary" href="https://wa.me/542284615101" target="_blank" rel="noopener">Escribinos por WhatsApp →</a></div>
+      <div class="contact-data"><div>☎ <span>2284 61-5101</span></div><div>✉ <span>fanny@lebreroprop.com.ar</span></div><div>⌖ <span>Belgrano 2760, Olavarría</span></div><div>◎ <span>@lebrero.prop</span></div></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div><img class="footer-logo" src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"><p>Inmobiliaria · Martillera · Remates<br>Olavarría y la región.</p></div>
+        <div><div class="footer-title">Navegación</div><a href="#inicio">Inicio</a><a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Remates</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></div>
+        <div><div class="footer-title">Contacto</div><a href="tel:+542284615101">2284 61-5101</a><a href="mailto:fanny@lebreroprop.com.ar">fanny@lebreroprop.com.ar</a><a href="#">Belgrano 2760, Olavarría</a><a href="#">Instagram · Facebook</a><a href="legal.html#aviso">Aviso legal</a></div>
+        <div class="signature">Propiedades<br>que encuentran<br>su lugar.<span>LEBRERO PROPIEDADES</span></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span><span><a href="legal.html#terminos">Términos y condiciones</a> · <a href="legal.html#privacidad">Política de privacidad</a></span><a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a></div>
+    </div>
+  </footer>
+  <a class="wa-float" href="https://wa.me/542284615101" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.02 3C9.37 3 4 8.36 4 15c0 2.37.7 4.58 1.9 6.43L4 29l7.76-1.86A11.9 11.9 0 0 0 16.02 27C22.66 27 28 21.65 28 15S22.66 3 16.02 3Zm6.86 16.68c-.29.82-1.7 1.56-2.36 1.63-.6.07-1.36.1-2.2-.14-.5-.15-1.15-.36-1.98-.7-3.48-1.5-5.75-5-5.93-5.24-.17-.24-1.42-1.9-1.42-3.63 0-1.72.9-2.57 1.22-2.92.32-.34.7-.43.93-.43h.67c.21 0 .5-.08.78.6.29.68.98 2.35 1.06 2.52.09.17.14.37.03.6-.11.24-.17.38-.34.58-.17.2-.36.44-.51.6-.17.17-.34.36-.15.7.19.34.85 1.4 1.83 2.27 1.26 1.12 2.32 1.47 2.66 1.64.34.17.53.14.73-.08.2-.22.85-.99 1.08-1.33.23-.34.46-.28.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.14.09.83-.2 1.65Z"/></svg></a>
 </div>
 
-<footer class="site-footer">
-  <div class="content">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <img src="https://i.ibb.co/7dZB4BFx/Chat-GPT-Image-17-ago-2026-09-56-43-p-m.png" alt="Lebrero Propiedades" style="width:110px;height:110px;border-radius:4px;object-fit:cover;">
-        <p style="margin-top:var(--sp-4); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em;">VENTA · ALQUILER · TASACIONES</p>
-        <p style="margin-top:var(--sp-2); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em;">OLAVARRÍA</p>
-      </div>
-      <div class="footer-col">
-        <h3>Contacto</h3>
-        <a href="https://wa.me/5492284611601" target="_blank" rel="noopener">2284-611601</a>
-        <a href="mailto:Lebreropropiedades@gmail.com">Lebreropropiedades@gmail.com</a>
-      </div>
-      <div class="footer-col">
-        <h3>Oficina</h3>
-        <p>Moreno 3084</p>
-        <p>Olavarría, Buenos Aires</p>
-      </div>
-      <div class="footer-col">
-      <div class="footer-col">
-        <h3>Seguinos</h3>
-        <a href="https://www.instagram.com/lebrero.prop/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--bronze)" stroke-width="1.4" style="flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--bronze)" stroke="none"/></svg>
-          Instagram
-        </a>
-        <a href="https://www.facebook.com/people/lebreroprop/100089380060896/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--bronze)" stroke-width="1.4" style="flex-shrink:0;"><path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v6h3v-6h2.2l.8-3H14v-1.6c0-.6.3-1 .9-1H16V8Z"/><circle cx="12" cy="12" r="9"/></svg>
-          Facebook
-        </a>
-      </div>
-    </div>
-
-    <svg class="skyline footer-skyline" viewBox="0 0 1440 70" preserveAspectRatio="none">
-      <path d="M0,60 L0,40 L100,40 L100,20 L200,20 L200,50 L300,50 L300,10 L400,10 L400,45 L500,45 L500,65 L600,65 L600,30 L700,30 L700,55 L800,55 L800,15 L900,15 L900,45 L1000,45 L1000,60 L1100,60 L1100,25 L1200,25 L1200,50 L1300,50 L1300,65 L1440,65"/>
-    </svg>
-
-    <div class="footer-bottom">
-      <span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span>
-      <span>Diseño &amp; creación web · <a href="#" target="_blank" rel="noopener">@Switchgestion</a></span>
-    </div>
-  </div>
-</footer>
-
-<a class="whatsapp-float" href="https://wa.me/5492284611601?text=Hola!%20Quiero%20más%20info%20sobre%20una%20propiedad." target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
-  <svg viewBox="0 0 24 24" fill="#fff"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C22 6.45 17.5 2 12.04 2Zm5.83 14.09c-.24.68-1.42 1.32-1.96 1.36-.5.05-1.13.07-1.83-.11-.42-.11-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.94-4.36-.15-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2 .9 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.45.29.15.46.13.63-.08.17-.2.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.64.77 1.92.91.29.15.48.22.55.34.07.13.07.75-.17 1.43Z"/></svg>
-</a>
-
 <script>
-(function(){
-  "use strict";
-
-  var API_BASE = "https://lebrero-web-publica.onrender.com/api";
-  var WHATSAPP_NUMERO = "2284611601";
-  function whatsappHref(p){
-    var msg = "Hola! Me interesa esta propiedad: " + (p.titulo || p.tipo || "Propiedad") + " en " + (p.barrio || p.localidad || "") + ", " + fmtPrecio(p.precio, p.moneda) + ". ¿Me pasás más info?";
-    return "https://wa.me/549" + WHATSAPP_NUMERO.replace(/\D/g, "") + "?text=" + encodeURIComponent(msg);
-  }
-
-  /* ---------- Scroll reveal (IntersectionObserver, dispara una vez) ---------- */
-  var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
-  if (revealEls.length) {
-    if ("IntersectionObserver" in window) {
-      var revealObs = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            revealObs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
-      revealEls.forEach(function(el){ revealObs.observe(el); });
-    } else {
-      revealEls.forEach(function(el){ el.classList.add("is-revealed"); });
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
     }
-  }
-
-  /* Menú mobile */
-  var toggle = document.getElementById("menu-toggle");
-  var nav = document.getElementById("mobile-nav");
-  if (toggle && nav) {
-    var close = function(){ toggle.setAttribute("aria-expanded","false"); nav.classList.remove("is-open"); document.body.style.overflow=""; };
-    var open = function(){ toggle.setAttribute("aria-expanded","true"); nav.classList.add("is-open"); document.body.style.overflow="hidden"; };
-    toggle.addEventListener("click", function(){
-      toggle.getAttribute("aria-expanded")==="true" ? close() : open();
-    });
-    nav.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", close); });
-    document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
-  }
-
-  /* Línea de horizonte del hero: se dibuja una sola vez al cargar */
-  window.addEventListener("load", function(){
-    var sk = document.getElementById("hero-skyline");
-    if (sk) requestAnimationFrame(function(){ sk.classList.add("drawn"); });
   });
+},{threshold:.12, rootMargin:"0px 0px -5% 0px"});
 
-  /* Estado activo del sidebar según sección visible */
-  var navLinks = document.querySelectorAll(".sidebar-nav a");
-  var sections = Array.prototype.map.call(navLinks, function(a){ return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
-  if ("IntersectionObserver" in window && sections.length) {
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          var id = "#" + entry.target.id;
-          navLinks.forEach(function(a){ a.removeAttribute("aria-current"); });
-          var match = document.querySelector('.sidebar-nav a[href="' + id + '"]');
-          if (match) match.setAttribute("aria-current","true");
-        }
-      });
-    }, { rootMargin: "-40% 0px -50% 0px" });
-    sections.forEach(function(s){ obs.observe(s); });
-  }
+document.querySelectorAll(".reveal,.reveal-left,.reveal-scale").forEach(el=>observer.observe(el));
 
-  /* Filtros de búsqueda (tipo de propiedad + operación) */
-  var typeButtons = document.querySelectorAll(".filter-type-btn");
-  typeButtons.forEach(function(btn){
-    btn.addEventListener("click", function(){
-      typeButtons.forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
-      btn.setAttribute("aria-pressed", "true");
-    });
-  });
-  var opButtons = document.querySelectorAll(".filter-op-btn");
-  opButtons.forEach(function(btn){
-    btn.addEventListener("click", function(){
-      opButtons.forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
-      btn.setAttribute("aria-pressed", "true");
-    });
-  });
+/* El buscador queda listo para conectar al sistema real. */
+document.getElementById("propertySearch").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  document.getElementById("propiedades").scrollIntoView({behavior:"smooth"});
+});
 
-  var dormButtons = document.querySelectorAll(".filter-dorm-btn");
-  dormButtons.forEach(function(btn){
-    btn.addEventListener("click", function(){
-      var yaActivo = btn.getAttribute("aria-pressed") === "true";
-      dormButtons.forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
-      if (!yaActivo) btn.setAttribute("aria-pressed", "true");
-    });
-  });
-
-  /* ---------- Buscador: conecta con POST /api/public/search ---------- */
-  var searchBtn = document.getElementById("search-btn");
-  var searchStatus = document.getElementById("search-status");
-  var searchResults = document.getElementById("search-results");
-
-  function tipoSeleccionado(){
-    var pressed = document.querySelector(".filter-type-btn[aria-pressed='true']");
-    var map = { casas: "Casa", departamentos: "Departamento", locales: "Local", terrenos: "Lote" };
-    var key = pressed ? pressed.getAttribute("data-filter") : "todas";
-    return map[key] || null;
+/* Menú móvil simple */
+const toggle=document.querySelector(".mobile-toggle");
+const menu=document.querySelector(".menu");
+toggle?.addEventListener("click",()=>{
+  const open=menu.classList.toggle("mobile-open");
+  toggle.setAttribute("aria-expanded",open);
+  menu.style.display=open?"flex":"";
+  if(open){
+    menu.style.position="absolute";
+    menu.style.left="14px";
+    menu.style.right="14px";
+    menu.style.top="65px";
+    menu.style.flexDirection="column";
+    menu.style.gap="0";
+    menu.style.padding="12px 18px";
+    menu.style.background="#fbfaf7";
+    menu.style.border="1px solid #d9d9d3";
+  }else{
+    menu.removeAttribute("style");
   }
-  function operacionSeleccionada(){
-    var pressed = document.querySelector(".filter-op-btn[aria-pressed='true']");
-    var op = pressed ? pressed.getAttribute("data-op") : "venta";
-    return op === "alquiler" ? "Alquiler" : "Venta";
-  }
-  function fmtPrecio(p, moneda){
-    if (p === null || p === undefined || p === "") return "Consultar precio";
-    var n = Number(p);
-    if (isNaN(n)) return "Consultar precio";
-    return (moneda || "") + " " + n.toLocaleString("es-AR");
-  }
-  function esc(s){
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
-      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
-    });
-  }
-  function fotoPrincipal(fotos){
-    if (!Array.isArray(fotos)) return "";
-    for (var i = 0; i < fotos.length; i++){
-      if (typeof fotos[i] === "string" && fotos[i].indexOf("http") === 0) return fotos[i];
-    }
-    return "";
-  }
-  function superficieM2(p){
-    var m = Number(p.sup_cubierta_m2) || Number(p.sup_terreno_m2) || 0;
-    return m > 0 ? m : null;
-  }
-  function imgTag(url, alt){
-    var src = url;
-    if (src && src.indexOf("res.cloudinary.com") !== -1 && src.indexOf("/upload/") !== -1) {
-      src = src.replace("/upload/", "/upload/w_500,q_auto,f_auto/");
-    }
-    return src
-      ? '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy">'
-      : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#1c2329,#263B50);"></div>';
-  }
-  function specsRow(p){
-    var m2 = superficieM2(p);
-    var out = "";
-    if (p.dormitorios) out += '<div><strong>' + p.dormitorios + '</strong>Dorm.</div>';
-    if (p.banos) out += '<div><strong>' + p.banos + '</strong>Baños</div>';
-    if (m2) out += '<div><strong>' + m2 + ' m²</strong>Superficie</div>';
-    return out;
-  }
-  function ringHTML(score, sm){
-    return '<div class="match-ring' + (sm ? ' match-ring--sm' : '') + '" style="--pct:' + score + '">' +
-      '<div class="match-ring-value"><strong>' + score + '%</strong><span>Match</span></div></div>';
-  }
-  function ubicacion(p){
-    return p.barrio && p.localidad ? esc(p.barrio) + ', ' + esc(p.localidad) : esc(p.barrio || p.localidad || "");
-  }
-
-  function cardFeatured(item){
-    var p = item.property || {}, score = Math.round(item.score || 0);
-    return '<div class="match-featured">' +
-      '<div class="match-featured-img"><span class="match-badge-best">Mejor match</span>' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
-      '<div class="match-featured-body">' +
-        '<div class="match-featured-top"><div>' +
-          '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
-          '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
-          '<div class="match-loc">' + ubicacion(p) + '</div>' +
-        '</div>' + ringHTML(score, false) + '</div>' +
-        '<div class="match-specs">' + specsRow(p) + '</div>' +
-        '<div class="match-price-row"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-          '<div class="match-actions"><button type="button" class="match-fav-btn" aria-label="Favorito">♥</button>' +
-          '<a class="btn btn-magenta" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver propiedad</a></div></div>' +
-      '</div></div>';
-  }
-  function cardSecondary(item){
-    var p = item.property || {}, score = Math.round(item.score || 0);
-    return '<div class="match-secondary">' +
-      '<div class="match-secondary-img">' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
-      '<div class="match-secondary-body">' +
-        '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
-        '<h5>' + esc(p.titulo || p.tipo || "Propiedad") + '</h5>' +
-        '<div class="match-loc">' + ubicacion(p) + '</div>' +
-        '<div class="match-secondary-meta">' + specsRow(p) + '</div>' +
-        '<div class="match-secondary-foot"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-          '<a class="btn-ghost-mono" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver detalles →</a></div>' +
-      '</div>' + ringHTML(score, true) + '</div>';
-  }
-  function cardGrid(item){
-    var p = item.property || {}, score = Math.round(item.score || 0);
-    return '<div class="match-card">' +
-      '<div class="match-card-img"><span class="match-badge-pct">' + score + '%<small>Match</small></span>' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
-      '<div class="match-card-body">' +
-        '<div class="match-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
-        '<h5>' + esc(p.titulo || p.tipo || "Propiedad") + '</h5>' +
-        '<div class="match-loc">' + ubicacion(p) + '</div>' +
-        '<div class="match-card-meta">' + specsRow(p) + '</div>' +
-        '<div class="match-card-foot"><div class="match-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-          '<a class="btn-ghost-mono" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Ver propiedad →</a></div>' +
-      '</div></div>';
-  }
-  function renderResultados(items){
-    if (!items.length) {
-      searchStatus.textContent = "No encontramos propiedades con esos filtros.";
-      searchResults.innerHTML = "";
-      return;
-    }
-    searchStatus.textContent = items.length + " propiedad(es) encontrada(s).";
-    var destacada = items[0];
-    var secundarias = items.slice(1, 3);
-    var resto = items.slice(3);
-
-    var html = '<div class="match-results-head">' +
-      '<h3>Encontramos propiedades que hacen match con vos</h3>' +
-      '<p>Ordenadas por compatibilidad según tus preferencias.</p></div>';
-
-    html += '<div class="match-row"><div>' + cardFeatured(destacada) + '</div>' +
-      '<div class="match-secondary-col">' + secundarias.map(cardSecondary).join('') + '</div></div>';
-
-    if (resto.length) {
-      html += '<div class="match-also-title">También pueden interesarte <span>' + resto.length + ' propiedad(es)</span></div>' +
-        '<div class="match-grid">' + resto.map(cardGrid).join('') + '</div>';
-    }
-
-    html += '<div class="match-cta-bar"><p><strong>¿Querés recibir mejores matches?</strong>Completá tus preferencias y ajustamos los resultados.</p>' +
-      '<a class="btn-ghost-mono" href="#contacto">Actualizar mis preferencias</a></div>';
-
-    searchResults.innerHTML = html;
-  }
-
-  if (searchBtn) {
-    searchBtn.addEventListener("click", function(){
-      var localidad = document.getElementById("f-localidad").value.trim();
-      var zonasSeleccionadas = Array.from(document.getElementById("f-zona").selectedOptions).map(function(o){ return o.value; }).filter(Boolean);
-      var presupuestoMin = document.getElementById("f-presupuesto-min").value;
-      var presupuesto = document.getElementById("f-presupuesto").value;
-      var dormBtn = document.querySelector(".filter-dorm-btn[aria-pressed='true']");
-
-      var tipo = tipoSeleccionado();
-      var body = {
-        tipo_propiedad: tipo ? [tipo] : [],
-        operacion: operacionSeleccionada()
-      };
-      if (localidad) { body.localidad = localidad; body.todas_localidades = false; } else { body.todas_localidades = true; }
-      if (zonasSeleccionadas.length) body.zonas = zonasSeleccionadas;
-      if (presupuesto || presupuestoMin) {
-        body.solo_por_valor = true;
-        body.moneda = document.getElementById("f-moneda").value;
-        if (presupuesto) body.presupuesto_max = Number(presupuesto);
-        if (presupuestoMin) body.presupuesto_min = Number(presupuestoMin);
-      }
-      if (dormBtn) body.dormitorios_min = Number(dormBtn.getAttribute("data-dorm"));
-
-      searchStatus.textContent = "Buscando...";
-      searchResults.innerHTML = "";
-      searchBtn.disabled = true;
-
-      fetch(API_BASE + "/public/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      })
-        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
-        .then(function(data){ renderResultados(Array.isArray(data) ? data : []); })
-        .catch(function(){ searchStatus.textContent = "No pudimos completar la búsqueda. Probá de nuevo en un momento."; })
-        .finally(function(){ searchBtn.disabled = false; });
-    });
-  }
-
-  /* ---------- Form de propietarios: conecta con POST /api/public/property-request ---------- */
-  var openOwnerBtn = document.getElementById("open-owner-form");
-  var ownerForm = document.getElementById("owner-form");
-  if (openOwnerBtn && ownerForm) {
-    openOwnerBtn.addEventListener("click", function(){
-      ownerForm.classList.toggle("is-open");
-      if (ownerForm.classList.contains("is-open")) ownerForm.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-  }
-  if (ownerForm) {
-    var ownerStatus = document.getElementById("owner-form-status");
-    ownerForm.addEventListener("submit", function(e){
-      e.preventDefault();
-      var nombre = document.getElementById("ow-nombre").value.trim();
-      var whatsapp = document.getElementById("ow-whatsapp").value.trim();
-      if (!nombre || !whatsapp) {
-        ownerStatus.textContent = "Completá nombre y WhatsApp para continuar.";
-        return;
-      }
-      var body = {
-        nombre: nombre,
-        whatsapp: whatsapp,
-        tipo_propiedad: document.getElementById("ow-tipo").value || undefined,
-        operacion: document.getElementById("ow-operacion").value || undefined,
-        localidad: document.getElementById("ow-localidad").value.trim() || undefined,
-        barrio: document.getElementById("ow-barrio").value.trim() || undefined,
-        direccion: document.getElementById("ow-direccion").value.trim() || undefined,
-        dormitorios: document.getElementById("ow-dormitorios").value ? Number(document.getElementById("ow-dormitorios").value) : undefined,
-        banos: document.getElementById("ow-banos").value ? Number(document.getElementById("ow-banos").value) : undefined,
-        superficie: document.getElementById("ow-superficie").value ? Number(document.getElementById("ow-superficie").value) : undefined,
-        precio_estimado: document.getElementById("ow-precio").value ? Number(document.getElementById("ow-precio").value) : undefined,
-        observaciones: document.getElementById("ow-observaciones").value.trim() || undefined
-      };
-
-      ownerStatus.textContent = "Enviando...";
-      fetch(API_BASE + "/public/property-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      })
-        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
-        .then(function(){
-          ownerStatus.textContent = "¡Gracias! Tu solicitud queda en revisión y te vamos a contactar a la brevedad.";
-          ownerForm.reset();
-        })
-        .catch(function(){ ownerStatus.textContent = "No pudimos enviar la solicitud. Probá de nuevo en un momento."; });
-    });
-  }
-
-  /* ---------- Login (decorativo, sin backend) ---------- */
-  var loginOverlay = document.getElementById("login-modal-overlay");
-  function openLogin(e){ if (e) e.preventDefault(); if (loginOverlay) loginOverlay.classList.add("is-open"); }
-  function closeLogin(){ if (loginOverlay) loginOverlay.classList.remove("is-open"); }
-  var openLoginBtn = document.getElementById("open-login");
-  var openLoginMobileBtn = document.getElementById("open-login-mobile");
-  var closeLoginBtn = document.getElementById("close-login");
-  if (openLoginBtn) openLoginBtn.addEventListener("click", openLogin);
-  if (openLoginMobileBtn) openLoginMobileBtn.addEventListener("click", openLogin);
-  if (closeLoginBtn) closeLoginBtn.addEventListener("click", closeLogin);
-  if (loginOverlay) loginOverlay.addEventListener("click", function(e){ if (e.target === loginOverlay) closeLogin(); });
-
-  /* Formulario de contacto: conecta con POST /api/public/leads */
-  var form = document.getElementById("lead-form");
-  if (form) {
-    var status = document.getElementById("form-status");
-    form.addEventListener("submit", function(e){
-      e.preventDefault();
-      var nombre = document.getElementById("nombre").value.trim();
-      var wa = document.getElementById("whatsapp").value.trim();
-      var intencion = document.getElementById("intencion-form").value;
-      if (!nombre || !wa) {
-        status.textContent = "Completá nombre y WhatsApp para continuar.";
-        return;
-      }
-      status.textContent = "Enviando...";
-      fetch(API_BASE + "/public/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre: nombre, telefono: wa, tipo_buscado: intencion || undefined })
-      })
-        .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
-        .then(function(){
-          status.textContent = "¡Gracias! Te vamos a contactar a la brevedad.";
-          form.reset();
-        })
-        .catch(function(){ status.textContent = "No pudimos enviar tu consulta. Probá de nuevo en un momento."; });
-    });
-  }
-  /* ---------- Localidad/zona: se completan solas desde la API ---------- */
-  function cargarFiltrosGeograficos(){
-    var selLocalidad = document.getElementById("f-localidad");
-    var selZona = document.getElementById("f-zona");
-    if (!selLocalidad || !selZona) return;
-    fetch(API_BASE + "/public/propiedades")
-      .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
-      .then(function(data){
-        if (!Array.isArray(data)) return;
-        var localidades = [], zonas = [];
-        data.forEach(function(p){
-          if (p.localidad && localidades.indexOf(p.localidad) === -1) localidades.push(p.localidad);
-          if (p.zona && zonas.indexOf(p.zona) === -1) zonas.push(p.zona);
-        });
-        localidades.sort();
-        zonas.sort();
-        localidades.forEach(function(v){ var o = document.createElement("option"); o.value = v; o.textContent = v; selLocalidad.appendChild(o); });
-        zonas.forEach(function(v){ var o = document.createElement("option"); o.value = v; o.textContent = v; selZona.appendChild(o); });
-      })
-      .catch(function(){ /* si falla, quedan "Todas/Todos" nomás */ });
-  }
-  /* ---------- Carrusel de propiedades destacadas (home) + filtros ---------- */
-  var destacadasData = [];
-  var destFiltroTipo = "todas";
-  var destFiltroOp = "todas";
-  function statIcon(path, val){
-    return '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' + path + '</svg>' + esc(val) + '</span>';
-  }
-  function cardDestacada(p){
-  var loc = p.zona && p.localidad ? p.zona + ", " + p.localidad : (p.zona || p.localidad || "");
-  var stats = "";
-  if (p.dormitorios) stats += statIcon('<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V8a2 2 0 0 1 2-2h3v4"/>', p.dormitorios);
-  if (p.banos) stats += statIcon('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M9 19v2M17 19v2"/>', p.banos);
-  if (p.garage) stats += statIcon('<path d="M3 13l2-5h14l2 5v5H3z"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/>', p.garage_cant || 1);
-  var m2 = Number(p.sup_cubierta_m2) || Number(p.sup_terreno_m2) || 0;
-  if (m2) stats += statIcon('<rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/>', m2 + " m²");
-  var attrsList = [];
-  if (p.apto_credito) attrsList.push("Apto crédito");
-  if (p.garage) attrsList.push("Garage");
-  if (p.balcon) attrsList.push("Balcón");
-  var attrs = attrsList.slice(0, 2).map(function(a){ return '<span class="carousel-card-attr">' + a + '</span>'; }).join("");
-  return '<div class="carousel-card" data-dest-id="' + esc(p.id) + '" role="button" tabindex="0">' +
-    '<div class="carousel-card-img">' +
-      (p.operacion ? '<span class="carousel-card-badge">' + esc(p.operacion) + '</span>' : "") +
-      '<button type="button" class="carousel-fav-btn" aria-label="Favorito" onclick="event.stopPropagation(); this.classList.toggle(\'is-fav\'); this.textContent=this.classList.contains(\'is-fav\')?\'♥\':\'♡\';">♡</button>' +
-      imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) +
-    '</div>' +
-    '<div class="carousel-card-body">' +
-      '<h4>' + esc(p.titulo || p.tipo || "Propiedad") + '</h4>' +
-      '<div class="carousel-card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>' + esc(loc) + '</div>' +
-      (stats ? '<div class="carousel-card-meta">' + stats + '</div>' : "") +
-      (attrs ? '<div class="carousel-card-attrs">' + attrs + '</div>' : "") +
-      '<div class="carousel-card-foot"><div class="carousel-card-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-        '<a class="carousel-card-cta" target="_blank" rel="noopener" href="' + whatsappHref(p) + '" onclick="event.stopPropagation();">Ver propiedad →</a></div>' +
-    '</div></div>';
-}
-  function renderDestacadas(){
-    var track = document.getElementById("destacadas-track");
-    if (!track) return;
-    var items = destacadasData.filter(function(p){
-      var okTipo = destFiltroTipo === "todas" || p.tipo === destFiltroTipo;
-      var okOp = destFiltroOp === "todas" || p.operacion === destFiltroOp;
-      return okTipo && okOp;
-    }).slice(0, 12);
-    if (!items.length) { track.innerHTML = '<p class="carousel-empty">No hay propiedades destacadas con ese filtro.</p>'; return; }
-    track.innerHTML = items.map(cardDestacada).join("");
-    var prevBtn = document.getElementById("destacadas-prev");
-    var nextBtn = document.getElementById("destacadas-next");
-    var sinScroll = items.length <= 3;
-    if (prevBtn) prevBtn.style.display = sinScroll ? "none" : "";
-    if (nextBtn) nextBtn.style.display = sinScroll ? "none" : "";
-  }
-  function cargarDestacadas(){
-    var track = document.getElementById("destacadas-track");
-    if (!track) return;
-    fetch(API_BASE + "/public/propiedades")
-      .then(function(res){ if (!res.ok) throw new Error("Error de red"); return res.json(); })
-      .then(function(data){
-        destacadasData = (Array.isArray(data) ? data : []).filter(function(p){
-          return p.destacada && Array.isArray(p.fotos) && p.fotos.some(function(f){ return typeof f === "string" && f.indexOf("http") === 0; });
-        });
-        if (!destacadasData.length) { track.innerHTML = '<p class="carousel-empty">Todavía no hay propiedades destacadas cargadas.</p>'; return; }
-        renderDestacadas();
-      })
-      .catch(function(){ track.innerHTML = '<p class="carousel-empty">No pudimos cargar las propiedades. Probá de nuevo más tarde.</p>'; });
-  }
-  var destPrevBtn = document.getElementById("destacadas-prev");
-  var destNextBtn = document.getElementById("destacadas-next");
-  if (destPrevBtn) destPrevBtn.addEventListener("click", function(){ var t = document.getElementById("destacadas-track"); if (t) t.scrollBy({ left: -280, behavior: "smooth" }); });
-  if (destNextBtn) destNextBtn.addEventListener("click", function(){ var t = document.getElementById("destacadas-track"); if (t) t.scrollBy({ left: 280, behavior: "smooth" }); });
-  document.querySelectorAll("[data-dest-tipo]").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      document.querySelectorAll("[data-dest-tipo]").forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
-      btn.setAttribute("aria-pressed", "true");
-      destFiltroTipo = btn.getAttribute("data-dest-tipo");
-      renderDestacadas();
-    });
-  });
-  document.querySelectorAll("[data-dest-op]").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      document.querySelectorAll("[data-dest-op]").forEach(function(b){ b.setAttribute("aria-pressed", "false"); });
-      btn.setAttribute("aria-pressed", "true");
-      destFiltroOp = btn.getAttribute("data-dest-op");
-      renderDestacadas();
-    });
-  });
-
-  /* ---------- Autoplay lento del carrusel, pausa en hover/touch ---------- */
-  var destAutoplay = { paused: false };
-  (function(){
-    var wrap = document.querySelector(".carousel-wrap");
-    var track = document.getElementById("destacadas-track");
-    if (!wrap || !track) return;
-    var pos = track.scrollLeft;
-    function step(){
-      var maxScroll = track.scrollWidth - track.clientWidth;
-      if (!destAutoplay.paused && maxScroll > 1) {
-        pos += 0.6;
-        if (pos >= maxScroll) pos = 0;
-        track.scrollLeft = pos;
-      }
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-    wrap.addEventListener("mouseenter", function(){ destAutoplay.paused = true; });
-    wrap.addEventListener("mouseleave", function(){ destAutoplay.paused = false; });
-    wrap.addEventListener("touchstart", function(){ destAutoplay.paused = true; }, { passive: true });
-    wrap.addEventListener("touchend", function(){ setTimeout(function(){ destAutoplay.paused = false; }, 2500); });
-  })();
-
-  /* ---------- Modal: expandir propiedad al seleccionarla ---------- */
-  function abrirModalPropiedad(p){
-    var overlay = document.getElementById("property-modal-overlay");
-    var body = document.getElementById("property-modal-content");
-    if (!overlay || !body) return;
-    var loc = p.zona && p.localidad ? p.zona + ", " + p.localidad : (p.zona || p.localidad || "");
-    var stats = "";
-    if (p.dormitorios) stats += statIcon('<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V8a2 2 0 0 1 2-2h3v4"/>', p.dormitorios + " dorm.");
-    if (p.banos) stats += statIcon('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM4 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2M9 19v2M17 19v2"/>', p.banos + " baños");
-    body.innerHTML =
-      '<div class="property-modal-img">' + imgTag(fotoPrincipal(p.fotos), p.titulo || p.tipo) + '</div>' +
-      '<div class="property-modal-body">' +
-        '<button type="button" class="property-modal-close" id="property-modal-close" aria-label="Cerrar">✕</button>' +
-        '<div class="property-modal-kicker">' + esc(p.tipo || "") + ' · ' + esc(p.operacion || "") + '</div>' +
-        '<h3>' + esc(p.titulo || p.tipo || "Propiedad") + '</h3>' +
-        '<div class="property-modal-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>' + esc(loc) + '</div>' +
-        (stats ? '<div class="property-modal-stats">' + stats + '</div>' : "") +
-        '<div class="property-modal-price">' + fmtPrecio(p.precio, p.moneda) + '</div>' +
-        '<a class="btn btn-magenta" target="_blank" rel="noopener" href="' + whatsappHref(p) + '">Consultar por WhatsApp</a>' +
-      '</div>';
-    overlay.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    var closeBtn = document.getElementById("property-modal-close");
-    if (closeBtn) closeBtn.addEventListener("click", cerrarModalPropiedad);
-  }
-  function cerrarModalPropiedad(){
-    var overlay = document.getElementById("property-modal-overlay");
-    if (overlay) overlay.classList.remove("is-open");
-    document.body.style.overflow = "";
-  }
-  var propModalOverlay = document.getElementById("property-modal-overlay");
-  if (propModalOverlay) propModalOverlay.addEventListener("click", function(e){ if (e.target === propModalOverlay) cerrarModalPropiedad(); });
-  document.addEventListener("keydown", function(e){ if (e.key === "Escape") cerrarModalPropiedad(); });
-  var destTrackEl = document.getElementById("destacadas-track");
-  if (destTrackEl) destTrackEl.addEventListener("click", function(e){
-    var card = e.target.closest(".carousel-card");
-    if (!card) return;
-    var id = card.getAttribute("data-dest-id");
-    var p = destacadasData.filter(function(x){ return String(x.id) === String(id); })[0];
-    if (p) abrirModalPropiedad(p);
-  });
-
-  cargarDestacadas();
-
-  cargarFiltrosGeograficos();
-})();
+});
 </script>
 </body>
 </html>

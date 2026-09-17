@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lebrero Propiedades — Aviso legal, política de privacidad y términos y condiciones.">
+<title>Legal | Lebrero Propiedades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#142938; --ink2:#28414e; --cream:#f3f0e8; --paper:#fbfaf7; --white:#fff;
+  --teal:#5c9797; --teal-dark:#315f63; --pink:#d41478; --pink-light:#e9b8d2;
+  --line:#d9d9d3; --muted:#6c777c; --max:1380px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif;line-height:1.6;overflow-x:clip}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+.container{width:min(calc(100% - 40px),var(--max));margin:auto}
+h1,h2{font-family:"Playfair Display",Georgia,serif;font-weight:500;line-height:1.1;margin:0}
+h1{font-size:clamp(34px,4vw,50px)}
+h2{font-size:clamp(24px,2.6vw,32px);margin-top:50px}
+.eyebrow{font-size:10px;letter-spacing:.19em;text-transform:uppercase;font-weight:700;color:var(--pink);margin:0 0 13px}
+.muted{color:var(--muted)}
+p{font-size:14px;color:var(--ink2);max-width:760px}
+header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(20,41,56,.1)}
+.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.brand img{width:170px;height:auto}
+.menu{display:flex;gap:28px;font-size:12px;font-weight:600}
+.back{font-size:12px;font-weight:700;border-bottom:1px solid var(--pink);padding-bottom:3px}
+main{padding:70px 0 100px}
+section{border-top:1px solid var(--line);padding-top:30px;margin-top:30px}
+section:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.note{margin-top:14px;padding:14px 16px;background:var(--cream);border-left:2px solid var(--pink);font-size:12px;color:var(--muted);max-width:760px}
+footer{padding:45px 0 25px;background:var(--paper);border-top:1px solid var(--line)}
+.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;color:#8b9193;font-size:8px}
+.footer-bottom a{color:#8b9193}
+@media(max-width:760px){
+  .menu{display:none}
+  .hero-copy{padding:0 22px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="index.html"><img src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"></a>
+    <nav class="menu">
+      <a href="index.html#propiedades">Propiedades</a><a href="index.html#alquileres">Alquileres</a><a href="index.html#remates">Remates</a><a href="index.html#nosotros">Nosotros</a><a href="index.html#contacto">Contacto</a>
+    </nav>
+    <a class="back" href="index.html">← Volver al inicio</a>
+  </div>
+</header>
+
+<main class="container">
+  <p class="eyebrow">Información legal</p>
+  <h1>Aviso legal, privacidad y términos</h1>
+
+  <section id="aviso">
+    <h2>Aviso legal</h2>
+    <p>Este sitio es operado por Lebrero Propiedades, con actividad de inmobiliaria, martillera y remates en Olavarría y la región. Los datos de matrícula profesional y registro se encuentran a disposición de quien los solicite por los canales de contacto del sitio.</p>
+    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
+  </section>
+
+  <section id="privacidad">
+    <h2>Política de privacidad</h2>
+    <p>Los datos de contacto que nos envíes (nombre, teléfono, email) se utilizan exclusivamente para responder tu consulta sobre propiedades, alquileres o remates, y no se comparten con terceros ajenos a la operación inmobiliaria.</p>
+    <p>Podés solicitar en cualquier momento la baja o corrección de tus datos escribiendo a fanny@lebreroprop.com.ar.</p>
+    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
+  </section>
+
+  <section id="terminos">
+    <h2>Términos y condiciones</h2>
+    <p>La información publicada sobre propiedades, precios y remates tiene carácter informativo y puede estar sujeta a cambios sin previo aviso. Los valores, condiciones y disponibilidad se confirman directamente con Lebrero Propiedades antes de cualquier operación.</p>
+    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-bottom">
+    <span>© 2026 Lebrero Propiedades. Todos los derechos reservados.</span>
+    <a href="https://www.instagram.com/switchgestion/" target="_blank" rel="noopener">Diseño & creación web · @Switchgestion</a>
+  </div>
+</footer>
+</body>
+</html>
