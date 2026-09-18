@@ -32,10 +32,11 @@ header{height:76px;position:sticky;top:0;z-index:100;background:rgba(251,250,247
 .brand img{width:170px;height:auto}
 .menu{display:flex;gap:28px;font-size:12px;font-weight:600}
 .back{font-size:12px;font-weight:700;border-bottom:1px solid var(--pink);padding-bottom:3px}
-main{padding:70px 0 100px}
+main{position:relative;padding:70px 0 100px;overflow:hidden}
+main:before{content:"";position:absolute;top:40px;right:-60px;width:520px;height:520px;background:url("assets/images/logo-lebrero.webp") center/contain no-repeat;opacity:.06;pointer-events:none;z-index:0}
+main>*{position:relative;z-index:1}
 section{border-top:1px solid var(--line);padding-top:30px;margin-top:30px}
 section:first-of-type{border-top:0;padding-top:0;margin-top:0}
-.note{margin-top:14px;padding:14px 16px;background:var(--cream);border-left:2px solid var(--pink);font-size:12px;color:var(--muted);max-width:760px}
 footer{padding:45px 0 25px;background:var(--paper);border-top:1px solid var(--line)}
 .footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;color:#8b9193;font-size:8px}
 .footer-bottom a{color:#8b9193}
@@ -63,21 +64,18 @@ footer{padding:45px 0 25px;background:var(--paper);border-top:1px solid var(--li
   <section id="aviso">
     <h2>Aviso legal</h2>
     <p>Este sitio es operado por Lebrero Propiedades, con actividad de inmobiliaria, martillera y remates en Olavarría y la región. Los datos de matrícula profesional y registro se encuentran a disposición de quien los solicite por los canales de contacto del sitio.</p>
-    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
-  </section>
+      </section>
 
   <section id="privacidad">
     <h2>Política de privacidad</h2>
     <p>Los datos de contacto que nos envíes (nombre, teléfono, email) se utilizan exclusivamente para responder tu consulta sobre propiedades, alquileres o remates, y no se comparten con terceros ajenos a la operación inmobiliaria.</p>
-    <p>Podés solicitar en cualquier momento la baja o corrección de tus datos escribiendo a fanny@lebreroprop.com.ar.</p>
-    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
-  </section>
+    <p>Podés solicitar en cualquier momento la baja o corrección de tus datos escribiendo a lebreropropiedades@gmail.com.</p>
+      </section>
 
   <section id="terminos">
     <h2>Términos y condiciones</h2>
     <p>La información publicada sobre propiedades, precios y remates tiene carácter informativo y puede estar sujeta a cambios sin previo aviso. Los valores, condiciones y disponibilidad se confirman directamente con Lebrero Propiedades antes de cualquier operación.</p>
-    <div class="note">Nota: este texto es un modelo de referencia general. Se recomienda su revisión por un profesional del derecho antes de la publicación definitiva del sitio.</div>
-  </section>
+      </section>
 </main>
 
 <footer>
