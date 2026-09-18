@@ -352,7 +352,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
   <div class="container nav">
     <a class="brand" href="#inicio"><img src="assets/images/logo-lebrero.webp" alt="Lebrero Propiedades"></a>
     <nav class="menu" id="menu-principal">
-      <a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Campo</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+      <a href="#propiedades">Propiedades</a><a href="#alquileres">Alquileres</a><a href="#remates">Remates</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
     </nav>
     <div class="nav-actions">
       <a class="btn btn-primary" href="#contacto">Publicá tu propiedad <span>→</span></a>
@@ -389,12 +389,12 @@ footer{padding:55px 0 25px;background:var(--paper)}
       <a class="service-item" href="#propiedades"><svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M7 23.5 24 9l17 14.5V40H29V28H19v12H7V23.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M24 9v-4" stroke="currentColor" stroke-width="1.8"/></svg>Quiero comprar</a>
       <a class="service-item" href="#contacto"><svg class="icon" viewBox="0 0 48 48" fill="none"><path d="m8 24 16-16 16 16-16 16L8 24Z" stroke="currentColor" stroke-width="1.8"/><circle cx="27" cy="21" r="3" stroke="currentColor" stroke-width="1.8"/></svg>Quiero vender</a>
       <a class="service-item" href="#alquileres"><svg class="icon" viewBox="0 0 48 48" fill="none"><circle cx="21" cy="21" r="10" stroke="currentColor" stroke-width="1.8"/><path d="m28.5 28.5 11 11M20 16v10M15 21h10" stroke="currentColor" stroke-width="1.8"/></svg>Quiero alquilar</a>
-      <a class="service-item" href="#remates"><svg class="icon" viewBox="0 0 48 48" fill="none"><path d="m14 9 25 25M9 14l25 25M8 40l8-8M27 5l5-5M38 16l5-5" stroke="currentColor" stroke-width="1.8"/><path d="M5 43h16" stroke="currentColor" stroke-width="1.8"/></svg>Campo</a>
+      <a class="service-item" href="#remates"><svg class="icon" viewBox="0 0 48 48" fill="none"><path d="m14 9 25 25M9 14l25 25M8 40l8-8M27 5l5-5M38 16l5-5" stroke="currentColor" stroke-width="1.8"/><path d="M5 43h16" stroke="currentColor" stroke-width="1.8"/></svg>Remates</a>
     </section>
 
     <section class="split-cards reveal">
       <a class="world" href="#propiedades"><img src="assets/images/urban-property.webp" alt="Propiedades urbanas"><div class="world-copy"><h2>Propiedades<br>urbanas</h2><p>Casas, departamentos, terrenos, locales, galpones y más.</p><span class="world-link">Explorar propiedades →</span></div></a>
-      <a class="world" href="#remates"><img src="assets/images/zona-remates.webp" alt="Zona Campo"><div class="world-copy"><h2>Zona Campo</h2><p>Hacienda, campo y remates rurales.</p><span class="world-link">Ver Zona Campo →</span></div></a>
+      <a class="world" href="#remates"><img src="assets/images/zona-remates.webp" alt="Zona Remates"><div class="world-copy"><h2>Zona Remates</h2><p>Hacienda, campo y remates rurales.</p><span class="world-link">Ver próximos remates →</span></div></a>
     </section>
 
     <section class="search-section section reveal" id="alquileres">
@@ -402,7 +402,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
         <p class="eyebrow">Encontrá</p><h2 class="search-title">¿Qué estás buscando?</h2>
         <form class="search-box" id="propertySearch">
           <div class="field"><label for="operation">Operación</label><select id="operation"><option>Todos</option><option>Venta</option><option>Alquiler</option></select></div>
-          <div class="field"><label for="type">Tipo de propiedad</label><select id="type"><option>Todos</option><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local</option><option>Galpón</option></select></div>
+          <div class="field"><label for="type">Tipo de propiedad</label><select id="type"><option>Todos</option><option>Casa</option><option>Departamento</option><option>Lote</option><option>Local</option><option>Galpón</option></select></div>
           <div class="field"><label for="location">Localidad</label><select id="location"><option>Todas</option><option>Olavarría</option><option>Sierras Bayas</option><option>Hinojo</option><option>Loma Negra</option></select></div>
           <button class="btn btn-primary" type="submit">Buscar <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.7"/></svg></button>
         </form>
@@ -418,16 +418,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
         <button class="carousel-arrow prev" id="propPrev" aria-label="Anterior">‹</button>
         <button class="carousel-arrow next" id="propNext" aria-label="Siguiente">›</button>
         <div class="property-track" id="propertyTrack">
-          <!-- SET 1: placeholder — se reemplaza por datos reales del backend -->
-          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-01.webp" alt="Casa en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Casa en Barrio Sierras Bayas</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 3</span><span>♧ 2</span><span>▱ 180 m²</span></div><div class="price">USD 145.000</div></div></article>
-          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-02.webp" alt="Departamento en alquiler"><span class="tag teal">EN ALQUILER</span><span class="heart">♡</span></div><div class="property-body"><h3>Departamento céntrico</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 2</span><span>♧ 1</span><span>▱ 70 m²</span></div><div class="price">$ 480.000</div></div></article>
-          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-03.webp" alt="Galpón en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Galpón con oficinas</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 420 m²</span><span>⌂ Comercial</span></div><div class="price">USD 220.000</div></div></article>
-          <article class="property-card"><div class="property-photo"><img src="assets/images/propiedad-04.webp" alt="Lote en venta"><span class="tag">EN VENTA</span><span class="heart">♡</span></div><div class="property-body"><h3>Lote en Barrio Residencial</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 600 m²</span><span>⌂ Residencial</span></div><div class="price">USD 48.000</div></div></article>
-          <!-- SET 2: duplicado para loop continuo -->
-          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-01.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Casa en Barrio Sierras Bayas</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 3</span><span>♧ 2</span><span>▱ 180 m²</span></div><div class="price">USD 145.000</div></div></article>
-          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-02.webp" alt=""><span class="tag teal">EN ALQUILER</span></div><div class="property-body"><h3>Departamento céntrico</h3><div class="location">Olavarría</div><div class="meta"><span>⌂ 2</span><span>♧ 1</span><span>▱ 70 m²</span></div><div class="price">$ 480.000</div></div></article>
-          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-03.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Galpón con oficinas</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 420 m²</span><span>⌂ Comercial</span></div><div class="price">USD 220.000</div></div></article>
-          <article class="property-card" aria-hidden="true"><div class="property-photo"><img src="assets/images/propiedad-04.webp" alt=""><span class="tag">EN VENTA</span></div><div class="property-body"><h3>Lote en Barrio Residencial</h3><div class="location">Olavarría</div><div class="meta"><span>▱ 600 m²</span><span>⌂ Residencial</span></div><div class="price">USD 48.000</div></div></article>
+          <div style="padding:40px;color:var(--muted);font-size:13px">Cargando propiedades…</div>
         </div>
       </div>
     </section>
@@ -439,7 +430,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
         <p class="eyebrow">Sobre Lebrero</p><h2>Stefania Lebrero</h2>
         <p class="fanny-role">Martillera pública</p>
         <p class="fanny-matricula">Mat. 1652 · Tomo VI · Folio 243</p>
-        <p>Creo en un trabajo cercano, profesional y transparente. Acompaño a cada persona en una de las decisiones más importantes: encontrar, vender o invertir en una propiedad. El mismo compromiso lo llevo al mundo rural, a través de Zona Campo, donde fui una de las primeras mujeres en ganarse un lugar en los remates de campo — un ámbito históricamente masculino donde hoy trabajo codo a codo con productores de toda la zona.</p>
+        <p>Creo en un trabajo cercano, profesional y transparente. Acompaño a cada persona en una de las decisiones más importantes: encontrar, vender o invertir en una propiedad. El mismo compromiso lo llevo al mundo rural, a través de Zona Remates, donde fui una de las primeras mujeres en ganarse un lugar en los remates de campo — un ámbito históricamente masculino donde hoy trabajo codo a codo con productores de toda la zona.</p>
         <a class="btn" href="#contacto">Conocé más sobre mí <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         <div class="facts"><div class="fact"><strong>+10</strong><span>años de experiencia</span></div><div class="fact"><strong>Olavarría</strong><span>y zona</span></div><div class="fact"><strong>2 áreas</strong><span>propiedades y remates</span></div></div>
       </div>
@@ -461,11 +452,11 @@ footer{padding:55px 0 25px;background:var(--paper)}
       <div class="container zona-inner">
         <div class="zona-head reveal-left">
           <p class="zona-eyebrow">Lebrero Propiedades</p>
-          <h2 class="zona-title">ZONA<br>CAMPO</h2>
+          <h2 class="zona-title">ZONA<br>REMATES</h2>
           <p class="zona-subtitle">Campo, hacienda y negocios rurales</p>
           <span class="zona-rule"></span>
           <p class="zona-text">Acompañamos cada remate con experiencia, seriedad y un profundo conocimiento del mercado rural.</p>
-          <a class="zona-btn" href="https://www.instagram.com/zonacampo" target="_blank" rel="noopener">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
+          <a class="zona-btn" href="https://www.instagram.com/zonaremates_/" target="_blank" rel="noopener">Ver próximos remates <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7"/></svg></a>
         </div>
 
 <div class="zona-visual">
@@ -499,7 +490,7 @@ footer{padding:55px 0 25px;background:var(--paper)}
               <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>María L.</strong><span>Compra de vivienda</span></div></div>
             </article>
             <article class="quote">
-              <div><div class="quote-stars">★★★★★</div><p>"Vendimos nuestro campo a través de Zona Campo. Seriedad y compromiso."</p></div>
+              <div><div class="quote-stars">★★★★★</div><p>"Vendimos nuestro campo a través de Lebrero Propiedades. Seriedad y compromiso."</p></div>
               <div class="person"><div class="avatar-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6"/></svg></div><div><strong>Juan P.</strong><span>Productor agropecuario</span></div></div>
             </article>
             <article class="quote">
@@ -596,10 +587,70 @@ function goManual(dir){
 prevBtn?.addEventListener("click",()=>goManual(-1));
 nextBtn?.addEventListener("click",()=>goManual(1));
 
-/* Carrusel de testimonios */ const quoteWindow=document.getElementById("quoteWindow"); const quotePrev=document.getElementById("quotePrev"); const quoteNext=document.getElementById("quoteNext"); const quoteStep=318; quotePrev?.addEventListener("click",()=>quoteWindow.scrollBy({left:-quoteStep,behavior:"smooth"})); quoteNext?.addEventListener("click",()=>quoteWindow.scrollBy({left:quoteStep,behavior:"smooth"}));  /* El buscador queda listo para conectar al sistema real. */
+/* Carrusel de testimonios */ const quoteWindow=document.getElementById("quoteWindow"); const quotePrev=document.getElementById("quotePrev"); const quoteNext=document.getElementById("quoteNext"); const quoteStep=318; quotePrev?.addEventListener("click",()=>quoteWindow.scrollBy({left:-quoteStep,behavior:"smooth"})); quoteNext?.addEventListener("click",()=>quoteWindow.scrollBy({left:quoteStep,behavior:"smooth"}));
+
+/* ---------- Propiedades reales desde el backend (Render/Postgres) ---------- */
+const API_BASE="https://lebrero-web-publica.onrender.com/api";
+function escHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function fotoPrincipal(fotos){
+  if(!Array.isArray(fotos))return"";
+  for(const f of fotos){if(typeof f==="string"&&f.indexOf("http")===0)return f;}
+  return"";
+}
+function fmtPrecio(p,moneda){
+  const n=Number(p);
+  if(p==null||p===""||isNaN(n))return"Consultar precio";
+  return(moneda||"")+" "+n.toLocaleString("es-AR");
+}
+function metaRow(p){
+  const m2=Number(p.sup_cubierta_m2)||Number(p.sup_terreno_m2)||0;
+  let out="";
+  if(p.dormitorios)out+=`<span>⌂ ${p.dormitorios}</span>`;
+  if(p.banos)out+=`<span>♧ ${p.banos}</span>`;
+  if(m2)out+=`<span>▱ ${m2} m²</span>`;
+  return out;
+}
+function cardHTML(p,hidden){
+  const foto=fotoPrincipal(p.fotos);
+  const img=foto?`<img src="${escHtml(foto)}" alt="${escHtml(p.titulo||p.tipo||"Propiedad")}" loading="lazy">`:`<div style="width:100%;height:100%;background:linear-gradient(135deg,var(--ink),var(--ink2))"></div>`;
+  const esAlquiler=(p.operacion||"").toLowerCase()==="alquiler";
+  const tagClass=esAlquiler?"tag teal":"tag";
+  const tagText=esAlquiler?"EN ALQUILER":"EN VENTA";
+  return `<article class="property-card"${hidden?' aria-hidden="true"':""}><div class="property-photo">${img}<span class="${tagClass}">${tagText}</span><span class="heart">♡</span></div><div class="property-body"><h3>${escHtml(p.titulo||p.tipo||"Propiedad")}</h3><div class="location">${escHtml(p.barrio&&p.localidad?p.barrio+", "+p.localidad:(p.barrio||p.localidad||""))}</div><div class="meta">${metaRow(p)}</div><div class="price">${fmtPrecio(p.precio,p.moneda)}</div></div></article>`;
+}
+function renderTrack(props){
+  if(!props.length){
+    track.innerHTML='<div style="padding:40px;color:var(--muted);font-size:13px">No hay propiedades disponibles por ahora.</div>';
+    return;
+  }
+  track.innerHTML=props.map(p=>cardHTML(p,false)).join("")+props.map(p=>cardHTML(p,true)).join("");
+}
+function cargarPropiedades(){
+  fetch(API_BASE+"/public/propiedades")
+    .then(r=>{if(!r.ok)throw new Error("Error de red");return r.json();})
+    .then(data=>renderTrack(Array.isArray(data)?data.slice(0,8):[]))
+    .catch(()=>{track.innerHTML='<div style="padding:40px;color:var(--muted);font-size:13px">No pudimos cargar las propiedades. Probá de nuevo más tarde.</div>';});
+}
+cargarPropiedades();
+
+/* Buscador conectado a POST /api/public/search */
 document.getElementById("propertySearch").addEventListener("submit",(e)=>{
   e.preventDefault();
+  const op=document.getElementById("operation").value;
+  const tipo=document.getElementById("type").value;
+  const loc=document.getElementById("location").value;
+  const body={tipo_propiedad:tipo&&tipo!=="Todos"?[tipo]:[]};
+  if(op&&op!=="Todos")body.operacion=op;
+  if(loc&&loc!=="Todas"){body.localidad=loc;body.todas_localidades=false;}else{body.todas_localidades=true;}
+  track.innerHTML='<div style="padding:40px;color:var(--muted);font-size:13px">Buscando…</div>';
   document.getElementById("propiedades").scrollIntoView({behavior:"smooth"});
+  fetch(API_BASE+"/public/search",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
+    .then(r=>{if(!r.ok)throw new Error("Error de red");return r.json();})
+    .then(data=>{
+      const props=(Array.isArray(data)?data:[]).map(item=>item.property||item);
+      renderTrack(props);
+    })
+    .catch(()=>{track.innerHTML='<div style="padding:40px;color:var(--muted);font-size:13px">No pudimos completar la búsqueda. Probá de nuevo en un momento.</div>';});
 });
 
 /* Menú móvil simple */
