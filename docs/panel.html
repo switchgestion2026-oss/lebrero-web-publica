@@ -13,7 +13,6 @@
 <div id="app-root" style="display:flex;height:100vh;overflow:hidden;background:#F7F8FA;position:relative;">
   <button id="mobile-menu-btn" type="button" onclick="toggleSidebarMobile()" style="display:none;position:fixed;top:14px;left:14px;z-index:60;width:38px;height:38px;border:none;border-radius:8px;background:#31455C;color:#fff;font-size:16px;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);">☰</button>
   <div id="sidebar-backdrop" onclick="toggleSidebarMobile()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40;"></div>
-  <!-- Decorativo esquina superior derecha -->
   <div style="position:absolute;top:0;right:0;width:340px;opacity:.12;pointer-events:none;z-index:0;">
     <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#31455C" stroke-width="1">
       <circle cx="300" cy="60" r="40"/>
@@ -26,7 +25,6 @@
       <path d="M60 220 L100 160 L140 190 L180 140 L220 175 L260 120 L300 150 L340 110" stroke-dasharray="3,4"/>
     </svg>
   </div>
-  <!-- Decorativo esquina inferior izquierda -->
   <div style="position:absolute;bottom:0;left:226px;width:280px;opacity:.10;pointer-events:none;z-index:0;">
     <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#31455C" stroke-width="1">
       <path d="M20 160 L20 80 L50 80 L50 60 L80 60 L80 40 L110 40 L110 160"/>
@@ -47,7 +45,6 @@
     <nav id="sidebar-nav" style="flex:1;padding:36px 0 10px;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1;"></nav>
     <div style="position:absolute;bottom:0;left:0;width:226px;opacity:.07;pointer-events:none;">
       <svg viewBox="0 0 226 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="1">
-        <!-- Skyline -->
         <rect x="10" y="60" width="18" height="50"/>
         <rect x="13" y="50" width="12" height="10"/>
         <rect x="15" y="44" width="8" height="6"/>
@@ -70,7 +67,6 @@
         <rect x="185" y="50" width="8" height="8"/>
         <rect x="200" y="44" width="20" height="66"/>
         <rect x="203" y="36" width="14" height="8"/>
-        <!-- Ventanas -->
         <rect x="35" y="52" width="3" height="3"/><rect x="42" y="52" width="3" height="3"/>
         <rect x="35" y="60" width="3" height="3"/><rect x="42" y="60" width="3" height="3"/>
         <rect x="81" y="48" width="3" height="3"/><rect x="88" y="48" width="3" height="3"/>
@@ -236,14 +232,6 @@ function toggleCrit(id){
   if(ar) ar.style.transform=open?'':'rotate(180deg)';
 }
 
-/* ─── API real (Render / Postgres) ─────────────────────────────────
-   Reemplaza los google.script.run + <?= ?> del original de Apps Script.
-   Campos "confirmados" abajo = existen en el modal de panel.html.
-   Campos "estimados" = columnas agregadas en la migración a Postgres
-   (ver claude/estado-migracion-render.md) pero admin.js puede no
-   guardarlas todavía (backlog Tier 2 #8) — verificar antes de confiar
-   en que persistan.
-──────────────────────────────────────────────────────────────────── */
 var API = "https://lebrero-web-publica.onrender.com/api";
 var TOKEN = localStorage.getItem("lebrero_admin_token") || null;
 
@@ -271,7 +259,6 @@ function ensureMatchLoaded(reqId){
   });
 }
 
-/* ─── CONSTANTES ─────────────────────────────────────────────────── */
 var BARRIOS_ALL = [];
 var BARRIOS = [];
 var ZONA_GROUPS = {};
@@ -292,7 +279,6 @@ var ICONS = {
 
 function capitalize(s){ s=String(s||''); return s ? s.charAt(0).toUpperCase()+s.slice(1).toLowerCase() : ''; }
 
-/* ─── NORMALIZACIÓN (desde la API real, no desde Sheets) ─────────── */
 function normProps(arr, clientsMap) {
   if (!arr || !arr.length) return [];
   clientsMap = clientsMap || {};
@@ -306,13 +292,11 @@ function normProps(arr, clientsMap) {
       estadoComercial: o.estado_comercial||'',
       activoMatch: !!o.activo_match,
       fotos: Array.isArray(o.fotos) ? o.fotos : [],
-      // — confirmados en /properties —
       direccion: o.direccion||'', barrio: o.barrio||'', localidad: o.localidad||'', zona: o.barrio||o.localidad||'',
       precio: Number(o.precio)||0, moneda: o.moneda||'USD',
       dormitorios: Number(o.dormitorios)||0, banos: Number(o.banos)||0,
       garage: !!o.garage, cantGarage: Number(o.garage_cant)||0,
       supCubierta: Number(o.sup_cubierta_m2)||0, obs: o.descripcion||'',
-      // — propietario: join client-side con /clients por propietario_id —
       propietario: cli ? (cli.nombre||'') : '', telefono: cli ? String(cli.whatsapp||'') : '',
       contactoOperativo: o.contacto_operativo||'', exclusividad: isSi(o.exclusividad),
       inmobiliaria: o.inmobiliaria||'', aptoCredito: isSi(o.apto_credito),
@@ -356,7 +340,6 @@ function normReqs(arr, clientsMap) {
   });
 }
 
-/* ─── ESTADO ─────────────────────────────────────────────────────── */
 var STATE = {
   section: 'dashboard',
   props: [],
@@ -391,7 +374,6 @@ STATE.matchSort = 'score';
 STATE.viewPropId = null;
 
 
-/* ─── HELPERS ────────────────────────────────────────────────────── */
 function esc(v) { return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function isSi(v){ if(v===true||v===1) return true; var s=String(v==null?'':v).trim().toLowerCase(); return s==='si'||s==='true'||s==='1'; }
 function fmtPrice(precio,moneda) { var n=Number(precio); if(!n) return '—'; return (moneda||'')+' '+n.toLocaleString('es-AR'); }
@@ -409,7 +391,6 @@ function localidadLevel(propLoc,reqLoc) {
   return 'no';
 }
 
-/* ─── HTML BUILDERS ─────────────────────────────────────────────── */
 function scoreBadgeHtml(score){var cls=score>=80?'sh':score>=50?'sm':'sl';return '<div class="sbadge '+cls+'"><span class="sbadge-pct">'+score+'%</span><span class="sbadge-lbl">match</span></div>';}
 function badgeHtml(text,color){var map={green:'bg-green',amber:'bg-amber',red:'bg-red',blue:'bg-blue',navy:'bg-navy',gray:'bg-gray'};return '<span class="badge '+(map[color]||'bg-gray')+'">'+esc(text)+'</span>';}
 function chipHtml(icon,label,status){var map={match:'cm',partial:'cp',no:'cn',na:'cna'};return '<span class="chip '+(map[status]||'cna')+'">'+icon+' '+esc(label)+'</span>';}
@@ -420,7 +401,6 @@ function selectHtml(field,val,options){var opts=options.map(function(o){var v=ty
 function datalistHtml(field,val,options,placeholder){var id='dl_'+field;var opts=options.map(function(o){return '<option value="'+esc(o)+'"/>';}).join('');return '<input class="fi" data-field="'+esc(field)+'" list="'+id+'" value="'+esc(val)+'" placeholder="'+(placeholder||'')+'"><datalist id="'+id+'">'+opts+'</datalist>';}
 function inputHtml(field,type,val,placeholder,extra){return '<input class="fi" data-field="'+esc(field)+'" type="'+type+'" value="'+esc(val)+'"'+(placeholder?' placeholder="'+esc(placeholder)+'"':'')+(extra||'')+'>';}
 
-/* ─── RENDER NAV + HEADER ────────────────────────────────────────── */
 function renderNav(){
   document.getElementById('sidebar-nav').innerHTML=NAVS.map(function(n){return '<button class="nav-btn'+(STATE.section===n.id?' active':'')+(n.disabled?' disabled':'')+'" '+(n.disabled?'style="opacity:.4;cursor:default;"':'')+' data-section="'+n.id+'">'+ICONS[n.icon]+'<span style="font-size:12px;font-weight:500;line-height:1.2;">'+n.label+'</span>'+(n.disabled?'<span style="margin-left:auto;font-size:7px;background:rgba(255,255,255,.15);padding:2px 5px;border-radius:8px;">PRÓX</span>':'')+'</button>';}).join('');
   document.getElementById('sidebar-footer').innerHTML='<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:6px 10px;display:flex;flex-direction:column;gap:2px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,.5);"><div>Mat. 1652</div><div>LEBRERO STEFANIA</div><div>MORENO 3084</div></div><div style="background:rgba(255,255,255,.06);border-radius:8px;padding:6px 10px;display:flex;flex-direction:column;gap:3px;"><div style="display:flex;align-items:center;gap:5px;margin-bottom:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg><span style="font-size:8.5px;color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase;letter-spacing:.9px;">Cartera</span></div><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:rgba(255,255,255,.55);">Propiedades</span><span style="font-size:10px;font-weight:700;color:#fff;">'+STATE.props.length+'</span></div><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:rgba(255,255,255,.55);">Requerimientos</span><span style="font-size:10px;font-weight:700;color:#fff;">'+STATE.reqs.length+'</span></div><div style="font-size:8px;color:rgba(255,255,255,.18);text-align:center;margin-top:1px;">v1.1 · API Render/Postgres</div></div>';
@@ -431,7 +411,6 @@ function renderHeader(){
   document.getElementById('app-header').innerHTML='<div><div style="font-size:17px;font-weight:700;color:#1C2B39;letter-spacing:-.2px;">'+esc(m[0])+'</div><div style="font-size:11px;color:#8A9AAA;margin-top:1px;">'+esc(m[1])+'</div></div><div style="font-size:11px;color:#8A9AAA;font-weight:500;">'+esc(d)+'</div>';
 }
 
-/* ─── RENDER DASHBOARD ───────────────────────────────────────────── */
 function renderPropiedades(){
   var activeProp=STATE.props.filter(function(p){return p.estadoComercial==='Disponible'&&p.activoMatch;}).length;
   var activeReqs=STATE.reqs.filter(function(r){return r.estado==='Buscando';}).length;
@@ -585,38 +564,37 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
     +'</div></div>';
 }
 
-/* ─── RENDER PROP FORM (wizard de 5 pasos, mismo patrón que Requerimientos) ── */
 function renderPropForm(){
   var f=STATE.propForm;
+  f.ambientes=(Number(f.dormitorios)||0)+1;
   var totalSteps=5;
   STATE.pfFormStep = Math.min(Math.max(STATE.pfFormStep||1,1),totalSteps);
   var step=STATE.pfFormStep;
   var stepPct=Math.round((step/totalSteps)*100);
   var progressH='<div style="position:sticky;top:0;z-index:5;background:#F7F8FA;padding:10px 0;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><button type="button" data-action="nav-dashboard" style="padding:5px 10px;border-radius:6px;border:1.5px solid #E0D9D0;background:#fff;color:#5A6A7A;font-size:10.5px;font-weight:600;cursor:pointer;">← Inicio</button><span style="font-size:11px;font-weight:700;color:#31455C;">Paso '+step+' de '+totalSteps+'</span></div><div style="height:6px;background:#EDE8E0;border-radius:3px;overflow:hidden;"><div style="width:'+stepPct+'%;height:100%;background:#D40A8C;border-radius:3px;transition:width .25s;"></div></div></div>';
   var blkA='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#D40A8C;">A</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Identificación</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="grid-column:1/-1;"><label class="fl">Tipo de Propiedad</label><div style="display:flex;flex-wrap:wrap;gap:8px;">'+['Casa','Departamento','Chalet','Dúplex','Tríplex','Lote','Local','Galpón','PH','Fondo de Comercio'].map(function(t){var sel=f.tipo===t;return '<button type="button" data-action="pf-tipo-icon" data-tipo="'+t+'" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:9px;border:1.5px solid '+(sel?'#31455C':'#E0D9D0')+';background:'+(sel?'#EEF1F5':'#FAFAF8')+';cursor:pointer;min-width:60px;"><span style="display:flex;">'+typeIconSvg(t,sel?TIPO_COLORS[t]:'#B0B8C1',18)+'</span><span style="font-size:9px;font-weight:600;color:'+(sel?'#31455C':'#8A9AAA')+';white-space:nowrap;">'+t+'</span></button>';}).join('')+'</div></div><div><label class="fl">Operación</label><div style="display:flex;gap:8px;">'+btnGroup('operacion',f.operacion,['Venta','Alquiler','Ambos'])+'</div></div><div><label class="fl">Estado Comercial</label><div style="display:flex;gap:6px;flex-wrap:wrap;">'+btnGroup('estadoComercial',f.estadoComercial,['Disponible','Reservado'])+'</div></div><div style="display:flex;align-items:center;padding-top:17px;">'+toggleHtml('pf_activoMatch',f.activoMatch,'Activo para Match')+'</div><div style="display:flex;align-items:center;padding-top:17px;">'+toggleHtml('pf_ocupada',f.ocupada,'Ocupada (venta con alquiler vigente)')+'</div><div style="display:flex;align-items:center;padding-top:17px;">'+toggleHtml('pf_destacada',f.destacada,'Destacada (carrusel home)')+'</div>'+(f.ocupada?'<div><label class="fl">Disponible desde</label>'+inputHtml('disponibleDesde','date',f.disponibleDesde,'')+'</div>':'')+'</div></div>';
-  var blkB='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#4E807D;">B</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Propietario &amp; Contacto</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div><label class="fl">Propietario</label>'+inputHtml('propietario','text',f.propietario,'Nombre completo')+'</div><div><label class="fl">Teléfono</label>'+inputHtml('telefono','tel',f.telefono,'+54 11 XXXX-XXXX')+'</div><div><label class="fl">Contacto Operativo</label>'+inputHtml('contactoOperativo','text',f.contactoOperativo,'Quién atiende')+'</div><div><label class="fl">Inmobiliaria</label>'+inputHtml('inmobiliaria','text',f.inmobiliaria,'Nombre')+'</div><div style="display:flex;align-items:center;">'+toggleHtml('pf_exclusividad',f.exclusividad,'Exclusividad')+'</div></div></div>';
+  var blkB='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#4E807D;">B</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Propietario &amp; Contacto</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div><label class="fl">Propietario</label>'+inputHtml('propietario','text',f.propietario,'Nombre completo')+'</div><div><label class="fl">Teléfono</label>'+inputHtml('telefono','tel',f.telefono,'+54 11 XXXX-XXXX')+'</div>'+(f.exclusividad?'':'<div><label class="fl">Contacto Operativo</label>'+inputHtml('contactoOperativo','text',f.contactoOperativo,'Quién atiende')+'</div><div><label class="fl">Inmobiliaria</label>'+inputHtml('inmobiliaria','text',f.inmobiliaria,'Nombre')+'</div>')+'<div style="display:flex;align-items:center;">'+toggleHtml('pf_exclusividad',f.exclusividad,'Exclusividad')+'</div></div></div>';
   var pisoDepto=(['Departamento','PH','Dúplex','Tríplex'].indexOf(f.tipo)!==-1)?'<div><label class="fl">Piso</label>'+inputHtml('piso','text',f.piso,'PB / 1 / 2...')+'</div><div><label class="fl">Depto</label>'+inputHtml('depto','text',f.depto,'A / 4...')+'</div>':'';
   var mapQ=encodeURIComponent((f.direccion||'')+', '+(f.localidad||'Olavarría')+', Argentina');
   var normTxt=function(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
   var barrioPoolLoc=barriosDeLocalidad(f.localidad).filter(function(b){return (f.zonaFiltro||'Todas')==='Todas'||b.zona===f.zonaFiltro||!b.zona;});
   var barrioSug=(f.barrio&&f.barrio.length>=2&&barrioPoolLoc.every(function(b){return b.nombre!==f.barrio;}))?barrioPoolLoc.filter(function(b){return normTxt(b.nombre).indexOf(normTxt(f.barrio))!==-1;}).slice(0,6):[];
   var blkC='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#31455C;">C</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Ubicación</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="grid-column:1/-1;"><label class="fl">Dirección</label>'+inputHtml('direccion','text',f.direccion,'Calle y número')+'</div><div style="grid-column:1/-1;"><label class="fl">Entre calles (opcional)</label>'+inputHtml('entreCalles','text',f.entreCalles,'Ej: Av. Santa Fe y Arenales')+'</div><div><label class="fl">Barrio</label><div style="display:flex;gap:6px;">'+datalistHtml('barrio',f.barrio,barriosDeLocalidad(f.localidad).filter(function(b){return (f.zonaFiltro||'Todas')==='Todas'||b.zona===f.zonaFiltro||!b.zona;}).map(function(b){return b.nombre;}),'Escribir o elegir barrio')+'<button type="button" data-action="pf-nuevo-barrio" title="Agregar como barrio nuevo si no existe en la lista" style="flex-shrink:0;padding:0 12px;border-radius:7px;border:1.5px solid #E0D9D0;background:#FAFAF8;color:#5A6A7A;font-size:10.5px;font-weight:600;cursor:pointer;white-space:nowrap;">+ nuevo</button></div>'+(zonasDeLocalidad(f.localidad).length?'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;">'+['Todas'].concat(zonasDeLocalidad(f.localidad)).map(function(z){var sel=(f.zonaFiltro||'Todas')===z;return '<button type="button" data-action="pf-zona-filtro" data-zona="'+esc(z)+'" class="zchip'+(sel?' sel':'')+'" style="padding:3px 8px;font-size:9.5px;">'+esc(z)+'</button>';}).join('')+'</div>':'')+(barrioSug.length?'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">'+barrioSug.map(function(b){return '<button type="button" data-action="set-field" data-field="barrio" data-val="'+esc(b.nombre)+'" class="zchip" style="padding:3px 8px;font-size:9.5px;">'+esc(b.nombre)+'</button>';}).join('')+'</div>':'')+'</div><div><label class="fl">Localidad</label>'+datalistHtml('localidad',f.localidad,LOCALIDADES,'Olavarría, Mar del Plata, etc.')+'</div>'+pisoDepto+'<div><label class="fl">Partida Inmobiliaria</label><div style="display:flex;gap:6px;">'+inputHtml('partida','text',f.partida,'N° partida')+'<a href="https://carto.arba.gov.ar/cartoArba/" target="_blank" class="btn-s" style="padding:8px 12px;font-size:10px;white-space:nowrap;">🔗 Cartoarba</a></div></div><div><label class="fl">Instagram (opcional)</label>'+inputHtml('instagram','text',f.instagram,'https://instagram.com/...')+'</div><div style="grid-column:1/-1;"><label class="fl">Ubicación en mapa</label><iframe width="100%" height="220" style="border:1.5px solid #E0D9D0;border-radius:7px;" loading="lazy" src="https://maps.google.com/maps?q='+mapQ+'&output=embed"></iframe><div style="margin-top:8px;padding:10px 12px;background:#F8F6F2;border-radius:7px;font-size:11px;color:#5A6A7A;">'+esc(f.tipo)+' · '+esc(f.direccion||'Sin dirección')+(f.precio?' · '+fmtPrice(Number(f.precio),f.moneda):'')+(f.instagram?' · <a href="'+esc(f.instagram)+'" target="_blank" style="color:#D40A8C;font-weight:600;">Instagram ↗</a>':'')+'</div></div></div></div>';
-  var blkPrecio='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#D40A8C;">$</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Precio</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Precio</label>'+inputHtml('precio','number',f.precio,'0')+'</div><div><label class="fl">Moneda</label>'+selectHtml('moneda',f.moneda,[{value:'USD',label:'USD — Dólares'},{value:'ARS',label:'ARS — Pesos'}])+'</div><div style="display:flex;align-items:center;">'+toggleHtml('pf_aptoCredito',f.aptoCredito,'Apto Crédito')+'</div>'+(f.operacion!=='Venta'?'<div style="display:flex;align-items:center;">'+toggleHtml('pf_impuesto',f.impuesto,'Impuesto a cargo')+'</div><div style="display:flex;align-items:center;">'+toggleHtml('pf_servicio',f.servicio,'Servicios a cargo')+'</div>':'')+'<div style="display:flex;align-items:center;">'+toggleHtml('pf_aceptaPermutas',f.aceptaPermutas,'Acepta Permutas')+'</div><div style="grid-column:1/-1;"><label class="fl">Servicios (luz, agua, gas...)</label>'+inputHtml('servicios','text',f.servicios,'Ej: luz, agua, gas')+'</div></div></div>';
+  var blkPrecio='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#D40A8C;">$</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Precio</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Precio</label>'+inputHtml('precio','number',f.precio,'0')+'</div><div><label class="fl">Moneda</label>'+selectHtml('moneda',f.moneda,[{value:'USD',label:'USD — Dólares'},{value:'ARS',label:'ARS — Pesos'}])+'</div><div style="display:flex;align-items:center;">'+toggleHtml('pf_aptoCredito',f.aptoCredito,'Apto Crédito')+'</div>'+(f.operacion!=='Venta'?'<div style="display:flex;align-items:center;">'+toggleHtml('pf_impuesto',f.impuesto,'Impuesto a cargo')+'</div><div style="display:flex;align-items:center;">'+toggleHtml('pf_servicio',f.servicio,'Servicios a cargo')+'</div>':'')+'<div style="display:flex;align-items:center;">'+toggleHtml('pf_aceptaPermutas',f.aceptaPermutas,'Acepta Permutas')+'</div><div style="grid-column:1/-1;"><label class="fl">Servicios (luz, agua, gas...)</label><div style="display:flex;flex-wrap:wrap;gap:6px;">'+['Luz','Agua','Gas','Cloaca','Pavimento','Internet'].map(function(s){var arr=(f.servicios||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var sel=arr.indexOf(s)!==-1;return '<button type="button" data-action="pf-servicio-toggle" data-servicio="'+s+'" class="zchip'+(sel?' sel':'')+'" style="padding:5px 10px;font-size:10.5px;">'+s+'</button>';}).join('')+'</div></div></div></div>';
   var condExtra=(f.garage?'<div><label class="fl">Cantidad Cocheras</label>'+inputHtml('cantGarage','number',f.cantGarage,'','min="1"')+'</div>':'')+(f.patio?'<div><label class="fl">Tipo de Patio</label>'+selectHtml('tipoPatio',f.tipoPatio,[{value:'seco',label:'Seco'},{value:'verde',label:'Verde'},{value:'terraza',label:'Terraza'},{value:'churrasquera',label:'Churrasquera'}])+'</div>':'');
   var fotosH=(f.fotos||[]).map(function(url,i){return '<div style="position:relative;width:74px;height:74px;border-radius:8px;overflow:hidden;border:1.5px solid #E0D9D0;flex-shrink:0;"><img src="'+esc(url)+'" style="width:100%;height:100%;object-fit:cover;"><button type="button" data-action="pf-foto-del" data-idx="'+i+'" style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;border:none;background:rgba(28,43,57,.75);color:#fff;font-size:11px;line-height:1;cursor:pointer;">✕</button></div>';}).join('');
-  var blkD='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#6D8A85;">D</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Características</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Ambientes</label>'+inputHtml('ambientes','number',f.ambientes,'0','min="0"')+'<div style="font-size:9.5px;color:#B0B8C1;margin-top:4px;">Living/comedor/cocina + dormitorios, sin contar baños</div></div><div><label class="fl">Dormitorios</label>'+stepperHtml('dormitorios',f.dormitorios,1)+'</div><div><label class="fl">Baños</label>'+stepperHtml('banos',f.banos,1)+'</div><div><label class="fl">Sup. Terreno m²</label>'+inputHtml('supTerreno','number',f.supTerreno,'0','min="0"')+'</div><div><label class="fl">Sup. Cubierta m²</label>'+inputHtml('supCubierta','number',f.supCubierta,'0','min="0"')+'</div><div><label class="fl">Estado General</label>'+selectHtml('estadoGeneral',f.estadoGeneral,['Excelente','Muy bueno','Bueno','Regular','A refaccionar','A construir'])+'</div><div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 0;border-top:1px solid #F0EBE4;border-bottom:1px solid #F0EBE4;"><div>'+toggleHtml('pf_garage',f.garage,'Garage')+'</div><div>'+toggleHtml('pf_patio',f.patio,'Patio')+'</div><div>'+toggleHtml('pf_lavadero',f.lavadero,'Lavadero')+'</div><div>'+toggleHtml('pf_pileta',f.pileta,'Pileta')+'</div><div>'+toggleHtml('pf_quincho',f.quincho,'Quincho')+'</div><div>'+toggleHtml('pf_parrilla',f.parrilla,'Parrilla')+'</div><div>'+toggleHtml('pf_amoblado',f.amoblado,'Amoblado')+'</div><div>'+toggleHtml('pf_ascensor',f.ascensor,'Ascensor')+'</div><div>'+toggleHtml('pf_balcon',f.balcon,'Balcón')+'</div><div>'+toggleHtml('pf_esquina',f.esquina,'Esquina')+'</div><div>'+toggleHtml('pf_agua',f.agua,'Agua')+'</div><div>'+toggleHtml('pf_alambrado',f.alambrado,'Alambrado')+'</div></div>'+condExtra+'<div style="grid-column:1/-1;"><label class="fl">Fotos</label><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">'+fotosH+'<label style="width:74px;height:74px;border-radius:8px;border:1.5px dashed #C9C2B8;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8A9AAA;font-size:22px;flex-shrink:0;">+<input type="file" accept="image/*" multiple id="pf-foto-input" style="display:none;"></label></div><div id="pf-foto-status" style="font-size:10px;color:#8A9AAA;margin-top:6px;"></div></div><div style="grid-column:1/-1;"><label class="fl">Observaciones</label><textarea class="ft" data-field="obs" rows="3" placeholder="Detalles adicionales...">'+esc(f.obs)+'</textarea></div></div></div>';
+  var blkD='<div class="card"><div style="padding:14px 20px;border-bottom:1px solid #F0EBE4;display:flex;align-items:center;gap:9px;"><div class="blk" style="background:#6D8A85;">D</div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Características</div></div><div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;"><div><label class="fl">Ambientes</label><div style="padding:9px 12px;border-radius:7px;border:1.5px solid #E0D9D0;background:#F7F8FA;font-size:13px;font-weight:700;color:#31455C;">'+((Number(f.dormitorios)||0)+1)+'</div><div style="font-size:9.5px;color:#B0B8C1;margin-top:4px;">Living/comedor/cocina + dormitorios, sin contar baños</div></div><div><label class="fl">Dormitorios</label>'+stepperHtml('dormitorios',f.dormitorios,1)+'</div><div><label class="fl">Baños</label>'+stepperHtml('banos',f.banos,1)+'</div><div><label class="fl">Sup. Terreno m²</label>'+inputHtml('supTerreno','number',f.supTerreno,'0','min="0"')+'</div><div><label class="fl">Sup. Cubierta m²</label>'+inputHtml('supCubierta','number',f.supCubierta,'0','min="0"')+'</div><div><label class="fl">Estado General</label>'+selectHtml('estadoGeneral',f.estadoGeneral,['Excelente','Muy bueno','Bueno','Regular','A refaccionar','A construir'])+'</div><div style="grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 0;border-top:1px solid #F0EBE4;border-bottom:1px solid #F0EBE4;"><div>'+toggleHtml('pf_garage',f.garage,'Garage')+'</div><div>'+toggleHtml('pf_patio',f.patio,'Patio')+'</div><div>'+toggleHtml('pf_lavadero',f.lavadero,'Lavadero')+'</div><div>'+toggleHtml('pf_pileta',f.pileta,'Pileta')+'</div><div>'+toggleHtml('pf_quincho',f.quincho,'Quincho')+'</div><div>'+toggleHtml('pf_parrilla',f.parrilla,'Parrilla')+'</div><div>'+toggleHtml('pf_amoblado',f.amoblado,'Amoblado')+'</div><div>'+toggleHtml('pf_ascensor',f.ascensor,'Ascensor')+'</div><div>'+toggleHtml('pf_balcon',f.balcon,'Balcón')+'</div><div>'+toggleHtml('pf_esquina',f.esquina,'Esquina')+'</div><div>'+toggleHtml('pf_agua',f.agua,'Agua')+'</div><div>'+toggleHtml('pf_alambrado',f.alambrado,'Alambrado')+'</div></div>'+condExtra+'<div style="grid-column:1/-1;"><label class="fl">Fotos</label><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">'+fotosH+'<label style="width:74px;height:74px;border-radius:8px;border:1.5px dashed #C9C2B8;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8A9AAA;font-size:22px;flex-shrink:0;">+<input type="file" accept="image/*" multiple id="pf-foto-input" style="display:none;"></label></div><div id="pf-foto-status" style="font-size:10px;color:#8A9AAA;margin-top:6px;"></div></div><div style="grid-column:1/-1;"><label class="fl">Observaciones</label><textarea class="ft" data-field="obs" rows="3" placeholder="Detalles adicionales...">'+esc(f.obs)+'</textarea></div></div></div>';
 
   var step3H=blkC;
   var stepsArrPF=[ blkA, blkB, step3H, blkPrecio, blkD ];
   var navFooterPF='<div style="position:sticky;bottom:0;display:flex;justify-content:space-between;gap:10px;padding:14px 0;background:#F7F8FA;border-top:1px solid #EDE8E0;z-index:5;">'
     +(step>1?'<button class="btn-s" data-action="pf-back">← Atrás</button>':'<button class="btn-s" data-action="reset-propForm">Limpiar</button>')
-    +(step<totalSteps?'<button class="btn-p" data-action="pf-next">Siguiente →</button>':'<button class="btn-p" data-action="save-propForm">Guardar Propiedad</button>')
+    +(step<totalSteps?'<button class="btn-p" data-action="pf-next">Siguiente →</button>':'<button class="btn-p" data-action="confirm-propForm">Guardar Propiedad</button>')
     +'</div>';
   var maxW = '840px';
   return '<div style="padding:22px 26px;display:flex;flex-direction:column;gap:16px;max-width:'+maxW+';min-height:760px;" class="anim">'+progressH+stepsArrPF[step-1]+navFooterPF+'</div>';
 }
 
-/* ─── RENDER REQ FORM ────────────────────────────────────────────── */
 function renderReqForm(){
   var f=STATE.reqForm;
   function fmt(n){return n?Number(n).toLocaleString('es-AR'):'';}
@@ -675,11 +653,10 @@ var opsH=['Venta','Alquiler','Ambos'].map(function(o){var sel=f.operacion===o;re
   var stepsArr=[blkObligatorio,blkImportante,blkPreferencias];
   var navFooter='<div style="display:flex;justify-content:space-between;gap:10px;padding-bottom:28px;">'
     +(step>1?'<button class="btn-s" data-action="rf-back">← Atrás</button>':'<button class="btn-s" data-action="reset-reqForm">Cancelar</button>')
-    +(step<totalSteps?'<button class="btn-p" data-action="rf-next">Siguiente →</button>':'<button class="btn-p" data-action="save-reqForm-match">Guardar y buscar coincidencias</button>')
+    +(step<totalSteps?'<button class="btn-p" data-action="rf-next">Siguiente →</button>':'<button class="btn-p" data-action="confirm-reqForm">Guardar y buscar coincidencias</button>')
     +'</div>';
   return '<div style="padding:22px 26px;display:flex;gap:20px;" class="anim"><div style="flex:1;max-width:760px;display:flex;flex-direction:column;gap:16px;">'+progressH+stepsArr[step-1]+navFooter+'</div><div style="width:260px;flex-shrink:0;">'+summaryH+'</div></div>';
 }
-/* ─── MATCH WEIGHTS ──────────────────────────────────────────────── */
 var MATCH_W = { tipo:20, op:10, precio:20, zona:15, localidad:10, dormitorios:10, banos:5, garage:5, patio:5 };
 
 function calcScore(prop, req) {
@@ -787,7 +764,6 @@ function showPropModal(id){
   ov.onclick=function(e){ if(e.target===ov) ov.style.display='none'; };
 }
 
-/* ─── RENDER MATCH ───────────────────────────────────────────────── */
 function renderMatch() {
   var req = STATE.reqs.filter(function(r){ return r.id === STATE.selectedReqId; })[0];
 
@@ -1158,7 +1134,7 @@ document.addEventListener('click',function(e){
   var navBtn=e.target.closest('.nav-btn[data-section]');
   if(navBtn){if(navBtn.classList.contains('disabled'))return;navigate(navBtn.dataset.section);closeSidebarMobile();return;}
   var el=e.target.closest('[data-action]');
-  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='nav-reqForm'){STATE.reqFormStep=1;navigate('reqForm');return;}if(a==='nav-dashboard'){navigate('dashboard');return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='save-reqForm'){saveReqForm(false,el);return;}if(a==='save-reqForm-match'){saveReqForm(true,el);return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='match-filter'){STATE.matchFilterTier=el.dataset.tier;reRender();return;}if(a==='view-prop'){showPropModal(el.dataset.propId);return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;BARRIOS_ALL.push({id:null,nombre:_v,localidad_id:null,localidad:_loc,zona_id:null,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" agregado (solo en este panel, no se guarda en la base)');reRender();}});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
+  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='nav-reqForm'){STATE.reqFormStep=1;navigate('reqForm');return;}if(a==='nav-dashboard'){navigate('dashboard');return;}if(a==='confirm-propForm'){confirmPropForm();return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='pf-servicio-toggle'){var _sv=el.dataset.servicio;var _sarr=(STATE.propForm.servicios||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var _si=_sarr.indexOf(_sv);if(_si===-1)_sarr.push(_sv);else _sarr.splice(_si,1);STATE.propForm.servicios=_sarr.join(', ');reRender();return;}if(a==='confirm-reqForm'){confirmReqForm(true,el);return;}if(a==='save-reqForm'){saveReqForm(false,el);return;}if(a==='save-reqForm-match'){saveReqForm(true,el);return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='match-filter'){STATE.matchFilterTier=el.dataset.tier;reRender();return;}if(a==='view-prop'){showPropModal(el.dataset.propId);return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;BARRIOS_ALL.push({id:null,nombre:_v,localidad_id:null,localidad:_loc,zona_id:null,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" agregado (solo en este panel, no se guarda en la base)');reRender();}});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
   var tog=e.target.closest('[data-toggle]');
   if(tog){var tid=tog.dataset.toggle;if(PF_TOGGLES[tid]){var field=PF_TOGGLES[tid];STATE.propForm[field]=!STATE.propForm[field];if(field==='garage'||field==='patio'||field==='ocupada'){reRender();}else tog.classList.toggle('on',STATE.propForm[field]);}else if(RF_TOGGLES[tid]){STATE.reqForm[RF_TOGGLES[tid]]=!STATE.reqForm[RF_TOGGLES[tid]];reRender();}return;}
   var zc=e.target.closest('[data-zone]');
@@ -1173,6 +1149,7 @@ function onFieldUpdate(e){
   var v=e.target.type==='number'?(e.target.value===''?'':Number(e.target.value)):e.target.value;
   if(STATE.section==='propForm'){
     STATE.propForm[field]=v;
+    if(field==='dormitorios'){ STATE.propForm.ambientes=(Number(STATE.propForm.dormitorios)||0)+1; }
     var pf=['tipo','operacion','estadoComercial','localidad','moneda','estadoGeneral','propietario','telefono','direccion','barrio','precio','ambientes','dormitorios','banos'];
     var pct=Math.round(pf.filter(function(k){return STATE.propForm[k];}).length/pf.length*100);
     var bar=document.getElementById('pf-progress-bar');
@@ -1185,8 +1162,11 @@ function onFieldUpdate(e){
     }
     if(field==='localidad'){
       STATE.propForm.zonaFiltro='Todas';
-      var nombresValidos=barriosDeLocalidad(STATE.propForm.localidad).map(function(b){return b.nombre;});
-      if(STATE.propForm.barrio && nombresValidos.indexOf(STATE.propForm.barrio)===-1) STATE.propForm.barrio='';
+      if(e.type==='change'){
+        var normB=function(s){return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');};
+        var nombresValidos=barriosDeLocalidad(STATE.propForm.localidad).map(function(b){return normB(b.nombre);});
+        if(STATE.propForm.barrio && nombresValidos.indexOf(normB(STATE.propForm.barrio))===-1) STATE.propForm.barrio='';
+      }
       var posL=e.target.selectionStart;
       reRender();
       var nl=document.querySelector('[data-field="localidad"]');
@@ -1243,6 +1223,70 @@ function uploadFotoCloudinary(file){
     })
     .catch(function(e){ showToast('Error subiendo foto: '+e.message); if(status) status.textContent=''; });
 }
+function pfCamposFaltantes(f){
+  var faltan=[];
+  if(!f.propietario) faltan.push('Propietario');
+  if(!f.direccion) faltan.push('Dirección');
+  if(!f.precio && f.precio!==0) faltan.push('Precio');
+  if(!f.tipo) faltan.push('Tipo de propiedad');
+  return faltan;
+}
+function confirmPropForm(){
+  var f=STATE.propForm;
+  var faltan=pfCamposFaltantes(f);
+  if(faltan.length){
+    showToast('Faltan campos obligatorios: '+faltan.join(', '));
+    return;
+  }
+  var resumenHtml='<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">'
+    +'<div><span style="color:#8A9AAA;">Tipo:</span> <b>'+esc(f.tipo)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Operación:</span> <b>'+esc(f.operacion)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Propietario:</span> <b>'+esc(f.propietario)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Dirección:</span> <b>'+esc(f.direccion)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Barrio:</span> <b>'+esc(f.barrio||'—')+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Localidad:</span> <b>'+esc(f.localidad)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Precio:</span> <b>'+esc(fmtPrice(Number(f.precio),f.moneda))+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Dormitorios:</span> <b>'+esc(f.dormitorios)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Baños:</span> <b>'+esc(f.banos)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Ambientes:</span> <b>'+esc(f.ambientes)+'</b></div>'
+    +'</div>';
+  showModal({
+    title:'Confirmar carga de propiedad',
+    bodyHtml:resumenHtml,
+    confirmText:'Aceptar',
+    onConfirm:function(){ savePropForm(); }
+  });
+}
+function rfCamposFaltantes(f){
+  var faltan=[];
+  if(!f.nombre) faltan.push('Nombre del cliente');
+  if(!f.tipoBuscado||!f.tipoBuscado.length) faltan.push('Tipo de propiedad buscado');
+  if(!f.operacion) faltan.push('Operación');
+  return faltan;
+}
+function confirmReqForm(goToMatch,btnEl){
+  var f=STATE.reqForm;
+  var faltan=rfCamposFaltantes(f);
+  if(faltan.length){
+    showToast('Faltan campos obligatorios: '+faltan.join(', '));
+    return;
+  }
+  function fmt(n){return n?Number(n).toLocaleString('es-AR'):'—';}
+  var resumenHtml='<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">'
+    +'<div><span style="color:#8A9AAA;">Cliente:</span> <b>'+esc(f.nombre)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Busca:</span> <b>'+esc(f.tipoBuscado.join(', '))+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Operación:</span> <b>'+esc(f.operacion)+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Localidad:</span> <b>'+(f.todasLocalidades?'Todas':esc(f.localidad))+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Zonas:</span> <b>'+(f.zonas.length?esc(f.zonas.join(', ')):'—')+'</b></div>'
+    +'<div><span style="color:#8A9AAA;">Presupuesto:</span> <b>'+esc(f.moneda)+' '+fmt(f.presupuestoMin)+' - '+fmt(f.presupuestoMax)+'</b></div>'
+    +'</div>';
+  showModal({
+    title:'Confirmar carga de requerimiento',
+    bodyHtml:resumenHtml,
+    confirmText:'Aceptar',
+    onConfirm:function(){ saveReqForm(goToMatch,btnEl); }
+  });
+}
 function savePropForm(){
   var f=STATE.propForm;
   if(!f.propietario||!f.direccion){showToast('Completá Propietario y Dirección');return;}
@@ -1277,11 +1321,12 @@ garage_cant: f.garage ? (Number(f.cantGarage)||1) : undefined,
     lavadero: !!f.lavadero, pileta: !!f.pileta, quincho: !!f.quincho, parrilla: !!f.parrilla,
     amoblado: !!f.amoblado, ascensor: !!f.ascensor, balcon: !!f.balcon, esquina: !!f.esquina,
     agua: !!f.agua, alambrado: !!f.alambrado,
+    servicios: f.servicios || undefined,
     fotos: (f.fotos&&f.fotos.length) ? f.fotos : undefined, instagram: f.instagram || undefined,
     partida: f.partida || undefined, acepta_permutas: !!f.aceptaPermutas,
     destacada: !!f.destacada
   };
-  var btn=document.querySelector('[data-action="save-propForm"]');
+  var btn=document.querySelector('[data-action="confirm-propForm"]')||document.querySelector('[data-action="save-propForm"]');
   if(btn){btn.disabled=true;btn.textContent='Guardando...';btn.style.opacity='.6';}
   var req = editing
     ? apiFetch('/properties/'+editing, { method:'PUT', body:JSON.stringify(body) })
@@ -1470,7 +1515,7 @@ function showModal(o){
     }
     return '<div style="margin-bottom:10px;"><label class="fl">'+esc(f.label)+'</label><input class="fi" id="modal_'+f.id+'" type="'+(f.type||'text')+'" value="'+esc(f.default||'')+'" placeholder="'+esc(f.placeholder||'')+'"></div>';
   }).join('');
-  ov.innerHTML='<div class="modal-box anim"><div style="font-size:15px;font-weight:700;color:#1C2B39;margin-bottom:6px;">'+esc(o.title)+'</div>'+(o.body?'<div style="font-size:12px;color:#5A6A7A;margin-bottom:12px;">'+esc(o.body)+'</div>':'')+inputsH+'<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;"><button class="btn-s" id="modal-cancel">'+esc(o.cancelText||'Cancelar')+'</button><button class="btn-p" id="modal-ok">'+esc(o.confirmText||'Confirmar')+'</button></div></div>';
+  ov.innerHTML='<div class="modal-box anim"><div style="font-size:15px;font-weight:700;color:#1C2B39;margin-bottom:6px;">'+esc(o.title)+'</div>'+(o.bodyHtml?'<div style="font-size:12px;color:#5A6A7A;margin-bottom:12px;">'+o.bodyHtml+'</div>':(o.body?'<div style="font-size:12px;color:#5A6A7A;margin-bottom:12px;">'+esc(o.body)+'</div>':''))+inputsH+'<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;"><button class="btn-s" id="modal-cancel">'+esc(o.cancelText||'Cancelar')+'</button><button class="btn-p" id="modal-ok">'+esc(o.confirmText||'Confirmar')+'</button></div></div>';
   ov.style.display='flex';
   document.getElementById('modal-cancel').onclick=function(){ov.style.display='none';};
   document.getElementById('modal-ok').onclick=function(){
