@@ -195,6 +195,20 @@
   .prop-row-icon::after{content:attr(data-tipo);font-size:6.5px;font-weight:700;color:#31455C;text-transform:uppercase;letter-spacing:.2px;line-height:1;}
   .prop-row-name{order:2!important;font-size:11px!important;color:#B0B8C1!important;font-weight:500!important;}
   .prop-row-address{order:1!important;font-size:14px!important;color:#1C2B39!important;font-weight:700!important;white-space:normal!important;}
+  .kpi-grid-mobile{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;}
+  .kpi-card{height:auto!important;padding:8px 6px!important;gap:6px!important;flex-direction:column!important;text-align:center!important;}
+  .kpi-card-icon{width:28px!important;height:28px!important;}
+  .kpi-card-icon svg{width:16px!important;height:16px!important;}
+  .kpi-card-value{font-size:16px!important;}
+  .kpi-card-label{font-size:7px!important;margin-top:2px!important;}
+  .kpi-card-sub{display:none!important;}
+  .prop-row-icon{order:0!important;}
+  .prop-row-info{order:1!important;flex-basis:100%!important;}
+  .prop-row-price{order:2!important;flex-basis:100%!important;font-size:15px!important;margin-top:2px!important;}
+  .prop-row-status{order:3!important;gap:6px!important;}
+  .prop-row-status-text{display:none!important;}
+  .prop-row-dot{width:11px!important;height:11px!important;}
+  .prop-row-arrow{order:4!important;margin-left:auto!important;}
 }
 </style>
 
@@ -283,7 +297,7 @@ function setBarriosFromApi(rows){BARRIOS_ALL=rows||[];BARRIOS=BARRIOS_ALL.map(fu
 var LOCALIDADES = ['Olavarría','Sierras Bayas','Hinojo','Loma Negra','Sierra Chica','Espigas','Recalde','Colonia Hinojo'];
 var TIPO_ICONS_SEL = {Casa:'🏠',Departamento:'🏢',Chalet:'🏡',Lote:'🌳',Local:'🏬',Galpón:'🏭',PH:'🏘️',Quinta:'🌿','Fondo de Comercio':'💼',Campo:'🌾',Cualquiera:'✨'};
 var OBS_SUGERENCIAS = ['Acepta refaccionar','Necesita entrega inmediata','No acepta PH','Puede ampliar presupuesto'];
-var NAVS = [{id:'dashboard',label:'Panel de Control',icon:'grid'},{id:'propiedades',label:'Propiedades',icon:'home'},{id:'propForm',label:'Carga Propiedad',icon:'home'},{id:'reqForm',label:'Carga Requerimiento',icon:'doc'},{id:'match',label:'Panel de Match',icon:'target'},{id:'clientes',label:'Clientes',icon:'doc'},{id:'calendario',label:'Calendario',icon:'doc',disabled:true},{id:'seguimientos',label:'Seguimientos',icon:'target',disabled:true}];
+var NAVS = [{id:'dashboard',label:'Panel de Control',icon:'grid'},{id:'propiedades',label:'Propiedades',icon:'home'},{id:'clientes',label:'Clientes',icon:'doc'},{id:'propForm',label:'Carga Propiedad',icon:'home'},{id:'reqForm',label:'Carga Requerimiento',icon:'doc'},{id:'match',label:'Panel de Match',icon:'target'},{id:'calendario',label:'Calendario',icon:'doc',disabled:true},{id:'seguimientos',label:'Seguimientos',icon:'target',disabled:true}];
 var SECTION_META = {dashboard:['Panel de Control','Resumen de tu gestión'],propiedades:['Propiedades','Cartera completa'],propForm:['Carga de Propiedad','Nueva propiedad'],reqForm:['Carga de Requerimiento','Nuevo requerimiento'],match:['Panel de Match','Cruzamiento inteligente'],clientes:['Clientes','Cartera de contactos']};
 var ICONS = {
   grid:'<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg>',
@@ -383,6 +397,7 @@ STATE.matchTab = 'Venta';
 STATE.matchCache = {};
 STATE.propSearch = '';
 STATE.clients = [];
+STATE.clientSearch = '';
 STATE.matchSearch = '';
 STATE.matchFilterTier = 'Todas';
 STATE.matchSort = 'score';
@@ -508,15 +523,15 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
     return '<div id="'+pid+'" class="'+(vendida?'':'acc-row')+'" style="background:'+(vendida?'#F3E9EE':'transparent')+';border-bottom:1px solid '+(vendida?'#E0C8D4':'#F1EEE8')+';border-left:3px solid '+(TIPO_COLORS[p.tipo]||'#B0B8C1')+';transition:background .2s ease;opacity:'+(vendida?'.7':'1')+';">'
       +'<div class="prop-row-header" style="display:flex;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;" onclick="toggleAcc(\''+pid+'\')">'
       +'<span class="prop-row-icon" data-tipo="'+esc(p.tipo)+'" style="width:28px;height:28px;border-radius:7px;background:'+({Casa:'#E8F0EE',Departamento:'#EEF1F5',Chalet:'#F3EEE0',Lote:'#F0EBE4',Local:'#FCEFF7',Galpón:'#EFEBE4',PH:'#E7EEF3','Fondo de Comercio':'#F5EDF1'}[p.tipo]||'#EEF1F5')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+({Casa:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>',Departamento:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>',Chalet:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/><path d="M12 3v18"/></svg>',Lote:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 21l18-18"/></svg>',Local:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><path d="M10 21v-6h4v6"/></svg>',Galpón:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 9L12 3l10 6v12H2z"/><path d="M2 9h20"/></svg>',PH:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/><path d="M9 9l6-6"/></svg>','Fondo de Comercio':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><path d="M2 7h20v14H2z"/><path d="M2 7l2-4h16l2 4"/><circle cx="12" cy="14" r="2"/></svg>'}[p.tipo]||'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#31455C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>')+'</span>'
-      +'<div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;">'
+      +'<div class="prop-row-info" style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;">'
       +'<div class="prop-row-name" style="font-size:16px;font-weight:700;color:#1C2B39;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(p.propietario||'—')+'</div>'
       +'<div class="prop-row-address" style="font-size:11px;color:#B0B8C1;font-weight:500;">'+esc(p.direccion)+(p.barrio||p.localidad?' · '+esc(p.barrio||p.localidad):'')+'</div>'
       +'</div>'
       +'<span class="badge" style="font-size:11px;padding:4px 10px;line-height:1;background:'+(TIPO_COLORS[p.tipo]||'#31455C')+'33;color:'+(TIPO_COLORS[p.tipo]||'#31455C')+';flex-shrink:0;">'+esc(p.tipo)+'</span>'
-      +'<span style="font-size:13.5px;font-weight:700;color:#1C2B39;white-space:nowrap;">'+esc(fmtPrice(p.precio,p.moneda))+'</span>'
-      +'<span style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#374151;white-space:nowrap;">'
-      +'<span style="width:6px;height:6px;border-radius:50%;background:'+dot+';display:inline-block;"></span>'+esc(p.estadoComercial)+'</span>'
-      +'<svg id="arr-'+pid+'" style="width:14px;height:14px;flex-shrink:0;color:#A0AAB4;transition:transform .25s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>'
+      +'<span class="prop-row-price" style="font-size:13.5px;font-weight:700;color:#1C2B39;white-space:nowrap;">'+esc(fmtPrice(p.precio,p.moneda))+'</span>'
+      +'<span class="prop-row-status" style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#374151;white-space:nowrap;">'
+      +'<span class="prop-row-dot" style="width:6px;height:6px;border-radius:50%;background:'+dot+';display:inline-block;"></span><span class="prop-row-status-text">'+esc(p.estadoComercial)+'</span></span>'
+      +'<svg id="arr-'+pid+'" class="prop-row-arrow" style="width:14px;height:14px;flex-shrink:0;color:#A0AAB4;transition:transform .25s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>'
       +'</div>'
       +'<div id="body-'+pid+'" style="max-height:0;overflow:hidden;transition:max-height .25s ease;">'
       +(function(){
@@ -562,6 +577,7 @@ var accordionH=STATE.props.filter(function(p){return p.operacion===STATE.dashTab
   }).join('');
 
   return '<div style="padding:22px 26px;display:flex;flex-direction:column;gap:18px;" class="anim">'
+    +'<button type="button" data-action="nav-dashboard" class="btn-s" style="align-self:flex-start;padding:6px 14px;font-size:11px;">← Panel</button>'
     +'<div class="metrics-grid-mobile" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">'+metricsH+'</div>'
     +'<div class="card">'
      +'<div style="position:relative;overflow:hidden;padding:16px 20px;background:#31455C;">'
@@ -974,6 +990,7 @@ function renderMatch() {
 
   return '<div style="display:flex;height:100%;overflow:hidden;" class="anim">'
     +'<div class="match-col-nav" style="width:240px;flex-shrink:0;border-right:1px solid #EAEAEA;padding:20px 14px;overflow-y:auto;display:flex;flex-direction:column;">'
+    +'<button type="button" data-action="nav-dashboard" class="btn-s" style="margin-bottom:12px;padding:6px 12px;font-size:11px;">← Panel</button>'
     +'<div style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#B0B8C1;margin-bottom:10px;">Requerimientos</div>'
     +'<div style="display:flex;gap:4px;padding:3px;background:#F0EFEC;border-radius:10px;margin-bottom:12px;">'
     +['Venta','Alquiler'].map(function(t){var sel=STATE.matchTab===t;return '<button data-action="match-tab" data-tab="'+t+'" style="flex:1;padding:11px 0;border-radius:8px;border:none;background:'+(sel?'#31455C':'transparent')+';color:'+(sel?'#fff':'#6B7684')+';font-size:13px;font-weight:800;cursor:pointer;">'+t+'</button>';}).join('')
@@ -1003,7 +1020,7 @@ function renderDashboard(){
     {label:'Clientes buscando',value:activeReqs,color:'#D40A8C',sub:'requerimientos activos'},
     {label:'En proceso',value:enProceso,color:'#31455C',sub:'reservas en curso'},
     {label:'Total cartera',value:totalCartera,color:'#6D8A85',sub:'propiedades cargadas'}
-  ].map(function(k,i){return '<div style="background:#fff;border-radius:16px;border:1px solid #EAEAEA;padding:20px 22px;height:140px;display:flex;align-items:center;gap:18px;"><div style="width:68px;height:68px;border-radius:50%;background:'+k.color+'1E;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:'+k.color+';">'+KPI_ICONS[i]+'</div><div style="min-width:0;"><div style="font-size:34px;font-weight:800;color:'+k.color+';letter-spacing:-1px;line-height:1;">'+k.value+'</div><div style="font-size:12.5px;font-weight:700;color:#374151;margin-top:6px;">'+esc(k.label)+'</div><div style="font-size:10.5px;color:#9AA5B0;margin-top:2px;">'+esc(k.sub)+'</div></div></div>';}).join('');
+  ].map(function(k,i){return '<div class="kpi-card" style="background:#fff;border-radius:16px;border:1px solid #EAEAEA;padding:20px 22px;height:140px;display:flex;align-items:center;gap:18px;"><div class="kpi-card-icon" style="width:68px;height:68px;border-radius:50%;background:'+k.color+'1E;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:'+k.color+';">'+KPI_ICONS[i]+'</div><div style="min-width:0;"><div class="kpi-card-value" style="font-size:34px;font-weight:800;color:'+k.color+';letter-spacing:-1px;line-height:1;">'+k.value+'</div><div class="kpi-card-label" style="font-size:12.5px;font-weight:700;color:#374151;margin-top:6px;">'+esc(k.label)+'</div><div class="kpi-card-sub" style="font-size:10.5px;color:#9AA5B0;margin-top:2px;">'+esc(k.sub)+'</div></div></div>';}).join('');
 
   var byProp={};
   STATE.props.filter(function(p){return p.activoMatch&&p.estadoComercial==='Disponible';}).forEach(function(prop){
@@ -1088,13 +1105,48 @@ function renderDashboard(){
   var oppCardH='<div class="card" style="height:100%;"><div class="card-hd"><div style="font-size:13px;font-weight:700;color:#1C2B39;">Oportunidades de match</div></div><div style="padding:16px 20px;">'+oppH+'</div></div>';
 
   var quickActionsH='<div class="mobile-quick-actions"><button type="button" data-action="nav-propForm" style="flex:1;padding:14px;border-radius:10px;border:none;background:#D40A8C;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">+ Cargar propiedad</button><button type="button" data-action="nav-reqForm" style="flex:1;padding:14px;border-radius:10px;border:none;background:#31455C;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">+ Cargar requerimiento</button></div>';
-  return '<div style="padding:24px 28px;display:flex;flex-direction:column;gap:18px;" class="anim">'+quickActionsH+'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">'+kpisH+'</div><div style="display:grid;grid-template-columns:5fr 3fr 2fr;gap:16px;align-items:stretch;">'+oppCardH+alertH+actividadH+'</div><div style="display:flex;gap:16px;">'+donutH+barsCardH+'</div></div>';
+  return '<div style="padding:24px 28px;display:flex;flex-direction:column;gap:18px;" class="anim">'+quickActionsH+'<div class="kpi-grid-mobile" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">'+kpisH+'</div><div style="display:grid;grid-template-columns:5fr 3fr 2fr;gap:16px;align-items:stretch;">'+oppCardH+alertH+actividadH+'</div><div style="display:flex;gap:16px;">'+donutH+barsCardH+'</div></div>';
 }
 function renderClientes(){
-  var rows=STATE.clients.map(function(c){
-    return '<tr><td>'+esc(c.id)+'</td><td>'+esc(c.nombre||'—')+'</td><td>'+esc(c.whatsapp||c.telefono||'—')+'</td><td>'+esc(c.tipo||'—')+'</td></tr>';
+  var q=(STATE.clientSearch||'').toLowerCase();
+  var filteredClients=STATE.clients.filter(function(c){
+    if(!q) return true;
+    return (c.nombre||'').toLowerCase().indexOf(q)!==-1
+      || String(c.whatsapp||c.telefono||'').toLowerCase().indexOf(q)!==-1
+      || (c.tipo||'').toLowerCase().indexOf(q)!==-1;
+  });
+  var rows=filteredClients.map(function(c){
+    return '<tr><td>'+esc(c.id)+'</td><td>'+esc(c.nombre||'—')+'</td><td>'+esc(c.whatsapp||c.telefono||'—')+'</td><td>'+esc(c.tipo||'—')+'</td><td class="tc"><button type="button" data-action="edit-client" data-client-id="'+esc(c.id)+'" class="btn-sm" style="padding:4px 9px;font-size:10px;">✎</button></td></tr>';
   }).join('');
-  return '<div style="padding:22px 26px;" class="anim"><div class="card"><div class="card-hd"><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Clientes</div><div style="font-size:10.5px;color:#9AA5B0;margin-top:1px;">Solo lectura — el backend todavía no permite editar clientes desde el panel</div></div></div><table class="ptable"><thead><tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Tipo</th></tr></thead><tbody>'+(rows||'<tr><td colspan="4" style="text-align:center;color:#9AA5B0;padding:20px;">Sin clientes cargados</td></tr>')+'</tbody></table></div></div>';
+  return '<div style="padding:22px 26px;" class="anim">'
+    +'<button type="button" data-action="nav-dashboard" class="btn-s" style="margin-bottom:14px;padding:6px 14px;font-size:11px;">← Panel</button>'
+    +'<div class="card"><div class="card-hd"><div><div style="font-size:13px;font-weight:700;color:#1C2B39;">Clientes</div><div style="font-size:10.5px;color:#9AA5B0;margin-top:1px;">'+STATE.clients.length+' clientes cargados</div></div></div>'
+    +'<div style="padding:12px 20px;border-bottom:1px solid #EDE8E0;position:relative;">'
+    +'<svg style="position:absolute;left:32px;top:50%;transform:translateY(-50%);pointer-events:none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A9AAA" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+    +'<input class="fi" data-field="clientSearch" value="'+esc(STATE.clientSearch||'')+'" placeholder="Buscar cliente por nombre o teléfono…" style="padding-left:34px;">'
+    +'</div>'
+    +'<table class="ptable"><thead><tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Tipo</th><th class="tc">Editar</th></tr></thead><tbody>'+(rows||'<tr><td colspan="5" style="text-align:center;color:#9AA5B0;padding:20px;">Sin clientes que coincidan</td></tr>')+'</tbody></table></div></div>';
+}
+function editClient(id){
+  var c=STATE.clients.filter(function(x){return String(x.id)===String(id);})[0];
+  if(!c) return;
+  showModal({
+    title:'Editar cliente '+id,
+    inputs:[
+      {id:'nombre',label:'Nombre',type:'text',default:c.nombre||''},
+      {id:'whatsapp',label:'Teléfono / WhatsApp',type:'tel',default:c.whatsapp||c.telefono||''}
+    ],
+    confirmText:'Guardar',
+    onConfirm:function(vals){
+      apiFetch('/clients/'+id,{method:'PUT',body:JSON.stringify({nombre:vals.nombre,whatsapp:vals.whatsapp})})
+        .then(function(){
+          c.nombre=vals.nombre;c.whatsapp=vals.whatsapp;
+          showToast('✓ Cliente actualizado');
+          reRender();
+        })
+        .catch(function(e){ showToast('Error: el backend todavía no permite editar clientes ('+e.message+')'); });
+    }
+  });
 }
 function setContent(){var area=document.getElementById('content-area');if(STATE.section==='dashboard') area.innerHTML=renderDashboard();else if(STATE.section==='propiedades') area.innerHTML=renderPropiedades();else if(STATE.section==='propForm') area.innerHTML=renderPropForm();else if(STATE.section==='reqForm') area.innerHTML=renderReqForm();else if(STATE.section==='match') area.innerHTML=renderMatch();else if(STATE.section==='clientes') area.innerHTML=renderClientes();if(document.body.classList.contains('modo-kiosco'))kioscoizeSelects();}
 function reRender(){var area=document.getElementById('content-area');var st=area.scrollTop;setContent();area.scrollTop=st;var a=area.querySelector('.anim');if(a) a.classList.remove('anim');}
@@ -1167,7 +1219,7 @@ document.addEventListener('click',function(e){
   var navBtn=e.target.closest('.nav-btn[data-section]');
   if(navBtn){if(navBtn.classList.contains('disabled'))return;navigate(navBtn.dataset.section);closeSidebarMobile();return;}
   var el=e.target.closest('[data-action]');
-  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='nav-reqForm'){STATE.reqFormStep=1;navigate('reqForm');return;}if(a==='nav-dashboard'){navigate('dashboard');return;}if(a==='confirm-propForm'){confirmPropForm();return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='pf-servicio-toggle'){var _sv=el.dataset.servicio;var _sarr=(STATE.propForm.servicios||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var _si=_sarr.indexOf(_sv);if(_si===-1)_sarr.push(_sv);else _sarr.splice(_si,1);STATE.propForm.servicios=_sarr.join(', ');reRender();return;}if(a==='confirm-reqForm'){confirmReqForm(true,el);return;}if(a==='save-reqForm'){saveReqForm(false,el);return;}if(a==='save-reqForm-match'){saveReqForm(true,el);return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='match-filter'){STATE.matchFilterTier=el.dataset.tier;reRender();return;}if(a==='view-prop'){showPropModal(el.dataset.propId);return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;apiFetch('/barrios',{method:'POST',body:JSON.stringify({nombre:_v,localidad:_loc,zona:_z})}).then(function(saved){BARRIOS_ALL.push({id:saved.id,nombre:saved.nombre||_v,localidad_id:saved.localidad_id,localidad:_loc,zona_id:saved.zona_id,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" guardado');reRender();}).catch(function(e){showToast('Error al guardar barrio: '+e.message);});}});return;}if(a==='pf-nueva-localidad'){var _lv=(STATE.propForm.localidad||'').trim();if(!_lv){showToast('Escribí el nombre de la localidad primero');return;}if(LOCALIDADES.indexOf(_lv)!==-1){showToast('Esa localidad ya existe');return;}apiFetch('/localidades',{method:'POST',body:JSON.stringify({nombre:_lv})}).then(function(){LOCALIDADES.push(_lv);showToast('✓ Localidad "'+_lv+'" guardada');reRender();}).catch(function(e){showToast('Error al guardar localidad: '+e.message);});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
+  if(el){var a=el.dataset.action;if(a==='nav-propForm'){STATE.pfFormStep=1;navigate('propForm');return;}if(a==='nav-reqForm'){STATE.reqFormStep=1;navigate('reqForm');return;}if(a==='nav-dashboard'){navigate('dashboard');return;}if(a==='confirm-propForm'){confirmPropForm();return;}if(a==='save-propForm'){savePropForm();return;}if(a==='reset-propForm'){STATE.propForm=emptyPF();STATE.pfFormStep=1;reRender();return;}if(a==='pf-next'){STATE.pfFormStep=Math.min((STATE.pfFormStep||1)+1,5);reRender();var cp=document.getElementById('content-area');if(cp)cp.scrollTop=0;return;}if(a==='pf-back'){STATE.pfFormStep=Math.max((STATE.pfFormStep||1)-1,1);reRender();var cp2=document.getElementById('content-area');if(cp2)cp2.scrollTop=0;return;}if(a==='pf-servicio-toggle'){var _sv=el.dataset.servicio;var _sarr=(STATE.propForm.servicios||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var _si=_sarr.indexOf(_sv);if(_si===-1)_sarr.push(_sv);else _sarr.splice(_si,1);STATE.propForm.servicios=_sarr.join(', ');reRender();return;}if(a==='confirm-reqForm'){confirmReqForm(true,el);return;}if(a==='save-reqForm'){saveReqForm(false,el);return;}if(a==='save-reqForm-match'){saveReqForm(true,el);return;}if(a==='reset-reqForm'){STATE.reqForm=emptyRF();STATE.reqFormStep=1;reRender();return;}if(a==='rf-next'){STATE.reqFormStep=Math.min((STATE.reqFormStep||1)+1,3);reRender();var ca=document.getElementById('content-area');if(ca)ca.scrollTop=0;return;}if(a==='rf-back'){STATE.reqFormStep=Math.max((STATE.reqFormStep||1)-1,1);reRender();var ca2=document.getElementById('content-area');if(ca2)ca2.scrollTop=0;return;}if(a==='send-match'){sendMatch(el.dataset.propId);return;}if(a==='unsend-match'){unsendMatch(el.dataset.propId);return;}if(a==='tipo-icon'){var _t=el.dataset.tipo;var _arr=STATE.reqForm.tipoBuscado;if(_t==='Cualquiera'){STATE.reqForm.tipoBuscado=['Cualquiera'];}else{var _ci=_arr.indexOf('Cualquiera');if(_ci!==-1)_arr.splice(_ci,1);var _ti=_arr.indexOf(_t);if(_ti===-1)_arr.push(_t);else _arr.splice(_ti,1);}reRender();return;}if(a==='pf-tipo-icon'){STATE.propForm.tipo=el.dataset.tipo;reRender();return;}if(a==='stepper-inc'){var _sf=el.dataset.field;STATE.propForm[_sf]=(Number(STATE.propForm[_sf])||0)+1;reRender();return;}if(a==='stepper-dec'){var _sf2=el.dataset.field;var _min=Number(el.dataset.min||0);STATE.propForm[_sf2]=Math.max(_min,(Number(STATE.propForm[_sf2])||0)-1);reRender();return;}if(a==='pf-foto-del'){STATE.propForm.fotos.splice(Number(el.dataset.idx),1);reRender();return;}if(a==='pf-foto-portada'){var _fi=Number(el.dataset.idx);var _fo=STATE.propForm.fotos;var _sel=_fo.splice(_fi,1)[0];_fo.unshift(_sel);reRender();return;}if(a==='more-barrios'){STATE.reqForm.showMoreBarrios=!STATE.reqForm.showMoreBarrios;reRender();return;}if(a==='obs-sug'){var cur=STATE.reqForm.obs;STATE.reqForm.obs=cur?cur+'. '+el.dataset.txt:el.dataset.txt;reRender();return;}if(a==='set-field'){(STATE.section==='propForm'?STATE.propForm:STATE.reqForm)[el.dataset.field]=el.dataset.val;reRender();return;}if(a==='mark-vendida'){markVendida(el.dataset.propId);return;}if(a==='delete-prop'){deleteProp(el.dataset.propId);return;}if(a==='mark-alquilada'){markAlquilada(el.dataset.propId);return;}if(a==='dash-tab'){STATE.dashTab=el.dataset.tab;STATE.dashTipo='Todos';reRender();return;}if(a==='dash-tipo'){STATE.dashTipo=el.dataset.tipo;reRender();return;}if(a==='nav-match-req'){STATE.selectedReqId=el.dataset.reqId;navigate('match');return;}if(a==='match-tab'){STATE.matchTab=el.dataset.tab;reRender();return;}if(a==='match-filter'){STATE.matchFilterTier=el.dataset.tier;reRender();return;}if(a==='view-prop'){showPropModal(el.dataset.propId);return;}if(a==='edit-client'){editClient(el.dataset.clientId);return;}if(a==='pf-nuevo-barrio'){var _v=(STATE.propForm.barrio||'').trim();if(!_v){showToast('Escribí el nombre del barrio primero');return;}if(BARRIOS.indexOf(_v)!==-1){showToast('Ese barrio ya existe');return;}var _loc=STATE.propForm.localidad||'Olavarría';var _zonas=zonasDeLocalidad(_loc);showModal({title:'Nuevo barrio: "'+_v+'"',body:'Elegí la zona (opcional, para '+_loc+').',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;apiFetch('/barrios',{method:'POST',body:JSON.stringify({nombre:_v,localidad:_loc,zona:_z})}).then(function(saved){BARRIOS_ALL.push({id:saved.id,nombre:saved.nombre||_v,localidad_id:saved.localidad_id,localidad:_loc,zona_id:saved.zona_id,zona:_z});BARRIOS.push(_v);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(_v);}showToast('✓ Barrio "'+_v+'" guardado');reRender();}).catch(function(e){showToast('Error al guardar barrio: '+e.message);});}});return;}if(a==='pf-nueva-localidad'){var _lv=(STATE.propForm.localidad||'').trim();if(!_lv){showToast('Escribí el nombre de la localidad primero');return;}if(LOCALIDADES.indexOf(_lv)!==-1){showToast('Esa localidad ya existe');return;}apiFetch('/localidades',{method:'POST',body:JSON.stringify({nombre:_lv})}).then(function(){LOCALIDADES.push(_lv);showToast('✓ Localidad "'+_lv+'" guardada');reRender();}).catch(function(e){showToast('Error al guardar localidad: '+e.message);});return;}if(a==='pf-zona-filtro'){STATE.propForm.zonaFiltro=el.dataset.zona;reRender();return;}if(a==='rf-zona-filtro'){STATE.reqForm.zonaFiltro=el.dataset.zona;reRender();return;}}
   var tog=e.target.closest('[data-toggle]');
   if(tog){var tid=tog.dataset.toggle;if(PF_TOGGLES[tid]){var field=PF_TOGGLES[tid];STATE.propForm[field]=!STATE.propForm[field];if(field==='garage'||field==='patio'||field==='ocupada'||field==='exclusividad'||field==='tieneLivingComedor'){reRender();}else tog.classList.toggle('on',STATE.propForm[field]);}else if(RF_TOGGLES[tid]){STATE.reqForm[RF_TOGGLES[tid]]=!STATE.reqForm[RF_TOGGLES[tid]];reRender();}return;}
   var zc=e.target.closest('[data-zone]');
@@ -1229,6 +1281,14 @@ function onFieldUpdate(e){
     reRender();
     var niP=document.querySelector('[data-field="propSearch"]');
     if(niP){niP.focus();niP.setSelectionRange(posP,posP);}
+  }
+  else if(STATE.section==='clientes'){
+    if(e.type==='change') return;
+    STATE.clientSearch=v;
+    var posC=e.target.selectionStart;
+    reRender();
+    var niC=document.querySelector('[data-field="clientSearch"]');
+    if(niC){niC.focus();niC.setSelectionRange(posC,posC);}
   }
   else if(STATE.section==='match'){
     if(field==='matchSearch'){

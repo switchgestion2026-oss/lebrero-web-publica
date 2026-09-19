@@ -178,6 +178,21 @@ router.post('/clients', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear cliente' }); }
 });
 
+router.put('/clients/:id', async (req, res) => {
+  const fields = Object.keys(req.body);
+  if (!fields.length) return res.status(400).json({ error: 'Sin campos para actualizar' });
+  const sets = fields.map((f, i) => `${f} = $${i + 1}`).join(', ');
+  const values = fields.map((f) => req.body[f]);
+  try {
+    const r = await pool.query(
+      `UPDATE clients SET ${sets} WHERE id = $${fields.length + 1} RETURNING *`,
+      [...values, req.params.id]
+    );
+    if (!r.rows.length) return res.status(404).json({ error: 'No encontrado' });
+    res.json(r.rows[0]);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al actualizar cliente' }); }
+});
+
 /* ── REQUIREMENTS ── */
 router.get('/requirements', async (req, res) => {
   try {
