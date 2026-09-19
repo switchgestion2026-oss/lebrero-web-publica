@@ -1173,6 +1173,21 @@ function onFieldUpdate(e){
       if(nl){nl.focus();nl.setSelectionRange(posL,posL);}
     }
     else if(field==='barrio'){
+      if(e.type==='change'){
+        var bv=(STATE.propForm.barrio||'').trim();
+        if(bv){
+          var normBB=function(s){return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
+          var existeBarrio=barriosDeLocalidad(STATE.propForm.localidad).some(function(b){return normBB(b.nombre)===normBB(bv);});
+          if(!existeBarrio){
+            STATE.propForm.barrio='';
+            reRender();
+            var _loc=STATE.propForm.localidad||'Olavarría';
+            var _zonas=zonasDeLocalidad(_loc);
+            showModal({title:'Nuevo barrio: "'+bv+'"',body:'No existe en '+_loc+'. Elegí la zona (opcional) para agregarlo.',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',cancelText:'Cancelar',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;apiFetch('/barrios',{method:'POST',body:JSON.stringify({nombre:bv,localidad:_loc,zona:_z})}).then(function(saved){BARRIOS_ALL.push({id:saved.id,nombre:saved.nombre||bv,localidad_id:saved.localidad_id,localidad:_loc,zona_id:saved.zona_id,zona:_z});BARRIOS.push(bv);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(bv);}STATE.propForm.barrio=bv;showToast('✓ Barrio "'+bv+'" guardado');reRender();}).catch(function(e){showToast('Error al guardar barrio: '+e.message);});}});
+            return;
+          }
+        }
+      }
       var posB=e.target.selectionStart;
       reRender();
       var nb=document.querySelector('[data-field="barrio"]');
@@ -1349,8 +1364,9 @@ garage_cant: f.garage ? (Number(f.cantGarage)||1) : undefined,
     STATE.editingPropId=null;
     STATE.propForm=emptyPF();
     STATE.matchCache = {};
-    showToast(editing?'✓ '+id+' actualizada':'✓ Propiedad '+id+' guardada');
-    renderNav();reRender();
+    renderNav();
+    navigate('match');
+    showModal({title:'Guardado con éxito',body:(editing?'Propiedad '+id+' actualizada correctamente.':'Propiedad '+id+' guardada correctamente.'),confirmText:'Aceptar',onConfirm:function(){}});
   }).catch(function(e){
     if(btn){btn.disabled=false;btn.textContent='Guardar Propiedad';btn.style.opacity='';}
     showToast('Error: '+e.message);
@@ -1430,6 +1446,7 @@ function saveReqForm(goToMatch, btnEl){
     STATE.matchCache = {};
     if(btnEl){btnEl.disabled=false;btnEl.style.opacity='';}
     if(goToMatch){ STATE.selectedReqId=id; navigate('match'); } else { renderNav();reRender(); }
+    showModal({title:'Guardado con éxito',body:(editing?'Requerimiento '+id+' actualizado correctamente.':'Requerimiento '+id+' guardado correctamente.'),confirmText:'Aceptar',onConfirm:function(){}});
   }).catch(function(e){
     if(btnEl){btnEl.disabled=false;btnEl.style.opacity='';}
     showToast('Error: '+e.message+(editing?' (la edición de requerimientos puede no estar soportada todavía por el backend)':''));
