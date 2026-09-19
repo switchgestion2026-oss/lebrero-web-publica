@@ -411,6 +411,9 @@ STATE.matchSort = 'score';
 STATE.viewPropId = null;
 STATE.selectedMatchId = null;
 STATE.showAllReqs = false;
+STATE.buyerSearch = '';
+STATE.buyerListOpen = false;
+STATE.matchTipoFilter = 'Todos';
 
 
 function esc(v) { return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -868,10 +871,12 @@ function renderBuyerPanel(req){
 
   var obsH = req.obs ? '<div style="margin-top:16px;padding:11px 12px;background:#FAFAF9;border:1px solid #F0EBE4;border-radius:10px;font-size:11px;line-height:1.5;color:#5A6A7A;font-style:italic;">"'+esc(req.obs)+'"</div>' : '';
 
-  var recientes = STATE.reqs.filter(function(r){
+  var q = (STATE.buyerSearch||'').toLowerCase().trim();
+  var recientesAll = STATE.reqs.filter(function(r){
     return (r.operacion===STATE.matchTab || r.operacion==='Ambos') && r.id!==req.id;
   }).sort(function(a,b){ return (b.fechaPedido||'').localeCompare(a.fechaPedido||''); });
-  var recientesShow = STATE.showAllReqs ? recientes : recientes.slice(0,3);
+  var recientesFiltered = q ? recientesAll.filter(function(r){ return (r.nombre||'').toLowerCase().indexOf(q)!==-1; }) : recientesAll;
+  var recientesShow = (q || STATE.showAllReqs) ? recientesFiltered : recientesFiltered.slice(0,3);
 
   var recientesH = recientesShow.map(function(r){
     var rActivo = r.estado==='Buscando';
@@ -882,7 +887,16 @@ function renderBuyerPanel(req){
       + '<div style="display:flex;align-items:center;gap:5px;"><span style="font-size:12px;font-weight:700;color:#172431;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(r.nombre)+'</span><span style="width:6px;height:6px;border-radius:50%;background:'+rDot+';flex-shrink:0;"></span></div>'
       + '<div style="font-size:10.5px;color:#8A9AAA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc((r.tipoBuscado&&r.tipoBuscado[0])||'—')+' · '+esc(fmtPrice(r.presupuestoMax,r.moneda))+'</div>'
       + '</div></div>';
-  }).join('') || '<div style="padding:10px 4px;font-size:11px;color:#B0B8C1;">Sin otros compradores</div>';
+  }).join('') || '<div style="padding:10px 4px;font-size:11px;color:#B0B8C1;">Sin compradores que coincidan</div>';
+
+  var buyerListBodyH = STATE.buyerListOpen ? (
+    '<div style="position:relative;margin-bottom:8px;">'
+    + '<svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9AA5B0" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+    + '<input class="fi" data-field="buyerSearch" value="'+esc(STATE.buyerSearch)+'" placeholder="Buscar comprador…" style="padding:8px 10px 8px 30px;font-size:11.5px;">'
+    + '</div>'
+    + recientesH
+    + (!q && recientesFiltered.length>3 ? '<button type="button" onclick="STATE.showAllReqs=!STATE.showAllReqs;reRender();" style="width:100%;margin-top:6px;border:none;background:transparent;color:#D40A8C;font-size:10.5px;font-weight:700;cursor:pointer;text-align:left;padding:4px;">'+(STATE.showAllReqs?'Ver menos':'Ver todos →')+'</button>' : '')
+  ) : '';
 
   return '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;">'
     + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'
@@ -902,11 +916,11 @@ function renderBuyerPanel(req){
     + '<button type="button" onclick="editReq(\''+req.id+'\')" style="width:100%;margin-top:16px;padding:11px;border:none;border-radius:8px;background:#31455C;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;">Editar requerimiento</button>'
     + '</div>'
     + '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;margin-top:14px;">'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'
-    + '<span style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#8A9AAA;">Compradores recientes</span>'
-    + (recientes.length>3 ? '<button type="button" onclick="STATE.showAllReqs=!STATE.showAllReqs;reRender();" style="border:none;background:transparent;color:#D40A8C;font-size:10.5px;font-weight:700;cursor:pointer;">'+(STATE.showAllReqs?'Ver menos':'Ver todos →')+'</button>' : '')
+    + '<div onclick="STATE.buyerListOpen=!STATE.buyerListOpen;reRender();" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;'+(STATE.buyerListOpen?'margin-bottom:10px;':'')+'">'
+    + '<span style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#8A9AAA;">Compradores recientes ('+recientesAll.length+')</span>'
+    + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9AA5B0" stroke-width="3" style="transform:'+(STATE.buyerListOpen?'rotate(180deg)':'')+';transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>'
     + '</div>'
-    + recientesH
+    + buyerListBodyH
     + '</div>';
 }
 function renderMatch() {
@@ -934,6 +948,7 @@ function renderMatch() {
     if(tier==='Excelente' && m.score<80) return false;
     if(tier==='Media' && (m.score<55||m.score>=80)) return false;
     if(tier==='Baja' && m.score>=55) return false;
+    if(STATE.matchTipoFilter!=='Todos' && m.tipo!==STATE.matchTipoFilter) return false;
     return true;
   });
   filtered.sort(function(a,b){
@@ -947,27 +962,6 @@ function renderMatch() {
   var baj=allResults.filter(function(m){return m.score<55;}).length;
 
   var headerH='';
-  if(req){
-    function fieldChip(label,val){
-      return '<div><div style="font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#9AA5B0;">'+esc(label)+'</div><div style="font-size:13px;font-weight:800;color:#12181F;line-height:1.2;">'+esc(val)+'</div></div>';
-    }
-    headerH =
-      '<div style="background:#fff;border:1px solid #EAEAEA;border-top:3px solid #D40A8C;border-radius:16px;padding:16px 20px;">'
-      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px;">'
-      +'<div><div style="font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#B0B8C1;margin-bottom:3px;">'+esc(req.id)+'</div><div style="font-size:18px;font-weight:800;color:#12181F;">'+esc(req.nombre)+'</div><div style="font-size:11.5px;color:#9AA5B0;margin-top:1px;">'+esc(req.telefono)+'</div></div>'
-      +(req.obs?'<div style="flex:1;min-width:160px;font-size:12px;color:#9AA5B0;font-style:italic;">💬 '+esc(req.obs)+'</div>':'')
-      +'</div>'
-      +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:14px;border-top:1px solid #F0F0F0;padding-top:12px;">'
-      +fieldChip('Operación',req.operacion)
-      +fieldChip('Tipo',req.tipoBuscado.join('/'))
-      +fieldChip('Presupuesto',fmtPrice(req.presupuestoMax,req.moneda))
-      +fieldChip('Dormitorios',req.dormitoriosMin||'—')
-      +fieldChip('Baños',req.banosMin||'—')
-      +fieldChip('Garage',req.garage?'Sí':'No')
-      +fieldChip('Zonas',req.zonas.length?req.zonas.join(', '):'Cualquier zona')
-      +'</div>'
-      +'</div>';
-  }
 
   var resumenH = req ? (
     '<div style="display:flex;gap:12px;flex-wrap:wrap;">'
@@ -990,6 +984,25 @@ function renderMatch() {
     +'<option value="precioAsc"'+(STATE.matchSort==='precioAsc'?' selected':'')+'>Precio: menor a mayor</option>'
     +'<option value="precioDesc"'+(STATE.matchSort==='precioDesc'?' selected':'')+'>Precio: mayor a menor</option>'
     +'</select>'
+    +'</div>'
+  ) : '';
+
+  var TIPO_FILTER_OPTS = ['Todos','Casa','Departamento','Lote','Campo','Local','Galpón'];
+  var tipoFilterH = req ? (
+    '<div style="display:flex;flex-direction:column;gap:10px;">'
+    +'<div style="display:flex;gap:4px;padding:3px;background:#F0EFEC;border-radius:10px;width:200px;">'
+    +['Venta','Alquiler'].map(function(t){var sel=STATE.matchTab===t;return '<button data-action="match-tab" data-tab="'+t+'" style="flex:1;padding:9px 0;border-radius:8px;border:none;background:'+(sel?'#31455C':'transparent')+';color:'+(sel?'#fff':'#6B7684')+';font-size:12px;font-weight:800;cursor:pointer;">'+t+'</button>';}).join('')
+    +'</div>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">'
+    +TIPO_FILTER_OPTS.map(function(t){
+      var sel=STATE.matchTipoFilter===t;
+      return '<button type="button" onclick="STATE.matchTipoFilter=\''+t+'\';reRender();" style="display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid '+(sel?'#31455C':'#E5E0D8')+';background:'+(sel?'#31455C':'#fff')+';color:'+(sel?'#fff':'#5A6A7A')+';font-size:11.5px;font-weight:700;cursor:pointer;">'
+        +(t!=='Todos'?typeIconSvg(t,sel?'#fff':'#8A9AAA',13):'')
+        +t
+        +'</button>';
+    }).join('')
+    +'<button type="button" onclick="showToast(\'Próximamente\')" class="btn-s" style="padding:8px 14px;font-size:11.5px;">Más filtros</button>'
+    +'</div>'
     +'</div>'
   ) : '';
 
@@ -1270,13 +1283,14 @@ function renderMatchDetail(m, req) {
   var buyerPanelH = renderBuyerPanel(req);
 
   var pageHeaderH = '<div style="padding:22px 28px 0;flex-shrink:0;">'
+    +'<button type="button" data-action="nav-dashboard" class="btn-s" style="margin-bottom:14px;padding:6px 12px;font-size:11px;">← Panel</button>'
     +'<div style="font-family:Georgia,serif;font-size:28px;color:#172A3A;line-height:1.1;">Encontrá el match</div>'
     +'<div style="font-size:12.5px;color:#7C8793;margin-top:4px;">Conectamos necesidades reales con propiedades disponibles.</div>'
     +'<div style="display:flex;gap:10px;margin-top:16px;">'
-    +'<button type="button" style="padding:11px 18px;border-radius:9px;border:none;background:#31455C;color:#fff;font-size:12.5px;font-weight:700;cursor:default;display:flex;align-items:center;gap:8px;">'
+    +'<button type="button" style="flex:1;justify-content:center;padding:11px 18px;border-radius:9px;border:none;background:#31455C;color:#fff;font-size:12.5px;font-weight:700;cursor:default;display:flex;align-items:center;gap:8px;">'
     +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2"/></svg>'
     +'Buscar propiedad para un comprador</button>'
-    +'<button type="button" onclick="showToast(\'Próximamente\')" style="padding:11px 18px;border-radius:9px;border:1.5px solid #E5E0D8;background:#fff;color:#B0B8C1;font-size:12.5px;font-weight:700;cursor:not-allowed;display:flex;align-items:center;gap:8px;">'
+    +'<button type="button" onclick="showToast(\'Próximamente\')" style="flex:1;justify-content:center;padding:11px 18px;border-radius:9px;border:1.5px solid #E5E0D8;background:#fff;color:#B0B8C1;font-size:12.5px;font-weight:700;cursor:not-allowed;display:flex;align-items:center;gap:8px;">'
     +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B0B8C1" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>'
     +'Buscar compradores para una propiedad'
     +'<span style="font-size:8.5px;background:#F0EFEC;color:#9AA5B0;padding:2px 6px;border-radius:8px;font-weight:700;">PRÓXIMAMENTE</span>'
@@ -1288,14 +1302,10 @@ function renderMatchDetail(m, req) {
     +pageHeaderH
     +'<div style="display:flex;flex:1;overflow:hidden;">'
     +'<div class="match-col-nav" style="width:280px;flex-shrink:0;border-right:1px solid #EAEAEA;padding:20px 14px;overflow-y:auto;display:flex;flex-direction:column;">'
-    +'<button type="button" data-action="nav-dashboard" class="btn-s" style="margin-bottom:12px;padding:6px 12px;font-size:11px;align-self:flex-start;">← Panel</button>'
-    +'<div style="display:flex;gap:4px;padding:3px;background:#F0EFEC;border-radius:10px;margin-bottom:14px;">'
-    +['Venta','Alquiler'].map(function(t){var sel=STATE.matchTab===t;return '<button data-action="match-tab" data-tab="'+t+'" style="flex:1;padding:11px 0;border-radius:8px;border:none;background:'+(sel?'#31455C':'transparent')+';color:'+(sel?'#fff':'#6B7684')+';font-size:13px;font-weight:800;cursor:pointer;">'+t+'</button>';}).join('')
-    +'</div>'
     +buyerPanelH
     +'</div>'
     +'<div class="match-col-main" style="flex:1;min-width:0;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:16px;">'
-    +(req ? (headerH+resumenH+toolbarH+'<div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:stretch;min-height:650px;">'
+    +(req ? (headerH+resumenH+toolbarH+tipoFilterH+'<div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:stretch;min-height:650px;">'
   +'<div style="min-width:0;">'
     +'<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">'
       +cardsH
@@ -1607,6 +1617,12 @@ function onFieldUpdate(e){
       reRender();
       var niM=document.querySelector('[data-field="matchSearch"]');
       if(niM){niM.focus();niM.setSelectionRange(posM,posM);}
+    } else if(field==='buyerSearch'){
+      STATE.buyerSearch=v;
+      var posB2=e.target.selectionStart;
+      reRender();
+      var niB2=document.querySelector('[data-field="buyerSearch"]');
+      if(niB2){niB2.focus();niB2.setSelectionRange(posB2,posB2);}
     } else if(field==='matchSort' && e.type==='change'){
       STATE.matchSort=v;
       reRender();
