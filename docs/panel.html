@@ -901,8 +901,13 @@ function renderBuyerPanel(req){
   return '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;overflow-x:hidden;">'
     + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'
     + '<span style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#8A9AAA;">Comprador seleccionado</span>'
+    + '<div style="display:flex;align-items:center;gap:12px;">'
     + '<button type="button" onclick="editReq(\''+req.id+'\')" style="border:none;background:transparent;color:#D40A8C;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px;">'
     + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#D40A8C" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>Editar</button>'
+    + '<button type="button" onclick="deleteReq(\''+req.id+'\')" title="Eliminar comprador" style="border:none;background:transparent;color:#B0B8C1;cursor:pointer;display:flex;align-items:center;">'
+    + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>'
+    + '</button>'
+    + '</div>'
     + '</div>'
     + '<div style="display:flex;align-items:center;gap:11px;">'
     + initialsAvatar(req.nombre,40)
@@ -1930,6 +1935,29 @@ function deleteProp(id){
         .then(function(){
           STATE.props=STATE.props.filter(function(x){return x.id!==id;});
           showToast('✓ '+id+' eliminada');
+          renderNav();render();
+        })
+        .catch(function(e){ showToast('Error: '+e.message); });
+    }
+  });
+}
+function deleteReq(id){
+  var r=STATE.reqs.filter(function(x){return x.id===id;})[0];
+  if(!r) return;
+  showModal({
+    title:'Eliminar comprador',
+    body:'¿Confirmás que querés eliminar el requerimiento de '+r.nombre+' ('+id+')? Esta acción no se puede deshacer.',
+    confirmText:'Sí, eliminar',
+    onConfirm:function(){
+      apiFetch('/requirements/'+id, { method:'DELETE' })
+        .then(function(){
+          STATE.reqs=STATE.reqs.filter(function(x){return x.id!==id;});
+          delete STATE.matchCache[id];
+          if(STATE.selectedReqId===id){
+            var next=STATE.reqs.filter(function(x){return x.estado==='Buscando';})[0]||STATE.reqs[0];
+            STATE.selectedReqId=next?next.id:'';
+          }
+          showToast('✓ requerimiento eliminado');
           renderNav();render();
         })
         .catch(function(e){ showToast('Error: '+e.message); });
