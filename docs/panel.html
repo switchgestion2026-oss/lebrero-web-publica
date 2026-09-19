@@ -856,10 +856,10 @@ function renderBuyerPanel(req){
   var descTxt = (req.operacion==='Alquiler'?'Alquila ':'Compra ') + (req.tipoBuscado&&req.tipoBuscado.length?req.tipoBuscado.join('/'):'propiedad');
 
   function critRow(iconKey,label,val){
-    return '<div style="display:flex;align-items:center;gap:7px;"><span style="flex-shrink:0;">'+CRIT_ICONS_BUYER[iconKey]+'</span><div style="min-width:0;"><div style="font-size:8.5px;color:#9AA5B0;text-transform:uppercase;letter-spacing:.4px;">'+label+'</div><div style="font-size:11.5px;font-weight:700;color:#31455C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(val)+'</div></div></div>';
+    return '<div style="display:flex;align-items:center;gap:7px;min-width:0;overflow:hidden;"><span style="flex-shrink:0;">'+CRIT_ICONS_BUYER[iconKey]+'</span><div style="min-width:0;overflow:hidden;"><div style="font-size:8.5px;color:#9AA5B0;text-transform:uppercase;letter-spacing:.4px;">'+label+'</div><div style="font-size:11.5px;font-weight:700;color:#31455C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(val)+'</div></div></div>';
   }
 
-  var critsH = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 10px;margin-top:14px;">'
+  var critsH = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 10px;margin-top:14px;min-width:0;">'
     + critRow('presupuesto','Presupuesto', fmtPrice(req.presupuestoMax, req.moneda))
     + critRow('zona','Zona', req.zonas&&req.zonas.length ? req.zonas.join(', ') : (req.todasLocalidades?'Todas':(req.localidad||'—')))
     + critRow('tipo','Tipo', req.tipoBuscado&&req.tipoBuscado.length ? req.tipoBuscado.join('/') : '—')
@@ -898,7 +898,7 @@ function renderBuyerPanel(req){
     + (!q && recientesFiltered.length>3 ? '<button type="button" onclick="STATE.showAllReqs=!STATE.showAllReqs;reRender();" style="width:100%;margin-top:6px;border:none;background:transparent;color:#D40A8C;font-size:10.5px;font-weight:700;cursor:pointer;text-align:left;padding:4px;">'+(STATE.showAllReqs?'Ver menos':'Ver todos →')+'</button>' : '')
   ) : '';
 
-  return '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;">'
+  return '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;overflow:hidden;">'
     + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'
     + '<span style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#8A9AAA;">Comprador seleccionado</span>'
     + '<button type="button" onclick="editReq(\''+req.id+'\')" style="border:none;background:transparent;color:#D40A8C;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px;">'
@@ -915,7 +915,7 @@ function renderBuyerPanel(req){
     + obsH
     + '<button type="button" onclick="editReq(\''+req.id+'\')" style="width:100%;margin-top:16px;padding:11px;border:none;border-radius:8px;background:#31455C;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;">Editar requerimiento</button>'
     + '</div>'
-    + '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;margin-top:14px;">'
+    + '<div style="background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px;margin-top:14px;overflow:hidden;">'
     + '<div onclick="STATE.buyerListOpen=!STATE.buyerListOpen;reRender();" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;'+(STATE.buyerListOpen?'margin-bottom:10px;':'')+'">'
     + '<span style="font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#8A9AAA;">Compradores recientes ('+recientesAll.length+')</span>'
     + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9AA5B0" stroke-width="3" style="transform:'+(STATE.buyerListOpen?'rotate(180deg)':'')+';transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>'
@@ -1301,7 +1301,7 @@ function renderMatchDetail(m, req) {
   return '<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;" class="anim">'
     +pageHeaderH
     +'<div style="display:flex;flex:1;overflow:hidden;">'
-    +'<div class="match-col-nav" style="width:280px;flex-shrink:0;border-right:1px solid #EAEAEA;padding:20px 14px;overflow-y:auto;display:flex;flex-direction:column;">'
+    +'<div class="match-col-nav" style="width:280px;flex-shrink:0;border-right:1px solid #EAEAEA;padding:20px 14px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;">'
     +buyerPanelH
     +'</div>'
     +'<div class="match-col-main" style="flex:1;min-width:0;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:16px;">'
