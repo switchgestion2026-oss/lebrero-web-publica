@@ -214,6 +214,8 @@
   .prop-row-status-text{display:none!important;}
   .prop-row-dot{width:11px!important;height:11px!important;}
   .prop-row-arrow{order:4!important;margin-left:4px!important;}
+  [style*="grid-template-columns:minmax(0,1fr) 380px"]{grid-template-columns:1fr!important;}
+  [style*="grid-template-columns:repeat(2,minmax(0,1fr))"]{grid-template-columns:1fr!important;}
 }
 </style>
 
@@ -407,6 +409,7 @@ STATE.matchSearch = '';
 STATE.matchFilterTier = 'Todas';
 STATE.matchSort = 'score';
 STATE.viewPropId = null;
+STATE.selectedMatchId = null;
 
 
 function esc(v) { return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -906,75 +909,269 @@ function renderMatch() {
   var CRIT_LABELS = { tipo:'Tipo', op:'Operación', precio:'Presupuesto', zona:'Zona', localidad:'Localidad', dormitorios:'Dormit.', banos:'Baños', garage:'Garage', patio:'Patio' };
 
   function renderMatchCard(m, idx, req) {
-    var score = m.score;
-    var sent = STATE.sentMatches && STATE.sentMatches[m.id+'_'+STATE.selectedReqId];
-    var borderColor = sent?'#E0E0E0':(score>=90?'#D40A8C':score>=75?'#31455C':score>=55?'#6D8A85':'#C9CED4');
-    var cardBorder = (idx===0&&STATE.matchSort==='score'&&!sent)?'2px solid '+borderColor:'1.5px solid '+borderColor;
-    var ringStroke = sent?'#C0C5CB':(score >= 80 ? '#D40A8C' : '#31455C');
-    var scoreFg = sent?'#9AA5B0':(score >= 80 ? '#D40A8C' : '#31455C');
-    var matchLabel = score>=90?'Excelente match':score>=75?'Muy buena coincidencia':score>=55?'Coincidencia parcial':'Baja coincidencia';
+  var score = m.score;
+  var sent = STATE.sentMatches && STATE.sentMatches[m.id+'_'+STATE.selectedReqId];
+  var isSelected = STATE.selectedMatchId === m.id;
 
-    var ringSz=84, r=ringSz/2-8, cx=ringSz/2, cy=ringSz/2, circ=2*Math.PI*r, dash=circ*(score/100);
-    var svgRing='<svg width="'+ringSz+'" height="'+ringSz+'" viewBox="0 0 '+ringSz+' '+ringSz+'" style="display:block;">'
-      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#F0F0F0" stroke-width="6"/>'
-      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+ringStroke+'" stroke-width="6" stroke-dasharray="'+dash.toFixed(2)+' '+circ.toFixed(2)+'" stroke-dashoffset="'+(circ/4).toFixed(2)+'" stroke-linecap="round" transform="rotate(-90 '+cx+' '+cy+')"/></svg>';
+  var ringStroke = sent ? '#C0C5CB' : (score >= 80 ? '#D40A8C' : '#31455C');
+  var scoreFg = sent ? '#9AA5B0' : (score >= 80 ? '#D40A8C' : '#31455C');
 
-    var critPcts={}, matchedCount=0, totalCount=0, weakLabels=[];
-    Object.keys(m.criteria).forEach(function(k){
-      var maxW = req && req.soloPorValor && k==='precio' ? 35 : m.max[k];
-      if (maxW<=0) return;
-      totalCount++;
-      var pct = Math.round((m.criteria[k]/maxW)*100);
-      critPcts[k]=pct;
-      if (pct===100) matchedCount++; else weakLabels.push(CRIT_LABELS[k]);
-    });
-    var summaryLine = matchedCount===totalCount ? 'Coincide en los '+totalCount+' criterios evaluados.'
-      : weakLabels.length===1 ? 'Solo difiere en '+weakLabels[0]+'.'
+  var matchLabel =
+    score >= 90 ? 'Excelente match' :
+    score >= 75 ? 'Muy buena coincidencia' :
+    score >= 55 ? 'Coincidencia parcial' :
+    'Baja coincidencia';
+
+  var ringSz = 68;
+  var r = ringSz/2 - 7;
+  var cx = ringSz/2;
+  var cy = ringSz/2;
+  var circ = 2*Math.PI*r;
+  var dash = circ*(score/100);
+
+  var svgRing =
+    '<svg width="'+ringSz+'" height="'+ringSz+'" viewBox="0 0 '+ringSz+' '+ringSz+'">' +
+      '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#F0F0F0" stroke-width="5"/>' +
+      '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+ringStroke+'" stroke-width="5" ' +
+      'stroke-dasharray="'+dash.toFixed(2)+' '+circ.toFixed(2)+'" ' +
+      'stroke-dashoffset="'+(circ/4).toFixed(2)+'" stroke-linecap="round" ' +
+      'transform="rotate(-90 '+cx+' '+cy+')"/>' +
+    '</svg>';
+
+  var critPcts = {};
+  var matchedCount = 0;
+  var totalCount = 0;
+  var weakLabels = [];
+
+  Object.keys(m.criteria).forEach(function(k) {
+    var maxW = req && req.soloPorValor && k === 'precio' ? 35 : m.max[k];
+    if (maxW <= 0) return;
+    totalCount++;
+    var pct = Math.round((m.criteria[k]/maxW)*100);
+    critPcts[k] = pct;
+    if (pct === 100) matchedCount++; else weakLabels.push(CRIT_LABELS[k]);
+  });
+
+  var summaryLine =
+    matchedCount === totalCount
+      ? 'Coincide en los '+totalCount+' criterios evaluados.'
+      : weakLabels.length === 1
+      ? 'Solo difiere en '+weakLabels[0]+'.'
       : 'Coincide con '+matchedCount+' de '+totalCount+' criterios.';
 
-    var barsH = Object.keys(m.criteria).map(function(k) {
-      var maxW = req && req.soloPorValor && k==='precio' ? 35 : m.max[k];
-      if (maxW<=0) return '';
-      var pct = critPcts[k];
-      var bc = pct===100 ? (score>=80?'#D40A8C':'#31455C') : pct>=70 ? '#6D8A85' : pct>0 ? '#D97706' : '#EFEFEF';
-      var icon = pct===100 ? '✅' : pct>=50 ? '⚠️' : '❌';
-      return '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;width:14px;">'+icon+'</span><span style="width:56px;font-size:10px;color:#8A94A0;">'+CRIT_LABELS[k]+'</span><div style="flex:1;height:5px;background:#F2F2F2;border-radius:3px;overflow:hidden;"><div style="width:'+pct+'%;height:100%;background:'+bc+';border-radius:3px;"></div></div></div>';
-    }).join('');
-
-    var diffTxt = '';
-    if (req && req.presupuestoMax > 0 && m.pct != null) {
-      var diffPct = Math.round((m.pct - 1) * 100);
-      diffTxt = diffPct <= 0
-        ? '<span style="color:#2D7A5F;font-weight:600;">▼ '+Math.abs(diffPct)+'% bajo presupuesto</span>'
-        : '<span style="color:#B8460E;font-weight:600;">▲ '+diffPct+'% sobre presupuesto</span>';
-    }
-
-    var waIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.24-.45.04-1.02.06-1.65-.1-.38-.1-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2.24-.26.53-.33.7-.33h.5c.16 0 .38-.03.58.44.24.58.83 2 .9 2.15.07.15.11.29.02.47-.09.18-.14.29-.27.44-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.16.26.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.16 1.34.26.13.41.11.56-.07.16-.18.65-.76.82-1.02.17-.26.35-.22.58-.13.24.09 1.51.71 1.77.84.26.13.43.2.5.31.06.11.06.62-.16 1.23z"/></svg>';
-    var waBtn = sent
-      ? '<button class="btn-send" data-action="unsend-match" data-prop-id="'+esc(m.id)+'" style="flex:1;background:#F3F4F6;color:#6B7280;border:1px solid #E0E0E0;">✓ Enviado</button>'
-      : '<button class="btn-send" data-action="send-match" data-prop-id="'+esc(m.id)+'" style="flex:1;background:#25D366;display:flex;align-items:center;justify-content:center;gap:6px;">'+waIcon+'WhatsApp</button>';
-
-    return '<div style="background:'+(sent?'#FAFAFA':'#fff')+';border:'+cardBorder+';border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;">'
-      +'<div style="display:flex;align-items:center;gap:12px;">'
-      +'<div style="position:relative;width:'+ringSz+'px;height:'+ringSz+'px;flex-shrink:0;">'+svgRing
-      +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:19px;font-weight:800;color:'+scoreFg+';">'+score+'%</span></div></div>'
-      +'<div style="flex:1;min-width:0;">'
-      +'<div style="font-size:9px;font-weight:700;color:'+scoreFg+';">'+(sent?'Ya contactado':esc(matchLabel))+'</div>'
-      +'<div style="font-size:14px;font-weight:800;color:#12181F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(m.direccion||m.barrio||'—')+'</div>'
-      +'<div style="font-size:14px;font-weight:800;color:'+(score>=80?'#D40A8C':'#31455C')+';">'+esc(fmtPrice(m.precio,m.moneda))+'</div>'
-      +'<div style="font-size:10.5px;color:#8A94A0;">'+esc(m.tipo)+' · '+m.dormitorios+' dorm · '+m.banos+' baños</div>'
-      +(diffTxt?'<div style="font-size:10px;margin-top:2px;">'+diffTxt+'</div>':'')
-      +'</div></div>'
-      +'<div style="font-size:10.5px;color:'+(matchedCount===totalCount?'#2D7A5F':'#B45309')+';font-weight:600;">'+(matchedCount===totalCount?'✓ ':'⚠ ')+esc(summaryLine)+'</div>'
-      +'<button type="button" onclick="event.stopPropagation();toggleCrit(\''+m.id+'\')" style="display:flex;align-items:center;justify-content:center;gap:4px;padding:2px 0;border:none;background:transparent;color:#8A94A0;font-size:10px;font-weight:600;cursor:pointer;">Ver por qué coincide<svg id="crit-arr-'+m.id+'" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg></button>'
-      +'<div id="crit-body-'+m.id+'" style="display:none;flex-direction:column;gap:6px;">'+barsH+'</div>'
-      +'<div style="display:flex;gap:6px;">'
-      +'<button type="button" data-action="view-prop" data-prop-id="'+esc(m.id)+'" class="btn-s" style="flex:1;">Ver propiedad</button>'
-      +waBtn
-      +'</div>'
-      +'</div>';
+  var diffTxt = '';
+  if (req && req.presupuestoMax > 0 && m.pct != null) {
+    var diffPct = Math.round((m.pct - 1) * 100);
+    diffTxt = diffPct <= 0
+      ? '<span style="color:#2D7A5F;font-weight:600;">▼ '+Math.abs(diffPct)+'% bajo presupuesto</span>'
+      : '<span style="color:#B8460E;font-weight:600;">▲ '+diffPct+'% sobre presupuesto</span>';
   }
 
+  var waIcon =
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">' +
+    '<path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.24-.45.04-1.02.06-1.65-.1-.38-.1-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2.24-.26.53-.33.7-.33h.5c.16 0 .38-.03.58.44.24.58.83 2 .9 2.15.07.15.11.29.02.47-.09.18-.14.29-.27.44-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.16.26.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.16 1.34.26.13.41.11.56-.07.16-.18.65-.76.82-1.02.17-.26.35-.22.58-.13.24.09 1.51.71 1.77.84.26.13.43.2.5.31.06.11.06.62-.16 1.23z"/>' +
+    '</svg>';
+
+  var waBtn = sent
+    ? '<button class="btn-send" data-action="unsend-match" data-prop-id="'+esc(m.id)+'" onclick="event.stopPropagation();" style="flex:1;background:#F3F4F6;color:#6B7280;border:1px solid #E0E0E0;">✓ Enviado</button>'
+    : '<button class="btn-send" data-action="send-match" data-prop-id="'+esc(m.id)+'" onclick="event.stopPropagation();" style="flex:1;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;">'+waIcon+'WhatsApp</button>';
+
+  var fotoSrc = (m.fotos && m.fotos[0]) || m.fotoUrl;
+
+  return `
+    <div
+      onclick="STATE.selectedMatchId='${esc(m.id)}';reRender();"
+      style="
+        background:${isSelected ? '#FFFAFD' : '#fff'};
+        border:${isSelected ? '2px solid #D40A8C' : '1px solid #E5E7EB'};
+        border-radius:14px;
+        overflow:hidden;
+        cursor:pointer;
+        transition:all .18s ease;
+        box-shadow:${isSelected ? '0 4px 18px rgba(212,10,140,.10)' : '0 1px 3px rgba(20,30,40,.04)'};
+      "
+    >
+      <div style="height:145px;background:#EEF1F3;position:relative;overflow:hidden;">
+        ${
+          fotoSrc
+          ? '<img src="'+esc(fotoSrc)+'" style="width:100%;height:100%;object-fit:cover;">'
+          : '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#A5ADB5;font-size:11px;">Sin imagen</div>'
+        }
+        <div style="position:absolute;top:10px;left:10px;background:#D40A8C;color:#fff;padding:5px 8px;border-radius:5px;font-size:9px;font-weight:800;">
+          ${score}% MATCH
+        </div>
+      </div>
+
+      <div style="padding:13px;">
+        <div style="font-size:9px;font-weight:700;color:${sent ? '#9AA5B0' : score >= 80 ? '#D40A8C' : '#31455C'};text-transform:uppercase;margin-bottom:4px;">
+          ${sent ? 'Ya contactado' : esc(matchLabel)}
+        </div>
+
+        <div style="font-size:14px;font-weight:800;color:#172431;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+          ${esc(m.direccion || m.barrio || '—')}
+        </div>
+
+        <div style="font-size:13px;color:#7A8490;margin-top:2px;">
+          ${esc(m.localidad || 'Olavarría')}
+        </div>
+
+        <div style="font-size:17px;font-weight:800;color:#172431;margin-top:9px;">
+          ${esc(fmtPrice(m.precio,m.moneda))}
+        </div>
+
+        <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:7px;font-size:10px;color:#7C8793;">
+          <span>${m.dormitorios || 0} dorm.</span>
+          <span>${m.banos || 0} baños</span>
+          ${m.supCubierta ? '<span>'+esc(m.supCubierta)+' m² cub.</span>' : ''}
+        </div>
+
+        ${diffTxt ? '<div style="font-size:10px;margin-top:7px;">'+diffTxt+'</div>' : ''}
+
+        <div style="margin-top:11px;padding-top:9px;border-top:1px solid #ECEEEF;font-size:10px;color:${matchedCount===totalCount ? '#2D7A5F' : '#B45309'};font-weight:600;">
+          ${matchedCount===totalCount ? '✓ ' : '⚠ '}
+          ${esc(summaryLine)}
+        </div>
+
+        <div style="display:flex;gap:6px;margin-top:11px;">
+          <button type="button" data-action="view-prop" data-prop-id="${esc(m.id)}" onclick="event.stopPropagation();" class="btn-s" style="flex:1;padding:8px;font-size:10px;">
+            Ver propiedad
+          </button>
+          ${waBtn}
+        </div>
+      </div>
+    </div>
+  `;
+}
+function renderMatchDetail(m, req) {
+
+  if (!m) {
+    return `
+      <div style="height:100%;min-height:600px;display:flex;align-items:center;justify-content:center;text-align:center;color:#A0A8B1;">
+        <div>
+          <div style="font-size:28px;margin-bottom:10px;">⌂</div>
+          <div style="font-size:12px;">Seleccioná una propiedad para ver el detalle</div>
+        </div>
+      </div>
+    `;
+  }
+
+  var score = m.score || 0;
+  var matchedCount = 0;
+  var totalCount = 0;
+
+  Object.keys(m.criteria || {}).forEach(function(k) {
+    var maxW = req && req.soloPorValor && k === 'precio' ? 35 : m.max[k];
+    if (maxW <= 0) return;
+    totalCount++;
+    var pct = Math.round((m.criteria[k] / maxW) * 100);
+    if (pct === 100) matchedCount++;
+  });
+
+  var r = 45;
+  var circ = 2 * Math.PI * r;
+  var dash = circ * (score / 100);
+
+  var ring = `
+    <svg width="105" height="105" viewBox="0 0 105 105">
+      <circle cx="52.5" cy="52.5" r="${r}" fill="none" stroke="#F0F0F0" stroke-width="8"/>
+      <circle cx="52.5" cy="52.5" r="${r}" fill="none" stroke="#D40A8C" stroke-width="8"
+        stroke-dasharray="${dash} ${circ}" stroke-linecap="round" transform="rotate(-90 52.5 52.5)"/>
+    </svg>
+  `;
+
+  var criteria = Object.keys(m.criteria || {}).map(function(k) {
+    var maxW = req && req.soloPorValor && k === 'precio' ? 35 : m.max[k];
+    if (maxW <= 0) return '';
+    var pct = Math.round((m.criteria[k] / maxW) * 100);
+    return `
+      <div style="display:grid;grid-template-columns:65px 1fr 35px;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #F0F1F2;">
+        <span style="font-size:9px;color:#7A8490;">${CRIT_LABELS[k]}</span>
+        <div style="height:5px;background:#F0F1F2;border-radius:5px;overflow:hidden;">
+          <div style="width:${pct}%;height:100%;background:${pct === 100 ? '#D40A8C' : '#6D8A85'};"></div>
+        </div>
+        <span style="text-align:right;font-size:9px;font-weight:700;color:${pct === 100 ? '#2D7A5F' : '#B45309'};">${pct}%</span>
+      </div>
+    `;
+  }).join('');
+
+  var sent = STATE.sentMatches && STATE.sentMatches[m.id+'_'+STATE.selectedReqId];
+
+  var whatsappButton = sent
+    ? `<button class="btn-send" data-action="unsend-match" data-prop-id="${esc(m.id)}" style="width:100%;padding:11px;border-radius:7px;border:1px solid #E0E0E0;background:#F3F4F6;color:#6B7280;font-weight:700;cursor:pointer;">✓ Enviado por WhatsApp</button>`
+    : `<button class="btn-send" data-action="send-match" data-prop-id="${esc(m.id)}" style="width:100%;padding:11px;border-radius:7px;border:0;background:#25D366;color:#fff;font-weight:700;cursor:pointer;">WhatsApp</button>`;
+
+  var fotoSrc = (m.fotos && m.fotos[0]) || m.fotoUrl;
+
+  return `
+    <div style="height:100%;overflow-y:auto;background:#fff;">
+      <div style="height:225px;background:#EEF1F3;position:relative;overflow:hidden;">
+        ${
+          fotoSrc
+          ? '<img src="'+esc(fotoSrc)+'" style="width:100%;height:100%;object-fit:cover;">'
+          : '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#9AA3AC;font-size:11px;">Sin imagen</div>'
+        }
+        <div style="position:absolute;top:14px;left:14px;background:#D40A8C;color:#fff;padding:6px 9px;border-radius:5px;font-size:9px;font-weight:800;">
+          ${score}% MATCH
+        </div>
+      </div>
+
+      <div style="padding:20px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#B0B8C1;">
+          Propiedad seleccionada
+        </div>
+
+        <div style="font-family:Georgia,serif;font-size:23px;line-height:1.1;color:#172A3A;margin-top:6px;">
+          ${esc(m.direccion || m.barrio || 'Propiedad')}
+        </div>
+
+        <div style="font-size:11px;color:#7C8793;margin-top:5px;">
+          ${esc(m.localidad || 'Olavarría')}
+        </div>
+
+        <div style="font-size:20px;font-weight:800;color:#172A3A;margin-top:14px;">
+          ${esc(fmtPrice(m.precio,m.moneda))}
+        </div>
+
+        <div style="display:flex;gap:14px;margin-top:10px;padding-bottom:16px;border-bottom:1px solid #ECEEEF;font-size:10px;color:#687481;">
+          <span>${m.dormitorios || 0} dormitorios</span>
+          <span>${m.banos || 0} baños</span>
+          ${m.supCubierta ? '<span>'+esc(m.supCubierta)+' m² cub.</span>' : ''}
+        </div>
+
+        <div style="margin-top:18px;padding:12px;background:#FCFAFB;border:1px solid #F0E8ED;border-radius:12px;display:flex;align-items:center;gap:13px;">
+          <div style="position:relative;width:105px;height:105px;flex-shrink:0;">
+            ${ring}
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#D40A8C;">
+              ${score}%
+            </div>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#172431;">
+              ${score >= 90 ? 'Excelente match' : score >= 75 ? 'Muy buen match' : score >= 55 ? 'Coincidencia parcial' : 'Baja coincidencia'}
+            </div>
+            <div style="font-size:10px;line-height:1.5;color:#7C8793;margin-top:5px;">
+              ${matchedCount} de ${totalCount} criterios coinciden.
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;font-size:12px;font-weight:800;color:#172431;">
+          Por qué coincide
+        </div>
+        <div style="margin-top:7px;">
+          ${criteria}
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:20px;">
+          ${whatsappButton}
+          <button type="button" data-action="view-prop" data-prop-id="${esc(m.id)}" class="btn-s" style="width:100%;padding:10px;font-size:10px;">
+            Ver propiedad
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
   var cardsH = isLoading
     ? '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#B0B8C1;font-size:12px;">Calculando coincidencias...</div>'
     : loadError
@@ -1004,7 +1201,19 @@ function renderMatch() {
     +reqListH
     +'</div>'
     +'<div class="match-col-main" style="flex:1;min-width:0;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:16px;">'
-    +(req ? (headerH+resumenH+toolbarH+'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;">'+cardsH+'</div>') : '<div style="text-align:center;padding:60px;color:#B0B8C1;">Elegí un requerimiento</div>')
+    +(req ? (headerH+resumenH+toolbarH+'<div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:stretch;min-height:650px;">'
+  +'<div style="min-width:0;">'
+    +'<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">'
+      +cardsH
+    +'</div>'
+  +'</div>'
+  +'<div style="border:1px solid #E7E8EA;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(20,30,40,.05);min-height:620px;">'
+    +renderMatchDetail(
+      filtered.find(function(m){ return m.id === STATE.selectedMatchId; }) || filtered[0],
+      req
+    )
+  +'</div>'
++'</div>') : '<div style="text-align:center;padding:60px;color:#B0B8C1;">Elegí un requerimiento</div>')
     +'</div>'
     +'</div>';
 }
