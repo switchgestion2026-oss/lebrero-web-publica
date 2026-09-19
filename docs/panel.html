@@ -1173,21 +1173,6 @@ function onFieldUpdate(e){
       if(nl){nl.focus();nl.setSelectionRange(posL,posL);}
     }
     else if(field==='barrio'){
-      if(e.type==='change'){
-        var bv=(STATE.propForm.barrio||'').trim();
-        if(bv){
-          var normBB=function(s){return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
-          var existeBarrio=barriosDeLocalidad(STATE.propForm.localidad).some(function(b){return normBB(b.nombre)===normBB(bv);});
-          if(!existeBarrio){
-            STATE.propForm.barrio='';
-            reRender();
-            var _loc=STATE.propForm.localidad||'Olavarría';
-            var _zonas=zonasDeLocalidad(_loc);
-            showModal({title:'Nuevo barrio: "'+bv+'"',body:'No existe en '+_loc+'. Elegí la zona (opcional) para agregarlo.',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',cancelText:'Cancelar',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;apiFetch('/barrios',{method:'POST',body:JSON.stringify({nombre:bv,localidad:_loc,zona:_z})}).then(function(saved){BARRIOS_ALL.push({id:saved.id,nombre:saved.nombre||bv,localidad_id:saved.localidad_id,localidad:_loc,zona_id:saved.zona_id,zona:_z});BARRIOS.push(bv);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(bv);}STATE.propForm.barrio=bv;showToast('✓ Barrio "'+bv+'" guardado');reRender();}).catch(function(e){showToast('Error al guardar barrio: '+e.message);});}});
-            return;
-          }
-        }
-      }
       var posB=e.target.selectionStart;
       reRender();
       var nb=document.querySelector('[data-field="barrio"]');
@@ -1311,6 +1296,17 @@ function confirmReqForm(goToMatch,btnEl){
 function savePropForm(){
   var f=STATE.propForm;
   if(!f.propietario||!f.direccion){showToast('Completá Propietario y Dirección');return;}
+  if(f.barrio){
+    var normBB=function(s){return (s||'').toString().trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
+    var bv=f.barrio.trim();
+    var existeBarrio=barriosDeLocalidad(f.localidad).some(function(b){return normBB(b.nombre)===normBB(bv);});
+    if(!existeBarrio){
+      var _loc=f.localidad||'Olavarría';
+      var _zonas=zonasDeLocalidad(_loc);
+      showModal({title:'Nuevo barrio: "'+bv+'"',body:'No existe en '+_loc+'. Elegí la zona (opcional) para agregarlo.',inputs:[{id:'zona',label:'Zona',type:'select',options:_zonas.concat(['— Sin zona asignada —'])}],confirmText:'Agregar barrio',cancelText:'Cancelar',onConfirm:function(vals){var _z=vals.zona==='— Sin zona asignada —'?null:vals.zona;apiFetch('/barrios',{method:'POST',body:JSON.stringify({nombre:bv,localidad:_loc,zona:_z})}).then(function(saved){BARRIOS_ALL.push({id:saved.id,nombre:saved.nombre||bv,localidad_id:saved.localidad_id,localidad:_loc,zona_id:saved.zona_id,zona:_z});BARRIOS.push(bv);if(_z){if(!ZONA_GROUPS[_z])ZONA_GROUPS[_z]=[];ZONA_GROUPS[_z].push(bv);}STATE.propForm.barrio=bv;showToast('✓ Barrio "'+bv+'" guardado');savePropForm();}).catch(function(e){showToast('Error al guardar barrio: '+e.message);});}});
+      return;
+    }
+  }
   var editing=STATE.editingPropId;
   var body={
     // — confirmados en /properties (panel.html) —
