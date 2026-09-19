@@ -32,9 +32,10 @@ router.post('/properties', async (req, res) => {
   const b = req.body;
   const titulo = b.titulo || `${b.tipo || 'Propiedad'} - ${b.direccion || b.localidad || 'S/D'}`;
   try {
-    const barrio_id = b.barrio_id || await resolveBarrioId(b.barrio, b.localidad);
-    if (!barrio_id) {
-      return res.status(400).json({ error: `Barrio "${b.barrio || ''}" no existe en "${b.localidad || ''}". Elegí uno cargado.` });
+    let barrio_id = b.barrio_id || await resolveBarrioId(b.barrio, b.localidad);
+    if (!barrio_id) barrio_id = null;
+    if (b.barrio && !barrio_id) {
+      return res.status(400).json({ error: `Barrio "${b.barrio}" no existe en "${b.localidad || ''}". Elegí uno cargado o agregalo con "+ nuevo".` });
     }
     const r = await pool.query(
       `INSERT INTO properties
@@ -68,7 +69,7 @@ router.put('/properties/:id', async (req, res) => {
       localidadNombre = cur.rows[0]?.localidad;
     }
     const barrio_id = await resolveBarrioId(req.body.barrio, localidadNombre);
-    if (!barrio_id) return res.status(400).json({ error: `Barrio "${req.body.barrio}" no existe en "${localidadNombre || ''}". Elegí uno cargado.` });
+    if (req.body.barrio && !barrio_id) return res.status(400).json({ error: `Barrio "${req.body.barrio}" no existe en "${localidadNombre || ''}". Elegí uno cargado o agregalo con "+ nuevo".` });
     req.body.barrio_id = barrio_id;
   }
   const fields = Object.keys(req.body);
@@ -109,6 +110,44 @@ router.get('/barrios', async (req, res) => {
     );
     res.json(r.rows);
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al obtener barrios' }); }
+});
+
+router.post('/localidades', async (req, res) => {
+  const nombre = (req.body.nombre || '').trim();
+  if (!nombre) return res.status(400).json({ error: 'Falta nombre' });
+  try {
+    const existing = await pool.query('SELECT id, nombre, partido FROM localidades WHERE lower(nombre) = lower($1)', [nombre]);
+    if (existing.rows.length) return res.status(200).json(existing.rows[0]);
+    const r = await pool.query('INSERT INTO localidades (nombre, partido) VALUES ($1,$2) RETURNING *', [nombre, req.body.partido || null]);
+    res.status(201).json(r.rows[0]);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear localidad' }); }
+});
+
+router.post('/barrios', async (req, res) => {
+  const nombre = (req.body.nombre || '').trim();
+  const localidadNombre = (req.body.localidad || '').trim();
+  if (!nombre || !localidadNombre) return res.status(400).json({ error: 'Falta nombre o localidad' });
+  try {
+    let loc = await pool.query('SELECT id FROM localidades WHERE lower(nombre) = lower($1)', [localidadNombre]);
+    let localidad_id = loc.rows[0]?.id;
+    if (!localidad_id) {
+      const nuevaLoc = await pool.query('INSERT INTO localidades (nombre) VALUES ($1) RETURNING id', [localidadNombre]);
+      localidad_id = nuevaLoc.rows[0].id;
+    }
+    const dup = await pool.query('SELECT id FROM barrios WHERE lower(nombre) = lower($1) AND localidad_id = $2', [nombre, localidad_id]);
+    if (dup.rows.length) return res.status(200).json({ ...dup.rows[0], localidad: localidadNombre });
+    let zona_id = null;
+    if (req.body.zona) {
+      const z = await pool.query('SELECT id FROM zonas WHERE lower(nombre) = lower($1) AND localidad_id = $2', [req.body.zona, localidad_id]);
+      zona_id = z.rows[0]?.id;
+      if (!zona_id) {
+        const nuevaZona = await pool.query('INSERT INTO zonas (localidad_id, nombre) VALUES ($1,$2) RETURNING id', [localidad_id, req.body.zona]);
+        zona_id = nuevaZona.rows[0].id;
+      }
+    }
+    const r = await pool.query('INSERT INTO barrios (localidad_id, zona_id, nombre) VALUES ($1,$2,$3) RETURNING id, nombre, localidad_id, zona_id', [localidad_id, zona_id, nombre]);
+    res.status(201).json({ ...r.rows[0], localidad: localidadNombre, zona: req.body.zona || null });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'Error al crear barrio' }); }
 });
 
 /* ── CLIENTS ── */
