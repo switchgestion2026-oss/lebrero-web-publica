@@ -193,6 +193,27 @@ router.put('/clients/:id', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'Error al actualizar cliente' }); }
 });
 
+router.delete('/clients/:id', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const reqs = await client.query('SELECT id FROM requirements WHERE cliente_id = $1', [req.params.id]);
+    const reqIds = reqs.rows.map(r => r.id);
+    if (reqIds.length) {
+      await client.query('DELETE FROM matches WHERE requerimiento_id = ANY($1::int[])', [reqIds]);
+      await client.query('DELETE FROM requirement_barrios WHERE requerimiento_id = ANY($1::int[])', [reqIds]);
+      await client.query('DELETE FROM requirements WHERE cliente_id = $1', [req.params.id]);
+    }
+    const r = await client.query('DELETE FROM clients WHERE id = $1 RETURNING id', [req.params.id]);
+    if (!r.rows.length) { await client.query('ROLLBACK'); return res.status(404).json({ error: 'No encontrado' }); }
+    await client.query('COMMIT');
+    res.json({ ok: true });
+  } catch (e) {
+    await client.query('ROLLBACK');
+    console.error(e); res.status(500).json({ error: 'Error al eliminar cliente' });
+  } finally { client.release(); }
+});
+
 /* ── REQUIREMENTS ── */
 router.get('/requirements', async (req, res) => {
   try {
